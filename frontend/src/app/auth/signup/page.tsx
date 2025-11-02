@@ -325,6 +325,12 @@ export default function SignupPage() {
                 </div>
 
                 <p className="text-xs text-zinc-400">By continuing you agree to our <a className="text-emerald-600" href="/terms">Terms</a>.</p>
+               <p className="text-1xl text-b">Already have an account?<a
+                href="/auth/login"
+                className="flex text-blue-600 dark:text-zinc-300 hover:underline"
+              >
+               Login
+              </a></p>
               </form>
             )}
 
