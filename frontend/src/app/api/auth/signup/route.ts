@@ -3,38 +3,62 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { hashPassword, signToken } from "@/lib/auth";
 
+/**
+ * Build a secure cookie string for the JWT token.
+ */
+function buildCookie(token: string) {
+  const maxAge = 7 * 24 * 60 * 60; // 7 days
+  const secure = process.env.NODE_ENV === "production";
+  return [
+    `token=${token}`,
+    "Path=/",
+    "HttpOnly",
+    "SameSite=Strict",
+    `Max-Age=${maxAge}`,
+    secure ? "Secure" : "",
+  ]
+    .filter(Boolean)
+    .join("; ");
+}
+
 type ReqBody = {
   email?: string;
   name?: string;
   password?: string;
-  role?: "viewer" | "editor" | "admin" | string;
-  provider?: "credentials" | "google";
+  // client-sent role will be ignored for security; admin changes role server-side
+  role?: string;
+  provider?: "credentials" | "google" | string;
 };
-
-function buildCookie(token: string) {
-  const maxAge = 7 * 24 * 60 * 60; // 7 days
-  const secure = process.env.NODE_ENV === "production";
-  return `token=${token}; Path=/; HttpOnly; SameSite=Strict; ${
-    secure ? "Secure; " : ""
-  }Max-Age=${maxAge}`;
-}
 
 export async function POST(req: Request) {
   try {
-    const { email: rawEmail, name, password, role, provider } =
-      (await req.json()) as ReqBody;
+    const body = (await req.json()) as ReqBody;
+    const rawEmail = body.email;
+    const name = (body.name || "").toString().trim();
+    const password = body.password;
+    const provider = (body.provider || "credentials").toString();
 
     const email = (rawEmail || "").toString().trim().toLowerCase();
 
-    if (!email || !name || !provider) {
+    if (!email || !name) {
       return NextResponse.json(
-        { error: "Missing required fields" },
+        { error: "Missing required fields: name and email are required." },
         { status: 400 }
       );
     }
 
-    const existing = await prisma.user.findUnique({ where: { email } });
+    if (!["credentials", "google"].includes(provider)) {
+      return NextResponse.json(
+        { error: "Unsupported provider. Use 'credentials' or 'google'." },
+        { status: 400 }
+      );
+    }
 
+    // Prevent client from assigning roles on signup — default to VIEWER.
+    const DEFAULT_ROLE = "VIEWER";
+
+    // If user already exists -> conflict (for OAuth flows you may want to link instead)
+    const existing = await prisma.user.findUnique({ where: { email } });
     if (existing) {
       return NextResponse.json(
         { error: "User already exists with this email" },
@@ -42,7 +66,7 @@ export async function POST(req: Request) {
       );
     }
 
-    // 🧩 Credential-based signup (requires password + OTP)
+    // ---------- Credentials signup (email + password + OTP verified) ----------
     if (provider === "credentials") {
       if (!password) {
         return NextResponse.json(
@@ -51,7 +75,7 @@ export async function POST(req: Request) {
         );
       }
 
-      // Check OTP verification
+      // Check most recent OTP for this email
       const otp = await prisma.emailOtp.findFirst({
         where: { email },
         orderBy: { createdAt: "desc" },
@@ -71,36 +95,48 @@ export async function POST(req: Request) {
           email,
           name,
           passwordHash,
-          role: (role as any) || "viewer",
+          role: DEFAULT_ROLE,
           emailVerified: true,
           provider: "credentials",
         },
         select: { id: true, email: true, name: true, role: true, provider: true },
       });
 
+      // Remove OTP records for cleanup
       await prisma.emailOtp.deleteMany({ where: { email } });
 
-      const token = signToken({ userId: user.id, email: user.email }, "7d");
+      // Sign token with id, email, role
+      const token = signToken(
+        { id: user.id, email: user.email, role: user.role },
+        "7d"
+      );
+
       const res = NextResponse.json({ ok: true, user });
       res.headers.set("Set-Cookie", buildCookie(token));
       return res;
     }
 
-    // 🧩 Google OAuth signup
-    else if (provider === "google") {
+    // ---------- Google OAuth signup ----------
+    if (provider === "google") {
+      // For OAuth you typically verify the Google token on the server before creating.
+      // Here we assume upstream verification was done and we just create the account.
       const user = await prisma.user.create({
         data: {
           email,
           name,
           passwordHash: null,
-          role: (role as any) || "viewer",
+          role: DEFAULT_ROLE,
           emailVerified: true,
           provider: "google",
         },
         select: { id: true, email: true, name: true, role: true, provider: true },
       });
 
-      const token = signToken({ userId: user.id, email: user.email }, "7d");
+      const token = signToken(
+        { id: user.id, email: user.email, role: user.role },
+        "7d"
+      );
+
       const res = NextResponse.json({ ok: true, user });
       res.headers.set("Set-Cookie", buildCookie(token));
       return res;
