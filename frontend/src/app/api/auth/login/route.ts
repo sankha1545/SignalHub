@@ -13,27 +13,68 @@ export async function POST(req: Request) {
   try {
     const { email: rawEmail, password } = await req.json();
     const email = (rawEmail || "").toString().trim().toLowerCase();
-    if (!email || !password) return NextResponse.json({ error: "Email and password required" }, { status: 400 });
 
+    if (!email || !password) {
+      return NextResponse.json(
+        { error: "Email and password required" },
+        { status: 400 }
+      );
+    }
+
+    // find the user by email
     const user = await prisma.user.findUnique({
       where: { email },
-      select: { id: true, email: true, name: true, passwordHash: true, role: true },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        passwordHash: true,
+        role: true,
+        provider: true,
+      },
     });
 
-    if (!user || !user.passwordHash) {
+    // if no user, invalid credentials
+    if (!user) {
       return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
     }
 
-    const ok = await verifyPassword(password, user.passwordHash);
-    if (!ok) return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
+    // disallow password login for Google accounts
+    if (user.provider !== "credentials") {
+      return NextResponse.json(
+        { error: `This account was created using ${user.provider}. Please log in with ${user.provider} instead.` },
+        { status: 403 }
+      );
+    }
 
-    const token = signToken({ userId: user.id, email: user.email }, "7d");
+    // check password
+    if (!user.passwordHash) {
+      return NextResponse.json({ error: "Password not set for this account" }, { status: 401 });
+    }
+
+    const ok = await verifyPassword(password, user.passwordHash);
+    if (!ok) {
+      return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
+    }
+
+    // generate JWT token
+    const token = signToken(
+      { userId: user.id, email: user.email },
+      "7d"
+    );
 
     const res = NextResponse.json({
       ok: true,
-      user: { id: user.id, email: user.email, name: user.name, role: user.role },
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+        provider: user.provider,
+      },
     });
     res.headers.set("Set-Cookie", buildCookie(token));
+
     return res;
   } catch (err) {
     console.error("login error:", err);

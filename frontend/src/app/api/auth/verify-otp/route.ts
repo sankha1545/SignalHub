@@ -1,34 +1,49 @@
-// src/app/api/auth/verify-otp/route.ts
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcrypt";
 
 export async function POST(req: Request) {
   try {
-    const { email: rawEmail, code } = await req.json();
-    const email = (rawEmail || "").toString().trim().toLowerCase();
-    if (!email || !code) return NextResponse.json({ error: "Email and code required" }, { status: 400 });
+    const { email, code } = await req.json();
 
-    const otp = await prisma.emailOtp.findUnique({ where: { email } });
-    if (!otp) return NextResponse.json({ error: "No OTP found for this email" }, { status: 404 });
+    if (!email || !code) {
+      return NextResponse.json({ error: "Email and code required" }, { status: 400 });
+    }
 
-    if (otp.verified) return NextResponse.json({ ok: true, message: "Already verified" });
+    // Option 1: if email is @unique
+    // const otp = await prisma.emailOtp.findUnique({ where: { email } });
 
-    if (otp.expiresAt && otp.expiresAt < new Date()) {
+    // Option 2: if multiple OTPs per email allowed
+   const otp = await prisma.emailOtp.findFirst({
+  where: { email },
+  orderBy: { createdAt: 'desc' }, // get the latest OTP
+});
+
+    if (!otp) {
+      return NextResponse.json({ error: "No OTP found for this email" }, { status: 404 });
+    }
+
+    if (otp.verified) {
+      return NextResponse.json({ ok: true, message: "Already verified" });
+    }
+
+    const isMatch = await bcrypt.compare(code, otp.codeHash);
+    if (!isMatch) {
+      return NextResponse.json({ error: "Invalid OTP" }, { status: 401 });
+    }
+
+    if (new Date() > otp.expiresAt) {
       return NextResponse.json({ error: "OTP expired" }, { status: 400 });
     }
 
-    const match = await bcrypt.compare(code.toString(), otp.codeHash);
-    if (!match) return NextResponse.json({ error: "Invalid OTP" }, { status: 401 });
-
     await prisma.emailOtp.update({
-      where: { email },
+      where: { id: otp.id },
       data: { verified: true },
     });
 
     return NextResponse.json({ ok: true, message: "OTP verified" });
   } catch (err) {
     console.error("verify-otp error:", err);
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
