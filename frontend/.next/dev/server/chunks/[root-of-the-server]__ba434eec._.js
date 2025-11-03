@@ -191,27 +191,66 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$auth$2e$ts__$5
 ;
 ;
 ;
+/** compute since date */ function sinceDays(days = 30) {
+    const d = new Date();
+    d.setDate(d.getDate() - days);
+    return d;
+}
+/** Helper: validate base64 size (bytes) */ function base64SizeBytes(base64String) {
+    // Remove data:*/*;base64, prefix if present
+    const comma = base64String.indexOf(",");
+    const b64 = comma >= 0 ? base64String.slice(comma + 1) : base64String;
+    const padding = b64.endsWith("==") ? 2 : b64.endsWith("=") ? 1 : 0;
+    // bytes = (base64Length * 3) / 4 - padding
+    return Math.ceil(b64.length * 3 / 4) - padding;
+}
 async function GET(req) {
-    const user = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$auth$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["getUserFromRequest"])(req);
-    if (!user) return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+    const sessionUser = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$auth$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["getUserFromRequest"])(req);
+    if (!sessionUser) return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
         user: null
     }, {
         status: 401
     });
-    // fetch from DB for full details
     const dbUser = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique({
         where: {
-            id: user.id
+            id: sessionUser.id
         },
         select: {
             id: true,
             email: true,
             name: true,
-            role: true
+            role: true,
+            profile: true,
+            updatedAt: true
         }
     });
+    const since = sinceDays(30);
+    const [logins30d, changes30d] = await Promise.all([
+        __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].activityLog.count({
+            where: {
+                userId: sessionUser.id,
+                type: "LOGIN",
+                createdAt: {
+                    gte: since
+                }
+            }
+        }),
+        __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].activityLog.count({
+            where: {
+                userId: sessionUser.id,
+                type: "PROFILE_CHANGE",
+                createdAt: {
+                    gte: since
+                }
+            }
+        })
+    ]);
     return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-        user: dbUser
+        user: dbUser,
+        activity: {
+            logins30d,
+            changes30d
+        }
     });
 }
 async function PATCH(req) {
@@ -221,13 +260,50 @@ async function PATCH(req) {
     }, {
         status: 401
     });
-    const body = await req.json();
+    const body = await req.json().catch(()=>({}));
     const updates = {};
-    // Only allow updating white-listed fields
+    // allow name update
     if (typeof body.name === "string") updates.name = body.name;
-    // If you have a JSON 'profile' column on User in Prisma, you can update it here:
-    // updates.profile = { ...(existingProfile), ...(body.profile || {}) }
-    // NOTE: Add `profile Json?` field to User model and run a migration if you want to persist these.
+    // process profile updates if provided
+    if (body.profile && typeof body.profile === "object") {
+        // if avatarBase64 provided, validate size (2MB)
+        const incomingProfile = body.profile;
+        if (incomingProfile.avatarBase64) {
+            const size = base64SizeBytes(incomingProfile.avatarBase64);
+            const max = 2 * 1024 * 1024;
+            if (size > max) {
+                return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                    error: "Avatar exceeds 2 MB limit"
+                }, {
+                    status: 400
+                });
+            }
+        }
+        // merge existing profile
+        const existing = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique({
+            where: {
+                id: sessionUser.id
+            },
+            select: {
+                profile: true
+            }
+        });
+        updates.profile = {
+            ...existing?.profile ?? {},
+            ...incomingProfile ?? {}
+        };
+        // For convenience, if avatarBase64 present, also set avatarUrl to the same data URL
+        if (incomingProfile.avatarBase64) {
+            updates.profile.avatarUrl = incomingProfile.avatarBase64;
+        }
+    }
+    if (Object.keys(updates).length === 0) {
+        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+            error: "Nothing to update"
+        }, {
+            status: 400
+        });
+    }
     try {
         const updated = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.update({
             where: {
@@ -238,11 +314,54 @@ async function PATCH(req) {
                 id: true,
                 email: true,
                 name: true,
-                role: true
+                role: true,
+                profile: true,
+                updatedAt: true
             }
         });
+        // record profile change activity
+        try {
+            await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].activityLog.create({
+                data: {
+                    userId: sessionUser.id,
+                    type: "PROFILE_CHANGE",
+                    meta: {
+                        fields: Object.keys(body.profile ?? {}),
+                        ts: new Date().toISOString()
+                    }
+                }
+            });
+        } catch (err) {
+            console.error("Failed to write profile change activity:", err);
+        }
+        // recompute activity counts
+        const since = sinceDays(30);
+        const [logins30d, changes30d] = await Promise.all([
+            __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].activityLog.count({
+                where: {
+                    userId: sessionUser.id,
+                    type: "LOGIN",
+                    createdAt: {
+                        gte: since
+                    }
+                }
+            }),
+            __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].activityLog.count({
+                where: {
+                    userId: sessionUser.id,
+                    type: "PROFILE_CHANGE",
+                    createdAt: {
+                        gte: since
+                    }
+                }
+            })
+        ]);
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-            user: updated
+            user: updated,
+            activity: {
+                logins30d,
+                changes30d
+            }
         });
     } catch (err) {
         console.error("Profile update error:", err);

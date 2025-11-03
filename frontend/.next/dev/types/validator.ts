@@ -218,6 +218,24 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
+// Validate ../../../src/app/api/phone/send-otp/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/phone/send-otp">> = Specific
+  const handler = {} as typeof import("../../../src/app/api/phone/send-otp/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../../src/app/api/phone/verify-otp/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/phone/verify-otp">> = Specific
+  const handler = {} as typeof import("../../../src/app/api/phone/verify-otp/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../../src/app/api/webhooks/twilio/route.ts
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/api/webhooks/twilio">> = Specific
@@ -231,15 +249,6 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/auth/Logout">> = Specific
   const handler = {} as typeof import("../../../src/app/auth/Logout/route.js")
-  type __Check = __IsExpected<typeof handler>
-  // @ts-ignore
-  type __Unused = __Check
-}
-
-// Validate ../../../src/app/auth/logout/route.ts
-{
-  type __IsExpected<Specific extends RouteHandlerConfig<"/auth/logout">> = Specific
-  const handler = {} as typeof import("../../../src/app/auth/logout/route.js")
   type __Check = __IsExpected<typeof handler>
   // @ts-ignore
   type __Unused = __Check

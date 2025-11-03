@@ -24,6 +24,35 @@ enum Channel {
   MESSENGER
 }
 
+enum ActivityType {
+  LOGIN
+  PROFILE_CHANGE
+  OTHER
+}
+
+model ActivityLog {
+  id        String       @id @default(cuid())
+  userId    String
+  type      ActivityType
+  meta      Json? // optional metadata (e.g., IP, provider, diff)
+  createdAt DateTime     @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+}
+
+model PhoneOtp {
+  id        String   @id @default(cuid())
+  phone     String // E.164 phone e.g. +918597786209
+  otp       String
+  used      Boolean  @default(false)
+  attempts  Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([phone])
+}
+
 /**
  * Core user/auth models
  */
@@ -35,10 +64,10 @@ model User {
   provider      String   @default("credentials")
   emailVerified Boolean  @default(false)
   role          Role     @default(VIEWER)
+  profile       Json? // <-- ADD THIS LINE
   createdAt     DateTime @default(now())
   updatedAt     DateTime @default(now()) @updatedAt
 
-  // Auth relations
   accounts Account[]
   sessions Session[]
 
@@ -47,6 +76,7 @@ model User {
   messages         Message[]          @relation("UserMessages") // User → Message (sender)
   teamMember       TeamMember[]
   ScheduledMessage ScheduledMessage[]
+  ActivityLog      ActivityLog[]
 }
 
 /**

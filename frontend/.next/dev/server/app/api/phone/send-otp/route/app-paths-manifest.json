@@ -1,0 +1,3 @@
+{
+  "/api/phone/send-otp/route": "app/api/phone/send-otp/route.js"
+}

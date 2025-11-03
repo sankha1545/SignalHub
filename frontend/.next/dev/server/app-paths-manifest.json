@@ -1,14 +1,7 @@
 {
-  "/(authenticated)/inbox/page": "app/(authenticated)/inbox/page.js",
-  "/(authenticated)/settings/page": "app/(authenticated)/settings/page.js",
-  "/_not-found/page": "app/_not-found/page.js",
-  "/api/auth/login/route": "app/api/auth/login/route.js",
-  "/api/auth/reset-pass/reset/route": "app/api/auth/reset-pass/reset/route.js",
-  "/api/auth/reset-pass/send-otp/route": "app/api/auth/reset-pass/send-otp/route.js",
-  "/api/auth/reset-pass/verify-otp/route": "app/api/auth/reset-pass/verify-otp/route.js",
   "/api/me/route": "app/api/me/route.js",
-  "/auth/login/page": "app/auth/login/page.js",
-  "/auth/signup/page": "app/auth/signup/page.js",
+  "/api/phone/send-otp/route": "app/api/phone/send-otp/route.js",
+  "/api/phone/verify-otp/route": "app/api/phone/verify-otp/route.js",
   "/profile/page": "app/profile/page.js",
   "/welcome/page": "app/welcome/page.js"
 }

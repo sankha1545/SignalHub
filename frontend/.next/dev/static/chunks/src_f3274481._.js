@@ -1,0 +1,3405 @@
+(globalThis.TURBOPACK || (globalThis.TURBOPACK = [])).push([typeof document === "object" ? document.currentScript : undefined,
+"[project]/src/components/profile/EditProfile.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+// components/profile/EditProfile.tsx
+__turbopack_context__.s([
+    "default",
+    ()=>EditProfile
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2d$dom$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react-dom/index.js [app-client] (ecmascript)");
+;
+var _s = __turbopack_context__.k.signature();
+"use client";
+;
+;
+/**
+ * NOTE: replace GEONAMES_USERNAME with your GeoNames username if you want live country/state lists.
+ * If you don't want remote calls, you can remove the GeoNames fetch sections and hardcode countries.
+ */ const GEONAMES_USERNAME = "sankha"; // <-- replace this with your username or leave for now
+// 38 timezones (UTC offset - label).
+const TIMEZONES_38 = [
+    "UTC-12:00 - Baker Island",
+    "UTC-11:00 - Niue / American Samoa",
+    "UTC-10:00 - Hawaii-Aleutian Standard Time",
+    "UTC-09:00 - Alaska Standard Time",
+    "UTC-08:00 - Pacific Standard Time",
+    "UTC-07:00 - Mountain Standard Time",
+    "UTC-06:00 - Central Standard Time",
+    "UTC-05:00 - Eastern Standard Time",
+    "UTC-04:00 - Atlantic Standard Time",
+    "UTC-03:30 - Newfoundland Standard Time",
+    "UTC-03:00 - Argentina / Brasilia",
+    "UTC-02:00 - South Georgia Time",
+    "UTC-01:00 - Azores",
+    "UTC+00:00 - Greenwich Mean Time",
+    "UTC+01:00 - Central European Time",
+    "UTC+02:00 - Eastern European Time",
+    "UTC+03:00 - Moscow / Arabia",
+    "UTC+03:30 - Iran Standard Time",
+    "UTC+04:00 - Azerbaijan / UAE",
+    "UTC+04:30 - Afghanistan",
+    "UTC+05:00 - Pakistan Standard Time",
+    "UTC+05:30 - India Standard Time",
+    "UTC+05:45 - Nepal Time",
+    "UTC+06:00 - Bangladesh / Bhutan",
+    "UTC+06:30 - Cocos / Myanmar",
+    "UTC+07:00 - Indochina Time",
+    "UTC+08:00 - China / Singapore",
+    "UTC+09:00 - Japan / Korea",
+    "UTC+09:30 - Australian Central Standard Time",
+    "UTC+10:00 - Australian Eastern Standard Time",
+    "UTC+10:30 - Lord Howe",
+    "UTC+11:00 - Solomon Is. / New Caledonia",
+    "UTC+12:00 - Fiji / New Zealand",
+    "UTC+12:45 - Chatham Islands",
+    "UTC+13:00 - Tonga / Phoenix Is.",
+    "UTC+14:00 - Line Islands"
+];
+const MAX_AVATAR_BYTES = 2 * 1024 * 1024; // 2 MB
+function EditProfile({ open, onClose, user, onSave }) {
+    _s();
+    // saving flag
+    const [saving, setSaving] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    // form fields
+    const [fullName, setFullName] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [displayName, setDisplayName] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [gender, setGender] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [countryGeonameId, setCountryGeonameId] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [countryCode, setCountryCode] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [countryName, setCountryName] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [stateGeonameId, setStateGeonameId] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [stateName, setStateName] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [language, setLanguage] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [timezone, setTimezone] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    // avatar
+    const [avatarPreview, setAvatarPreview] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null); // data URL or external URL
+    const [avatarFileSize, setAvatarFileSize] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null); // bytes
+    const [avatarRemoved, setAvatarRemoved] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false); // true when user clicked "Remove avatar"
+    const fileInputRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    // lists + loading flags
+    const [countries, setCountries] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
+    const [states, setStates] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
+    const [loadingCountries, setLoadingCountries] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [loadingStates, setLoadingStates] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const primaryRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    // initialize form values when user or open changes
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "EditProfile.useEffect": ()=>{
+            if (!user) return;
+            setFullName(user.name ?? "");
+            const p = user.profile ?? {};
+            setDisplayName(p.displayName ?? "");
+            setGender(p.gender ?? "");
+            setCountryGeonameId(p.countryGeonameId ?? "");
+            setCountryCode(p.countryCode ?? "");
+            setCountryName(p.countryName ?? "");
+            setStateGeonameId(p.stateGeonameId ?? "");
+            setStateName(p.stateName ?? "");
+            setLanguage(p.language ?? "");
+            setTimezone(p.timezone ?? "");
+            setAvatarPreview(p.avatarUrl ?? p.avatarBase64 ?? null);
+            setAvatarFileSize(null);
+            setAvatarRemoved(false);
+        }
+    }["EditProfile.useEffect"], [
+        user,
+        open
+    ]);
+    // load countries (sessionStorage cached)
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "EditProfile.useEffect": ()=>{
+            let mounted = true;
+            async function loadCountries() {
+                setLoadingCountries(true);
+                try {
+                    const cached = sessionStorage.getItem("geonames_countries_v1");
+                    if (cached) {
+                        const parsed = JSON.parse(cached);
+                        if (mounted) setCountries(parsed);
+                        setLoadingCountries(false);
+                        return;
+                    }
+                    if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
+                    ;
+                    const res = await fetch(`http://api.geonames.org/countryInfoJSON?username=${GEONAMES_USERNAME}`);
+                    if (!res.ok) throw new Error("Failed to fetch countries from GeoNames");
+                    const json = await res.json();
+                    const list = (json.geonames || []).map({
+                        "EditProfile.useEffect.loadCountries.list": (c)=>({
+                                geonameId: c.geonameId,
+                                countryName: c.countryName,
+                                countryCode: c.countryCode
+                            })
+                    }["EditProfile.useEffect.loadCountries.list"]);
+                    sessionStorage.setItem("geonames_countries_v1", JSON.stringify(list));
+                    if (mounted) setCountries(list);
+                } catch (err) {
+                    console.error("Error loading countries:", err);
+                    if (mounted) setCountries([]);
+                } finally{
+                    if (mounted) setLoadingCountries(false);
+                }
+            }
+            loadCountries();
+            return ({
+                "EditProfile.useEffect": ()=>{
+                    mounted = false;
+                }
+            })["EditProfile.useEffect"];
+        }
+    }["EditProfile.useEffect"], []);
+    // when countryGeonameId changes, load states/children and set country code/name
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "EditProfile.useEffect": ()=>{
+            let mounted_0 = true;
+            async function loadStates() {
+                if (!countryGeonameId) {
+                    if (mounted_0) {
+                        setStates([]);
+                        setStateGeonameId("");
+                        setStateName("");
+                    }
+                    return;
+                }
+                setLoadingStates(true);
+                setStates([]);
+                try {
+                    if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
+                    ;
+                    const res_0 = await fetch(`http://api.geonames.org/childrenJSON?geonameId=${countryGeonameId}&username=${GEONAMES_USERNAME}`);
+                    if (!res_0.ok) throw new Error("Failed to fetch states from GeoNames");
+                    const json_0 = await res_0.json();
+                    const st = (json_0.geonames || []).map({
+                        "EditProfile.useEffect.loadStates.st": (g)=>({
+                                geonameId: g.geonameId,
+                                name: g.name
+                            })
+                    }["EditProfile.useEffect.loadStates.st"]);
+                    if (mounted_0) {
+                        setStates(st);
+                        setLoadingStates(false);
+                    }
+                } catch (err_0) {
+                    console.error("Error loading states:", err_0);
+                    if (mounted_0) setLoadingStates(false);
+                }
+            }
+            // update countryCode and countryName from countries list (if present)
+            if (countryGeonameId) {
+                const found = countries.find({
+                    "EditProfile.useEffect.found": (c_0)=>c_0.geonameId === countryGeonameId
+                }["EditProfile.useEffect.found"]);
+                if (found) {
+                    setCountryCode(found.countryCode);
+                    setCountryName(found.countryName);
+                }
+            } else {
+                setCountryCode("");
+                setCountryName("");
+            }
+            loadStates();
+            return ({
+                "EditProfile.useEffect": ()=>{
+                    mounted_0 = false;
+                }
+            })["EditProfile.useEffect"];
+        }
+    }["EditProfile.useEffect"], [
+        countryGeonameId,
+        countries
+    ]);
+    // UX: lock scroll & focus save button when modal opens
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "EditProfile.useEffect": ()=>{
+            if (!open) return;
+            const prev = document.body.style.overflow;
+            document.body.style.overflow = "hidden";
+            const t = setTimeout({
+                "EditProfile.useEffect.t": ()=>primaryRef.current?.focus()
+            }["EditProfile.useEffect.t"], 80);
+            return ({
+                "EditProfile.useEffect": ()=>{
+                    document.body.style.overflow = prev;
+                    clearTimeout(t);
+                }
+            })["EditProfile.useEffect"];
+        }
+    }["EditProfile.useEffect"], [
+        open
+    ]);
+    // ESC to close modal
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "EditProfile.useEffect": ()=>{
+            function onKey(e) {
+                if (e.key === "Escape") onClose();
+            }
+            if (open) window.addEventListener("keydown", onKey);
+            return ({
+                "EditProfile.useEffect": ()=>window.removeEventListener("keydown", onKey)
+            })["EditProfile.useEffect"];
+        }
+    }["EditProfile.useEffect"], [
+        open,
+        onClose
+    ]);
+    // early exit: don't render anything if not open
+    if (!open) return null;
+    // ---------- Avatar helpers ----------
+    function handleFileChange(e_0) {
+        const file = e_0.target.files?.[0];
+        if (!file) return;
+        pickAvatarFile(file);
+    }
+    function pickAvatarFile(file_0) {
+        // basic type check
+        if (!file_0.type.startsWith("image/")) {
+            alert("Please select an image file.");
+            return;
+        }
+        // size check
+        if (file_0.size > MAX_AVATAR_BYTES) {
+            alert("Avatar must be 2 MB or smaller.");
+            return;
+        }
+        // read as data URL for preview and sending to server
+        const reader = new FileReader();
+        reader.onload = ()=>{
+            const dataUrl = reader.result;
+            setAvatarPreview(dataUrl);
+            setAvatarFileSize(file_0.size);
+            setAvatarRemoved(false);
+        };
+        reader.onerror = (err_1)=>{
+            console.error("Failed to read avatar file:", err_1);
+            alert("Failed to read the selected file.");
+        };
+        reader.readAsDataURL(file_0);
+    }
+    function triggerFilePicker() {
+        fileInputRef.current?.click();
+    }
+    function removeAvatar() {
+        setAvatarPreview(null);
+        setAvatarFileSize(null);
+        setAvatarRemoved(true);
+        // also clear file input value so user can re-upload same file later
+        if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+    // ---------- submit handler ----------
+    async function submit(e_1) {
+        e_1?.preventDefault();
+        if (!user) return;
+        if (!fullName || typeof fullName !== "string") {
+            alert("Full name is required.");
+            return;
+        }
+        setSaving(true);
+        try {
+            // build profile patch
+            const profilePatch = {
+                displayName: displayName || undefined,
+                gender: gender || undefined,
+                countryGeonameId: countryGeonameId || null,
+                countryCode: countryCode || null,
+                countryName: countryName || null,
+                stateGeonameId: stateGeonameId || null,
+                stateName: stateName || null,
+                language: language || undefined,
+                timezone: timezone || undefined
+            };
+            // avatar handling:
+            // - if user removed avatar explicitly => send avatarBase64: null to signal removal
+            // - if avatarPreview is a data URL => send avatarBase64 with that data URL
+            if (avatarRemoved) {
+                profilePatch.avatarBase64 = null;
+                profilePatch.avatarUrl = null;
+            } else if (avatarPreview && avatarPreview.startsWith("data:")) {
+                // we already validated size when picked
+                profilePatch.avatarBase64 = avatarPreview;
+                profilePatch.avatarUrl = avatarPreview; // server may choose to use this or derive a URL
+            }
+            const payload = {
+                name: fullName,
+                profile: profilePatch
+            };
+            const ok = await onSave(payload);
+            // onSave should return a boolean (true on success)
+            if (!ok) {
+            // leave modal open; onSave may show errors
+            }
+        } finally{
+            setSaving(false);
+        }
+    }
+    // ---------- JSX ----------
+    return /*#__PURE__*/ __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2d$dom$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].createPortal(/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: "fixed inset-0 z-50 flex items-center justify-center p-4",
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "absolute inset-0 bg-black/40",
+                onClick: onClose,
+                "aria-hidden": true
+            }, void 0, false, {
+                fileName: "[project]/src/components/profile/EditProfile.tsx",
+                lineNumber: 308,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                role: "dialog",
+                "aria-modal": "true",
+                "aria-labelledby": "edit-profile-title",
+                className: "relative z-10 w-full max-w-2xl bg-white rounded-2xl p-6 shadow-lg border",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex items-start justify-between gap-4",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                        id: "edit-profile-title",
+                                        className: "text-lg font-semibold",
+                                        children: "Edit profile"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                        lineNumber: 313,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                        className: "text-sm text-slate-600 mt-1",
+                                        children: "Update your name, display name, timezone and country/state. Email is read-only."
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                        lineNumber: 314,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                lineNumber: 312,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                    onClick: onClose,
+                                    className: "text-slate-500 hover:text-slate-700",
+                                    "aria-label": "Close",
+                                    children: "✕"
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                    lineNumber: 317,
+                                    columnNumber: 13
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                lineNumber: 316,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/components/profile/EditProfile.tsx",
+                        lineNumber: 311,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
+                        className: "mt-6 space-y-4",
+                        onSubmit: submit,
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex items-start gap-6",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "flex flex-col items-center gap-3",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "relative",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "w-24 h-24 rounded-full overflow-hidden bg-slate-100 flex items-center justify-center border",
+                                                        children: avatarPreview ? // eslint-disable-next-line @next/next/no-img-element
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                                                            src: avatarPreview,
+                                                            alt: "avatar preview",
+                                                            className: "w-full h-full object-cover"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                            lineNumber: 329,
+                                                            columnNumber: 17
+                                                        }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "text-3xl font-semibold text-slate-700",
+                                                            children: (user?.name || user?.email || "U").charAt(0).toUpperCase()
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                            lineNumber: 329,
+                                                            columnNumber: 107
+                                                        }, this)
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                        lineNumber: 326,
+                                                        columnNumber: 17
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "absolute -bottom-2 -right-2 flex gap-1",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                type: "button",
+                                                                onClick: triggerFilePicker,
+                                                                className: "bg-white border rounded-full p-1 shadow hover:bg-slate-50",
+                                                                title: "Change avatar",
+                                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
+                                                                    width: "14",
+                                                                    height: "14",
+                                                                    viewBox: "0 0 24 24",
+                                                                    fill: "none",
+                                                                    "aria-hidden": true,
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                                                                            d: "M12 5v14",
+                                                                            stroke: "#0F172A",
+                                                                            strokeWidth: "1.5",
+                                                                            strokeLinecap: "round"
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                                            lineNumber: 337,
+                                                                            columnNumber: 23
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                                                                            d: "M5 12h14",
+                                                                            stroke: "#0F172A",
+                                                                            strokeWidth: "1.5",
+                                                                            strokeLinecap: "round"
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                                            lineNumber: 338,
+                                                                            columnNumber: 23
+                                                                        }, this)
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                                    lineNumber: 336,
+                                                                    columnNumber: 21
+                                                                }, this)
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                                lineNumber: 335,
+                                                                columnNumber: 19
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                type: "button",
+                                                                onClick: removeAvatar,
+                                                                className: "bg-white border rounded-full p-1 shadow hover:bg-slate-50",
+                                                                title: "Remove avatar",
+                                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
+                                                                    width: "14",
+                                                                    height: "14",
+                                                                    viewBox: "0 0 24 24",
+                                                                    fill: "none",
+                                                                    "aria-hidden": true,
+                                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                                                                        d: "M6 6l12 12M6 18L18 6",
+                                                                        stroke: "#ef4444",
+                                                                        strokeWidth: "1.5",
+                                                                        strokeLinecap: "round"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                                        lineNumber: 343,
+                                                                        columnNumber: 23
+                                                                    }, this)
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                                    lineNumber: 342,
+                                                                    columnNumber: 21
+                                                                }, this)
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                                lineNumber: 341,
+                                                                columnNumber: 19
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                        lineNumber: 334,
+                                                        columnNumber: 17
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                lineNumber: 325,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "text-xs text-slate-500 text-center",
+                                                children: avatarFileSize ? `${Math.round(avatarFileSize / 1024)} KB` : "Max 2 MB"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                lineNumber: 349,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                ref: fileInputRef,
+                                                type: "file",
+                                                accept: "image/*",
+                                                onChange: handleFileChange,
+                                                className: "sr-only",
+                                                "aria-hidden": true
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                lineNumber: 353,
+                                                columnNumber: 15
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                        lineNumber: 324,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                        className: "text-xs text-slate-600 block",
+                                                        children: "Full name"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                        lineNumber: 359,
+                                                        columnNumber: 17
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                        className: "mt-1 w-full rounded-lg border px-3 py-2",
+                                                        value: fullName,
+                                                        onChange: (e_2)=>setFullName(e_2.target.value),
+                                                        required: true
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                        lineNumber: 360,
+                                                        columnNumber: 17
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                lineNumber: 358,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                        className: "text-xs text-slate-600 block",
+                                                        children: "Display name"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                        lineNumber: 364,
+                                                        columnNumber: 17
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                        className: "mt-1 w-full rounded-lg border px-3 py-2",
+                                                        value: displayName,
+                                                        onChange: (e_3)=>setDisplayName(e_3.target.value)
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                        lineNumber: 365,
+                                                        columnNumber: 17
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                lineNumber: 363,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                        className: "text-xs text-slate-600 block",
+                                                        children: "Email (read-only)"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                        lineNumber: 369,
+                                                        columnNumber: 17
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                        className: "mt-1 w-full rounded-lg border px-3 py-2 bg-slate-50",
+                                                        value: user?.email ?? "",
+                                                        readOnly: true
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                        lineNumber: 370,
+                                                        columnNumber: 17
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                lineNumber: 368,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                        className: "text-xs text-slate-600 block",
+                                                        children: "Gender"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                        lineNumber: 374,
+                                                        columnNumber: 17
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
+                                                        className: "mt-1 w-full rounded-lg border px-3 py-2",
+                                                        value: gender,
+                                                        onChange: (e_4)=>setGender(e_4.target.value),
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                value: "",
+                                                                children: "Prefer not to say"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                                lineNumber: 376,
+                                                                columnNumber: 19
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                value: "female",
+                                                                children: "Female"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                                lineNumber: 377,
+                                                                columnNumber: 19
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                value: "male",
+                                                                children: "Male"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                                lineNumber: 378,
+                                                                columnNumber: 19
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                value: "other",
+                                                                children: "Other"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                                lineNumber: 379,
+                                                                columnNumber: 19
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                        lineNumber: 375,
+                                                        columnNumber: 17
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                lineNumber: 373,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                        className: "text-xs text-slate-600 block",
+                                                        children: "Country/Region"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                        lineNumber: 384,
+                                                        columnNumber: 17
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
+                                                        value: countryGeonameId || "",
+                                                        onChange: (e_5)=>{
+                                                            const val = e_5.target.value;
+                                                            setCountryGeonameId(val ? Number(val) : "");
+                                                            // clear state when country changes
+                                                            setStateGeonameId("");
+                                                            setStateName("");
+                                                        },
+                                                        className: "mt-1 w-full rounded-lg border px-3 py-2",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                value: "",
+                                                                children: "Select Country"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                                lineNumber: 392,
+                                                                columnNumber: 19
+                                                            }, this),
+                                                            loadingCountries ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                value: "",
+                                                                children: "Loading countries..."
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                                lineNumber: 393,
+                                                                columnNumber: 39
+                                                            }, this) : countries.map((c_1)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                    value: c_1.geonameId,
+                                                                    children: [
+                                                                        c_1.countryName,
+                                                                        " (",
+                                                                        c_1.countryCode,
+                                                                        ")"
+                                                                    ]
+                                                                }, c_1.geonameId, true, {
+                                                                    fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                                    lineNumber: 393,
+                                                                    columnNumber: 109
+                                                                }, this))
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                        lineNumber: 385,
+                                                        columnNumber: 17
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                lineNumber: 383,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                        className: "text-xs text-slate-600 block",
+                                                        children: "State"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                        lineNumber: 400,
+                                                        columnNumber: 17
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
+                                                        value: stateGeonameId || "",
+                                                        onChange: (e_6)=>{
+                                                            const val_0 = e_6.target.value;
+                                                            setStateGeonameId(val_0 ? Number(val_0) : "");
+                                                            const found_0 = states.find((s)=>s.geonameId === Number(val_0));
+                                                            setStateName(found_0 ? found_0.name : "");
+                                                        },
+                                                        className: "mt-1 w-full rounded-lg border px-3 py-2",
+                                                        disabled: !countryGeonameId || loadingStates || states.length === 0,
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                value: "",
+                                                                children: countryGeonameId ? loadingStates ? "Loading states..." : "Select State" : "Select Country First"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                                lineNumber: 407,
+                                                                columnNumber: 19
+                                                            }, this),
+                                                            states.map((s_0)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                    value: s_0.geonameId,
+                                                                    children: s_0.name
+                                                                }, s_0.geonameId, false, {
+                                                                    fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                                    lineNumber: 408,
+                                                                    columnNumber: 38
+                                                                }, this))
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                        lineNumber: 401,
+                                                        columnNumber: 17
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                lineNumber: 399,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                        className: "text-xs text-slate-600 block",
+                                                        children: "Language"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                        lineNumber: 415,
+                                                        columnNumber: 17
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                        value: language,
+                                                        onChange: (e_7)=>setLanguage(e_7.target.value),
+                                                        className: "mt-1 w-full rounded-lg border px-3 py-2"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                        lineNumber: 416,
+                                                        columnNumber: 17
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                lineNumber: 414,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                        className: "text-xs text-slate-600 block",
+                                                        children: "Time zone"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                        lineNumber: 420,
+                                                        columnNumber: 17
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
+                                                        value: timezone,
+                                                        onChange: (e_8)=>setTimezone(e_8.target.value),
+                                                        className: "mt-1 w-full rounded-lg border px-3 py-2",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                value: "",
+                                                                children: "Select timezone"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                                lineNumber: 422,
+                                                                columnNumber: 19
+                                                            }, this),
+                                                            TIMEZONES_38.map((tz)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                    value: tz,
+                                                                    children: tz
+                                                                }, tz, false, {
+                                                                    fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                                    lineNumber: 423,
+                                                                    columnNumber: 43
+                                                                }, this))
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                        lineNumber: 421,
+                                                        columnNumber: 17
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                                lineNumber: 419,
+                                                columnNumber: 15
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                        lineNumber: 357,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                lineNumber: 322,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex justify-end gap-3 mt-2",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        type: "button",
+                                        onClick: onClose,
+                                        className: "px-4 py-2 rounded-lg border",
+                                        children: "Cancel"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                        lineNumber: 432,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        ref: primaryRef,
+                                        type: "submit",
+                                        disabled: saving,
+                                        className: "px-4 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 text-white",
+                                        children: saving ? "Saving..." : "Save changes"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                        lineNumber: 433,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/components/profile/EditProfile.tsx",
+                                lineNumber: 431,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/components/profile/EditProfile.tsx",
+                        lineNumber: 321,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/components/profile/EditProfile.tsx",
+                lineNumber: 310,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/src/components/profile/EditProfile.tsx",
+        lineNumber: 306,
+        columnNumber: 32
+    }, this), document.body);
+}
+_s(EditProfile, "pHrgjxDoMkePSoa+3kKEOksGWDo=");
+_c = EditProfile;
+var _c;
+__turbopack_context__.k.register(_c, "EditProfile");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/src/components/modals/ConfirmModal.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "default",
+    ()=>ConfirmModal
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$compiler$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/compiler-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2d$dom$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react-dom/index.js [app-client] (ecmascript)");
+;
+var _s = __turbopack_context__.k.signature();
+"use client";
+;
+;
+;
+function ConfirmModal(t0) {
+    _s();
+    const $ = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$compiler$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["c"])(39);
+    if ($[0] !== "d36fa08b3769f454c5066b4c34179623ed8ed61192ae4ba19f97257f71e0aec4") {
+        for(let $i = 0; $i < 39; $i += 1){
+            $[$i] = Symbol.for("react.memo_cache_sentinel");
+        }
+        $[0] = "d36fa08b3769f454c5066b4c34179623ed8ed61192ae4ba19f97257f71e0aec4";
+    }
+    const { open, title: t1, message: t2, confirmLabel: t3, cancelLabel: t4, onConfirm, onCancel } = t0;
+    const title = t1 === undefined ? "Confirm" : t1;
+    const message = t2 === undefined ? "Are you sure?" : t2;
+    const confirmLabel = t3 === undefined ? "Yes" : t3;
+    const cancelLabel = t4 === undefined ? "Cancel" : t4;
+    const ref = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const primaryBtnRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    let t5;
+    let t6;
+    if ($[1] !== open) {
+        t5 = ({
+            "ConfirmModal[useEffect()]": ()=>{
+                if (!open) {
+                    return;
+                }
+                const prev = document.body.style.overflow;
+                document.body.style.overflow = "hidden";
+                primaryBtnRef.current?.focus();
+                return ()=>{
+                    document.body.style.overflow = prev;
+                };
+            }
+        })["ConfirmModal[useEffect()]"];
+        t6 = [
+            open
+        ];
+        $[1] = open;
+        $[2] = t5;
+        $[3] = t6;
+    } else {
+        t5 = $[2];
+        t6 = $[3];
+    }
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])(t5, t6);
+    let t7;
+    let t8;
+    if ($[4] !== onCancel || $[5] !== open) {
+        t7 = ({
+            "ConfirmModal[useEffect()]": ()=>{
+                const onKey = function onKey(e) {
+                    if (e.key === "Escape") {
+                        onCancel();
+                    }
+                };
+                if (open) {
+                    window.addEventListener("keydown", onKey);
+                }
+                return ()=>window.removeEventListener("keydown", onKey);
+            }
+        })["ConfirmModal[useEffect()]"];
+        t8 = [
+            open,
+            onCancel
+        ];
+        $[4] = onCancel;
+        $[5] = open;
+        $[6] = t7;
+        $[7] = t8;
+    } else {
+        t7 = $[6];
+        t8 = $[7];
+    }
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])(t7, t8);
+    if (!open) {
+        return null;
+    }
+    let t9;
+    if ($[8] !== cancelLabel || $[9] !== confirmLabel || $[10] !== message || $[11] !== onCancel || $[12] !== onConfirm || $[13] !== title) {
+        let t10;
+        if ($[15] !== onCancel) {
+            t10 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "absolute inset-0 bg-black/40 backdrop-blur-sm",
+                onClick: onCancel,
+                "aria-hidden": true
+            }, void 0, false, {
+                fileName: "[project]/src/components/modals/ConfirmModal.tsx",
+                lineNumber: 96,
+                columnNumber: 13
+            }, this);
+            $[15] = onCancel;
+            $[16] = t10;
+        } else {
+            t10 = $[16];
+        }
+        let t11;
+        if ($[17] !== title) {
+            t11 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                id: "confirm-title",
+                className: "text-lg font-semibold text-slate-900",
+                children: title
+            }, void 0, false, {
+                fileName: "[project]/src/components/modals/ConfirmModal.tsx",
+                lineNumber: 104,
+                columnNumber: 13
+            }, this);
+            $[17] = title;
+            $[18] = t11;
+        } else {
+            t11 = $[18];
+        }
+        let t12;
+        if ($[19] !== message) {
+            t12 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                className: "mt-2 text-sm text-slate-600",
+                children: message
+            }, void 0, false, {
+                fileName: "[project]/src/components/modals/ConfirmModal.tsx",
+                lineNumber: 112,
+                columnNumber: 13
+            }, this);
+            $[19] = message;
+            $[20] = t12;
+        } else {
+            t12 = $[20];
+        }
+        let t13;
+        if ($[21] !== cancelLabel || $[22] !== onCancel) {
+            t13 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                onClick: onCancel,
+                className: "px-4 py-2 rounded-lg border text-sm text-slate-700 hover:bg-slate-50",
+                children: cancelLabel
+            }, void 0, false, {
+                fileName: "[project]/src/components/modals/ConfirmModal.tsx",
+                lineNumber: 120,
+                columnNumber: 13
+            }, this);
+            $[21] = cancelLabel;
+            $[22] = onCancel;
+            $[23] = t13;
+        } else {
+            t13 = $[23];
+        }
+        let t14;
+        if ($[24] !== onConfirm) {
+            t14 = ({
+                "ConfirmModal[<button>.onClick]": ()=>void onConfirm()
+            })["ConfirmModal[<button>.onClick]"];
+            $[24] = onConfirm;
+            $[25] = t14;
+        } else {
+            t14 = $[25];
+        }
+        let t15;
+        if ($[26] !== confirmLabel || $[27] !== t14) {
+            t15 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                ref: primaryBtnRef,
+                onClick: t14,
+                className: "px-4 py-2 rounded-lg bg-red-600 text-white text-sm hover:opacity-95",
+                children: confirmLabel
+            }, void 0, false, {
+                fileName: "[project]/src/components/modals/ConfirmModal.tsx",
+                lineNumber: 139,
+                columnNumber: 13
+            }, this);
+            $[26] = confirmLabel;
+            $[27] = t14;
+            $[28] = t15;
+        } else {
+            t15 = $[28];
+        }
+        let t16;
+        if ($[29] !== t13 || $[30] !== t15) {
+            t16 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "mt-6 flex justify-end gap-3",
+                children: [
+                    t13,
+                    t15
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/components/modals/ConfirmModal.tsx",
+                lineNumber: 148,
+                columnNumber: 13
+            }, this);
+            $[29] = t13;
+            $[30] = t15;
+            $[31] = t16;
+        } else {
+            t16 = $[31];
+        }
+        let t17;
+        if ($[32] !== t11 || $[33] !== t12 || $[34] !== t16) {
+            t17 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                ref: ref,
+                className: "relative z-10 max-w-lg w-full bg-white rounded-2xl shadow-xl border p-6",
+                children: [
+                    t11,
+                    t12,
+                    t16
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/components/modals/ConfirmModal.tsx",
+                lineNumber: 157,
+                columnNumber: 13
+            }, this);
+            $[32] = t11;
+            $[33] = t12;
+            $[34] = t16;
+            $[35] = t17;
+        } else {
+            t17 = $[35];
+        }
+        let t18;
+        if ($[36] !== t10 || $[37] !== t17) {
+            t18 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                role: "dialog",
+                "aria-modal": "true",
+                "aria-labelledby": "confirm-title",
+                className: "fixed inset-0 z-50 flex items-center justify-center p-4",
+                children: [
+                    t10,
+                    t17
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/components/modals/ConfirmModal.tsx",
+                lineNumber: 167,
+                columnNumber: 13
+            }, this);
+            $[36] = t10;
+            $[37] = t17;
+            $[38] = t18;
+        } else {
+            t18 = $[38];
+        }
+        t9 = /*#__PURE__*/ __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2d$dom$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].createPortal(t18, document.body);
+        $[8] = cancelLabel;
+        $[9] = confirmLabel;
+        $[10] = message;
+        $[11] = onCancel;
+        $[12] = onConfirm;
+        $[13] = title;
+        $[14] = t9;
+    } else {
+        t9 = $[14];
+    }
+    return t9;
+}
+_s(ConfirmModal, "yVqcVLA5hIXDUo5rr5KcK1j/EuA=");
+_c = ConfirmModal;
+var _c;
+__turbopack_context__.k.register(_c, "ConfirmModal");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/src/components/profile/ProfileMenu.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "default",
+    ()=>ProfileMenu
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$compiler$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/compiler-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/navigation.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$modals$2f$ConfirmModal$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/modals/ConfirmModal.tsx [app-client] (ecmascript)");
+;
+var _s = __turbopack_context__.k.signature();
+"use client";
+;
+;
+;
+;
+function ProfileMenu(t0) {
+    _s();
+    const $ = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$compiler$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["c"])(29);
+    if ($[0] !== "d7bbde79db36f6ac88ae6001888d1642b5e8df5b4efd792cbef94648a4cda348") {
+        for(let $i = 0; $i < 29; $i += 1){
+            $[$i] = Symbol.for("react.memo_cache_sentinel");
+        }
+        $[0] = "d7bbde79db36f6ac88ae6001888d1642b5e8df5b4efd792cbef94648a4cda348";
+    }
+    const { avatarUrl, email } = t0;
+    const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"])();
+    const [open, setOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [confirmOpen, setConfirmOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [loggingOut, setLoggingOut] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const menuRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    let t1;
+    let t2;
+    if ($[1] === Symbol.for("react.memo_cache_sentinel")) {
+        t1 = ({
+            "ProfileMenu[useEffect()]": ()=>{
+                const onDocClick = function onDocClick(e) {
+                    if (!menuRef.current) {
+                        return;
+                    }
+                    if (!(e.target instanceof Node)) {
+                        return;
+                    }
+                    if (!menuRef.current.contains(e.target)) {
+                        setOpen(false);
+                    }
+                };
+                document.addEventListener("mousedown", onDocClick);
+                return ()=>document.removeEventListener("mousedown", onDocClick);
+            }
+        })["ProfileMenu[useEffect()]"];
+        t2 = [];
+        $[1] = t1;
+        $[2] = t2;
+    } else {
+        t1 = $[1];
+        t2 = $[2];
+    }
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])(t1, t2);
+    let t3;
+    let t4;
+    if ($[3] !== open) {
+        t3 = ({
+            "ProfileMenu[useEffect()]": ()=>{
+                const onKey = function onKey(e_0) {
+                    if (e_0.key === "Escape") {
+                        setOpen(false);
+                    }
+                };
+                if (open) {
+                    window.addEventListener("keydown", onKey);
+                }
+                return ()=>window.removeEventListener("keydown", onKey);
+            }
+        })["ProfileMenu[useEffect()]"];
+        t4 = [
+            open
+        ];
+        $[3] = open;
+        $[4] = t3;
+        $[5] = t4;
+    } else {
+        t3 = $[4];
+        t4 = $[5];
+    }
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])(t3, t4);
+    let t5;
+    if ($[6] !== router) {
+        t5 = async function handleLogout() {
+            ;
+            try {
+                setLoggingOut(true);
+                await fetch("/api/auth/logout", {
+                    method: "POST"
+                });
+                setConfirmOpen(false);
+                setOpen(false);
+                router.replace("/auth/login");
+            } catch (t6) {
+                const err = t6;
+                console.error("Logout failed", err);
+                setLoggingOut(false);
+                setConfirmOpen(false);
+            }
+        };
+        $[6] = router;
+        $[7] = t5;
+    } else {
+        t5 = $[7];
+    }
+    const handleLogout = t5;
+    let t6;
+    if ($[8] === Symbol.for("react.memo_cache_sentinel")) {
+        t6 = ({
+            "ProfileMenu[<button>.onClick]": ()=>setOpen(_ProfileMenuButtonOnClickSetOpen)
+        })["ProfileMenu[<button>.onClick]"];
+        $[8] = t6;
+    } else {
+        t6 = $[8];
+    }
+    let t7;
+    if ($[9] !== avatarUrl || $[10] !== email) {
+        t7 = avatarUrl ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+            src: avatarUrl,
+            alt: "avatar",
+            className: "w-10 h-10 rounded-full object-cover"
+        }, void 0, false, {
+            fileName: "[project]/src/components/profile/ProfileMenu.tsx",
+            lineNumber: 113,
+            columnNumber: 22
+        }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+            className: "text-sm font-medium text-slate-700",
+            children: (email || "U").charAt(0).toUpperCase()
+        }, void 0, false, {
+            fileName: "[project]/src/components/profile/ProfileMenu.tsx",
+            lineNumber: 113,
+            columnNumber: 109
+        }, this);
+        $[9] = avatarUrl;
+        $[10] = email;
+        $[11] = t7;
+    } else {
+        t7 = $[11];
+    }
+    let t8;
+    if ($[12] !== open || $[13] !== t7) {
+        t8 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+            "aria-haspopup": "menu",
+            "aria-expanded": open,
+            onClick: t6,
+            className: "w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center shadow-sm hover:opacity-95",
+            title: "Account menu",
+            children: t7
+        }, void 0, false, {
+            fileName: "[project]/src/components/profile/ProfileMenu.tsx",
+            lineNumber: 122,
+            columnNumber: 10
+        }, this);
+        $[12] = open;
+        $[13] = t7;
+        $[14] = t8;
+    } else {
+        t8 = $[14];
+    }
+    let t9;
+    if ($[15] !== open || $[16] !== router) {
+        t9 = open && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            role: "menu",
+            "aria-label": "Profile",
+            className: "absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border py-2 z-20",
+            children: [
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                    role: "menuitem",
+                    onClick: {
+                        "ProfileMenu[<button>.onClick]": ()=>{
+                            setOpen(false);
+                            router.push("/profile");
+                        }
+                    }["ProfileMenu[<button>.onClick]"],
+                    className: "w-full text-left px-3 py-2 hover:bg-slate-50 text-sm text-slate-700",
+                    children: "View profile"
+                }, void 0, false, {
+                    fileName: "[project]/src/components/profile/ProfileMenu.tsx",
+                    lineNumber: 131,
+                    columnNumber: 142
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                    role: "menuitem",
+                    onClick: {
+                        "ProfileMenu[<button>.onClick]": ()=>{
+                            setConfirmOpen(true);
+                        }
+                    }["ProfileMenu[<button>.onClick]"],
+                    className: "w-full text-left px-3 py-2 hover:bg-slate-50 text-sm text-slate-700",
+                    children: "Logout"
+                }, void 0, false, {
+                    fileName: "[project]/src/components/profile/ProfileMenu.tsx",
+                    lineNumber: 136,
+                    columnNumber: 144
+                }, this)
+            ]
+        }, void 0, true, {
+            fileName: "[project]/src/components/profile/ProfileMenu.tsx",
+            lineNumber: 131,
+            columnNumber: 18
+        }, this);
+        $[15] = open;
+        $[16] = router;
+        $[17] = t9;
+    } else {
+        t9 = $[17];
+    }
+    const t10 = loggingOut ? "Logging out..." : "Yes, log out";
+    let t11;
+    if ($[18] === Symbol.for("react.memo_cache_sentinel")) {
+        t11 = ({
+            "ProfileMenu[<ConfirmModal>.onCancel]": ()=>setConfirmOpen(false)
+        })["ProfileMenu[<ConfirmModal>.onCancel]"];
+        $[18] = t11;
+    } else {
+        t11 = $[18];
+    }
+    let t12;
+    if ($[19] !== handleLogout) {
+        t12 = ({
+            "ProfileMenu[<ConfirmModal>.onConfirm]": async ()=>{
+                await handleLogout();
+            }
+        })["ProfileMenu[<ConfirmModal>.onConfirm]"];
+        $[19] = handleLogout;
+        $[20] = t12;
+    } else {
+        t12 = $[20];
+    }
+    let t13;
+    if ($[21] !== confirmOpen || $[22] !== t10 || $[23] !== t12) {
+        t13 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$modals$2f$ConfirmModal$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+            open: confirmOpen,
+            title: "Log out?",
+            message: "Do you want to logout?",
+            confirmLabel: t10,
+            cancelLabel: "Cancel",
+            onCancel: t11,
+            onConfirm: t12
+        }, void 0, false, {
+            fileName: "[project]/src/components/profile/ProfileMenu.tsx",
+            lineNumber: 171,
+            columnNumber: 11
+        }, this);
+        $[21] = confirmOpen;
+        $[22] = t10;
+        $[23] = t12;
+        $[24] = t13;
+    } else {
+        t13 = $[24];
+    }
+    let t14;
+    if ($[25] !== t13 || $[26] !== t8 || $[27] !== t9) {
+        t14 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            className: "relative",
+            ref: menuRef,
+            children: [
+                t8,
+                t9,
+                t13
+            ]
+        }, void 0, true, {
+            fileName: "[project]/src/components/profile/ProfileMenu.tsx",
+            lineNumber: 181,
+            columnNumber: 11
+        }, this);
+        $[25] = t13;
+        $[26] = t8;
+        $[27] = t9;
+        $[28] = t14;
+    } else {
+        t14 = $[28];
+    }
+    return t14;
+}
+_s(ProfileMenu, "s5f3BHhc5f/ShYDmDPGqhLOTHO4=", false, function() {
+    return [
+        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"]
+    ];
+});
+_c = ProfileMenu;
+function _ProfileMenuButtonOnClickSetOpen(v) {
+    return !v;
+}
+var _c;
+__turbopack_context__.k.register(_c, "ProfileMenu");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/src/components/profile/AddEmailModal.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+// components/profile/AddEmailModal.tsx
+__turbopack_context__.s([
+    "default",
+    ()=>AddEmailModal
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2d$dom$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react-dom/index.js [app-client] (ecmascript)");
+;
+var _s = __turbopack_context__.k.signature();
+"use client";
+;
+;
+function AddEmailModal({ open, onClose, onAdd }) {
+    _s();
+    const [email, setEmail] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [saving, setSaving] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const primaryRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "AddEmailModal.useEffect": ()=>{
+            if (!open) return;
+            const prev = document.body.style.overflow;
+            document.body.style.overflow = "hidden";
+            const t = setTimeout({
+                "AddEmailModal.useEffect.t": ()=>primaryRef.current?.focus()
+            }["AddEmailModal.useEffect.t"], 80);
+            return ({
+                "AddEmailModal.useEffect": ()=>{
+                    document.body.style.overflow = prev;
+                    clearTimeout(t);
+                }
+            })["AddEmailModal.useEffect"];
+        }
+    }["AddEmailModal.useEffect"], [
+        open
+    ]);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "AddEmailModal.useEffect": ()=>{
+            function onKey(e) {
+                if (e.key === "Escape") onClose();
+            }
+            if (open) window.addEventListener("keydown", onKey);
+            return ({
+                "AddEmailModal.useEffect": ()=>window.removeEventListener("keydown", onKey)
+            })["AddEmailModal.useEffect"];
+        }
+    }["AddEmailModal.useEffect"], [
+        open,
+        onClose
+    ]);
+    if (!open) return null;
+    function validEmail(e_0) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e_0);
+    }
+    async function submit(e_1) {
+        e_1?.preventDefault();
+        if (!validEmail(email)) {
+            alert("Enter a valid email address.");
+            return;
+        }
+        setSaving(true);
+        try {
+            const ok = await onAdd(email);
+            if (!ok) {
+            // onAdd handles error messages
+            }
+        } finally{
+            setSaving(false);
+        }
+    }
+    return /*#__PURE__*/ __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2d$dom$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].createPortal(/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: "fixed inset-0 z-50 flex items-center justify-center p-4",
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "absolute inset-0 bg-black/40",
+                onClick: onClose,
+                "aria-hidden": true
+            }, void 0, false, {
+                fileName: "[project]/src/components/profile/AddEmailModal.tsx",
+                lineNumber: 57,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "relative z-10 w-full max-w-md bg-white rounded-2xl p-6 shadow-lg border",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex items-center justify-between",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                className: "text-lg font-semibold",
+                                children: "Add an email address"
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/profile/AddEmailModal.tsx",
+                                lineNumber: 60,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                onClick: onClose,
+                                className: "text-slate-500 hover:text-slate-700",
+                                children: "✕"
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/profile/AddEmailModal.tsx",
+                                lineNumber: 61,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/components/profile/AddEmailModal.tsx",
+                        lineNumber: 59,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
+                        className: "mt-4 space-y-4",
+                        onSubmit: submit,
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                        className: "text-xs text-slate-600 block",
+                                        children: "Email"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/profile/AddEmailModal.tsx",
+                                        lineNumber: 66,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                        className: "mt-1 w-full rounded-lg border px-3 py-2",
+                                        value: email,
+                                        onChange: (e_2)=>setEmail(e_2.target.value),
+                                        required: true
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/profile/AddEmailModal.tsx",
+                                        lineNumber: 67,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/components/profile/AddEmailModal.tsx",
+                                lineNumber: 65,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex justify-end gap-3",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        type: "button",
+                                        onClick: onClose,
+                                        className: "px-4 py-2 rounded-lg border",
+                                        children: "Cancel"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/profile/AddEmailModal.tsx",
+                                        lineNumber: 71,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        ref: primaryRef,
+                                        type: "submit",
+                                        disabled: saving,
+                                        className: "px-4 py-2 rounded-lg bg-blue-600 text-white",
+                                        children: saving ? "Adding..." : "Add email"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/profile/AddEmailModal.tsx",
+                                        lineNumber: 72,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/components/profile/AddEmailModal.tsx",
+                                lineNumber: 70,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/components/profile/AddEmailModal.tsx",
+                        lineNumber: 64,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/components/profile/AddEmailModal.tsx",
+                lineNumber: 58,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/src/components/profile/AddEmailModal.tsx",
+        lineNumber: 56,
+        columnNumber: 32
+    }, this), document.body);
+}
+_s(AddEmailModal, "fxYdiDkgnE1mq9J8ByYN2Lhxs4s=");
+_c = AddEmailModal;
+var _c;
+__turbopack_context__.k.register(_c, "AddEmailModal");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/src/components/profile/PhoneVerification.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+// components/profile/PhoneVerification.tsx
+__turbopack_context__.s([
+    "default",
+    ()=>PhoneVerification
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+;
+var _s = __turbopack_context__.k.signature();
+"use client";
+;
+/**
+ * Minimal mapping of country code => { dial, length }.
+ * Add more entries as you need, but include the common ones:
+ */ const COUNTRY_PHONE_RULES = {
+    IN: {
+        dial: "+91",
+        length: 10
+    },
+    US: {
+        dial: "+1",
+        length: 10
+    },
+    CA: {
+        dial: "+1",
+        length: 10
+    },
+    GB: {
+        dial: "+44",
+        length: 10
+    },
+    AU: {
+        dial: "+61",
+        length: 9
+    },
+    BD: {
+        dial: "+880",
+        length: 10
+    },
+    NP: {
+        dial: "+977",
+        length: 10
+    },
+    PK: {
+        dial: "+92",
+        length: 10
+    },
+    SG: {
+        dial: "+65",
+        length: 8
+    }
+};
+const DEFAULT_RULE = {
+    dial: "+1",
+    length: 10
+};
+function onlyDigits(s) {
+    return s.replace(/\D/g, "");
+}
+function PhoneVerification({ profile, onUserUpdate }) {
+    _s();
+    const initialCountry = profile?.countryCode ?? "IN";
+    const rule = COUNTRY_PHONE_RULES[initialCountry] ?? DEFAULT_RULE;
+    const [countryCode, setCountryCode] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(initialCountry);
+    const [dialCode, setDialCode] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(rule.dial);
+    const [digitCount, setDigitCount] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(rule.length);
+    const [digits, setDigits] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
+        "PhoneVerification.useState": ()=>Array(rule.length).fill("")
+    }["PhoneVerification.useState"]); // local number digits boxes
+    const digitInputsRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])([]);
+    const [phoneE164, setPhoneE164] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(profile?.phoneNumber ?? null);
+    const [sending, setSending] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [otpSent, setOtpSent] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [otpExpiry, setOtpExpiry] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    // otp 4-digit boxes
+    const OTP_LEN = 4;
+    const [otpDigits, setOtpDigits] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(Array(OTP_LEN).fill(""));
+    const otpInputsRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])([]);
+    const [verifying, setVerifying] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [message, setMessage] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    // if profile.phoneNumber exists, show it verified or not
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "PhoneVerification.useEffect": ()=>{
+            if (profile?.phoneVerified) {
+                setPhoneE164(profile.phoneNumber ?? null);
+                setMessage({
+                    text: "Your phone number is verified",
+                    ok: true
+                });
+            } else {
+            // clear if not verified
+            }
+        }
+    }["PhoneVerification.useEffect"], [
+        profile
+    ]);
+    // When countryCode changes, update dial and digit count
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "PhoneVerification.useEffect": ()=>{
+            const r = COUNTRY_PHONE_RULES[countryCode] ?? DEFAULT_RULE;
+            setDialCode(r.dial);
+            setDigitCount(r.length);
+            setDigits({
+                "PhoneVerification.useEffect": (prev)=>{
+                    const next = Array(r.length).fill("");
+                    for(let i = 0; i < Math.min(prev.length, next.length); i++)next[i] = prev[i];
+                    return next;
+                }
+            }["PhoneVerification.useEffect"]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        }
+    }["PhoneVerification.useEffect"], [
+        countryCode
+    ]);
+    // helper to build local-number string
+    const localNumber = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMemo"])({
+        "PhoneVerification.useMemo[localNumber]": ()=>digits.join("")
+    }["PhoneVerification.useMemo[localNumber]"], [
+        digits
+    ]);
+    // compute if local number complete
+    const localComplete = localNumber.length === digitCount;
+    function onDigitChange(i, val) {
+        const d = onlyDigits(val).slice(0, 1); // only one digit per box
+        setDigits((prev)=>{
+            const next = prev.slice();
+            next[i] = d;
+            return next;
+        });
+        if (d && i < digitCount - 1) {
+            digitInputsRef.current[i + 1]?.focus();
+        }
+    }
+    function onDigitKeyDown(i, e) {
+        if (e.key === "Backspace" && digits[i] === "" && i > 0) {
+            digitInputsRef.current[i - 1]?.focus();
+        }
+    }
+    // Send OTP
+    async function sendOtp() {
+        if (!localComplete) {
+            setMessage({
+                text: `Enter ${digitCount} digits`,
+                ok: false
+            });
+            return;
+        }
+        const e164 = `${dialCode}${localNumber}`;
+        setSending(true);
+        setMessage(null);
+        try {
+            const res = await fetch("/api/phone/send-otp", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    phone: e164
+                })
+            });
+            const json = await res.json();
+            if (!res.ok || json?.error) {
+                setMessage({
+                    text: json?.error || "Failed to send OTP",
+                    ok: false
+                });
+                setOtpSent(false);
+            } else {
+                setMessage({
+                    text: "OTP sent — check your phone (or console in dev)",
+                    ok: true
+                });
+                setOtpSent(true);
+                // set expiry (5 minutes)
+                setOtpExpiry(Date.now() + 5 * 60 * 1000);
+                // prefill phoneE164 for verification calls
+                setPhoneE164(e164);
+                // focus first otp input shortly
+                setTimeout(()=>otpInputsRef.current[0]?.focus(), 120);
+            }
+        } catch (err) {
+            console.error(err);
+            setMessage({
+                text: "Network error sending OTP",
+                ok: false
+            });
+            setOtpSent(false);
+        } finally{
+            setSending(false);
+        }
+    }
+    // OTP input handlers
+    function onOtpChange(i, val) {
+        const digit = onlyDigits(val).slice(0, 1);
+        setOtpDigits((prev)=>{
+            const next = prev.slice();
+            next[i] = digit;
+            return next;
+        });
+        if (digit && i < OTP_LEN - 1) {
+            otpInputsRef.current[i + 1]?.focus();
+        }
+    }
+    function onOtpKeyDown(i, e) {
+        if (e.key === "Backspace" && otpDigits[i] === "" && i > 0) {
+            otpInputsRef.current[i - 1]?.focus();
+        }
+        if (e.key === "Enter") {
+            tryVerifyOtp();
+        }
+    }
+    const otpValue = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMemo"])({
+        "PhoneVerification.useMemo[otpValue]": ()=>otpDigits.join("")
+    }["PhoneVerification.useMemo[otpValue]"], [
+        otpDigits
+    ]);
+    async function tryVerifyOtp() {
+        if (!phoneE164) {
+            setMessage({
+                text: "Send OTP first",
+                ok: false
+            });
+            return;
+        }
+        if (otpValue.length !== OTP_LEN) {
+            setMessage({
+                text: `Enter ${OTP_LEN}-digit code`,
+                ok: false
+            });
+            return;
+        }
+        setVerifying(true);
+        setMessage(null);
+        try {
+            const res = await fetch("/api/phone/verify-otp", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    phone: phoneE164,
+                    otp: otpValue
+                })
+            });
+            const json = await res.json();
+            if (!res.ok || json?.error) {
+                setMessage({
+                    text: json?.error || "Invalid OTP",
+                    ok: false
+                });
+                // clear otp boxes (allow retry)
+                setOtpDigits(Array(OTP_LEN).fill(""));
+                otpInputsRef.current[0]?.focus();
+            } else {
+                // success - server returns updated user
+                setMessage({
+                    text: "Phone number verified",
+                    ok: true
+                });
+                setOtpSent(false);
+                setOtpDigits(Array(OTP_LEN).fill(""));
+                // let parent update user object using returned user
+                if (onUserUpdate && json.user) {
+                    onUserUpdate(json.user);
+                } else {
+                    // fallback: just show verified
+                    setPhoneE164(phoneE164);
+                }
+            }
+        } catch (err) {
+            console.error(err);
+            setMessage({
+                text: "Network error verifying OTP",
+                ok: false
+            });
+        } finally{
+            setVerifying(false);
+        }
+    }
+    function resetOtp() {
+        setOtpSent(false);
+        setOtpDigits(Array(OTP_LEN).fill(""));
+        setOtpExpiry(null);
+    }
+    // handle paste into first box for convenience
+    async function handlePasteNumber(e) {
+        const text = e.clipboardData.getData("Text");
+        const only = onlyDigits(text).slice(0, digitCount);
+        if (only.length === digitCount) {
+            const arr = only.split("");
+            setDigits(arr);
+            // auto send OTP
+            setTimeout(()=>{
+                // focus send otp button by programmatic action or call sendOtp directly
+                sendOtp();
+            }, 80);
+        }
+    }
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: "border rounded-lg p-4",
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "flex items-center justify-between",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex items-center gap-3",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center text-amber-600",
+                                children: "📞"
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/profile/PhoneVerification.tsx",
+                                lineNumber: 306,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "font-medium",
+                                        children: phoneE164 ?? `${dialCode} • not set`
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/profile/PhoneVerification.tsx",
+                                        lineNumber: 308,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: `text-xs ${profile?.phoneVerified ? "text-green-600" : "text-slate-400"}`,
+                                        children: profile?.phoneVerified ? `verified • ${profile.phoneVerifiedAt ? new Date(profile.phoneVerifiedAt).toLocaleString() : ""}` : "not verified"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/profile/PhoneVerification.tsx",
+                                        lineNumber: 309,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/components/profile/PhoneVerification.tsx",
+                                lineNumber: 307,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/components/profile/PhoneVerification.tsx",
+                        lineNumber: 305,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "text-sm text-slate-500"
+                    }, void 0, false, {
+                        fileName: "[project]/src/components/profile/PhoneVerification.tsx",
+                        lineNumber: 315,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/components/profile/PhoneVerification.tsx",
+                lineNumber: 304,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "mt-4 grid grid-cols-1 gap-3",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex items-center gap-3",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
+                                value: countryCode,
+                                onChange: (e)=>setCountryCode(e.target.value),
+                                className: "rounded border px-2 py-1",
+                                children: [
+                                    Object.keys(COUNTRY_PHONE_RULES).map((cc)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                            value: cc,
+                                            children: [
+                                                cc,
+                                                " ",
+                                                COUNTRY_PHONE_RULES[cc].dial
+                                            ]
+                                        }, cc, true, {
+                                            fileName: "[project]/src/components/profile/PhoneVerification.tsx",
+                                            lineNumber: 323,
+                                            columnNumber: 57
+                                        }, this)),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                        value: "OTHER",
+                                        children: "Other"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/profile/PhoneVerification.tsx",
+                                        lineNumber: 326,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/components/profile/PhoneVerification.tsx",
+                                lineNumber: 321,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex gap-2 items-center",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "px-3 py-2 rounded border bg-slate-50",
+                                        children: dialCode
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/profile/PhoneVerification.tsx",
+                                        lineNumber: 330,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        onPaste: handlePasteNumber,
+                                        className: "flex gap-1",
+                                        children: Array.from({
+                                            length: digitCount
+                                        }).map((_, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                ref: (el)=>digitInputsRef.current[i] = el,
+                                                inputMode: "numeric",
+                                                maxLength: 1,
+                                                value: digits[i] ?? "",
+                                                onChange: (e)=>onDigitChange(i, e.target.value),
+                                                onKeyDown: (e)=>onDigitKeyDown(i, e),
+                                                className: "w-9 h-9 rounded border text-center",
+                                                "aria-label": `digit-${i + 1}`
+                                            }, i, false, {
+                                                fileName: "[project]/src/components/profile/PhoneVerification.tsx",
+                                                lineNumber: 335,
+                                                columnNumber: 30
+                                            }, this))
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/profile/PhoneVerification.tsx",
+                                        lineNumber: 332,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/components/profile/PhoneVerification.tsx",
+                                lineNumber: 329,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "ml-auto",
+                                children: !otpSent ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                    className: `px-3 py-1 rounded ${localComplete ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-500"}`,
+                                    onClick: ()=>sendOtp(),
+                                    disabled: !localComplete || sending,
+                                    children: sending ? "Sending..." : "Send OTP"
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/profile/PhoneVerification.tsx",
+                                    lineNumber: 340,
+                                    columnNumber: 25
+                                }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                    className: "px-3 py-1 rounded bg-slate-50 text-slate-600",
+                                    onClick: ()=>resetOtp(),
+                                    children: "Cancel"
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/profile/PhoneVerification.tsx",
+                                    lineNumber: 342,
+                                    columnNumber: 27
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/profile/PhoneVerification.tsx",
+                                lineNumber: 339,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/components/profile/PhoneVerification.tsx",
+                        lineNumber: 320,
+                        columnNumber: 9
+                    }, this),
+                    otpSent && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex items-center gap-3",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex gap-2",
+                                children: Array.from({
+                                    length: OTP_LEN
+                                }).map((_, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                        ref: (el)=>otpInputsRef.current[i] = el,
+                                        inputMode: "numeric",
+                                        maxLength: 1,
+                                        value: otpDigits[i],
+                                        onChange: (e)=>onOtpChange(i, e.target.value),
+                                        onKeyDown: (e)=>onOtpKeyDown(i, e),
+                                        className: "w-10 h-10 text-center rounded border",
+                                        "aria-label": `otp-${i + 1}`
+                                    }, i, false, {
+                                        fileName: "[project]/src/components/profile/PhoneVerification.tsx",
+                                        lineNumber: 353,
+                                        columnNumber: 28
+                                    }, this))
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/profile/PhoneVerification.tsx",
+                                lineNumber: 350,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                    className: "px-3 py-1 rounded bg-green-600 text-white",
+                                    onClick: ()=>tryVerifyOtp(),
+                                    disabled: verifying,
+                                    children: verifying ? "Verifying..." : "Verify OTP"
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/profile/PhoneVerification.tsx",
+                                    lineNumber: 357,
+                                    columnNumber: 15
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/profile/PhoneVerification.tsx",
+                                lineNumber: 356,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "text-sm text-slate-500",
+                                children: otpExpiry ? `Expires in ${Math.max(0, Math.ceil((otpExpiry - Date.now()) / 1000))}s` : ""
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/profile/PhoneVerification.tsx",
+                                lineNumber: 362,
+                                columnNumber: 13
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/components/profile/PhoneVerification.tsx",
+                        lineNumber: 349,
+                        columnNumber: 21
+                    }, this),
+                    message && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: `text-sm ${message.ok ? "text-green-600" : "text-rose-600"}`,
+                        children: message.text
+                    }, void 0, false, {
+                        fileName: "[project]/src/components/profile/PhoneVerification.tsx",
+                        lineNumber: 368,
+                        columnNumber: 21
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/components/profile/PhoneVerification.tsx",
+                lineNumber: 318,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/src/components/profile/PhoneVerification.tsx",
+        lineNumber: 303,
+        columnNumber: 10
+    }, this);
+}
+_s(PhoneVerification, "sCwqB8bVZz7iYOzTVwli+D+ZmSw=");
+_c = PhoneVerification;
+var _c;
+__turbopack_context__.k.register(_c, "PhoneVerification");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/src/app/profile/page.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+// app/profile/page.tsx
+__turbopack_context__.s([
+    "default",
+    ()=>ProfilePage
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/client/app-dir/link.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/navigation.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$profile$2f$EditProfile$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/profile/EditProfile.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$profile$2f$ProfileMenu$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/profile/ProfileMenu.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$profile$2f$AddEmailModal$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/profile/AddEmailModal.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$profile$2f$PhoneVerification$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/profile/PhoneVerification.tsx [app-client] (ecmascript)");
+;
+var _s = __turbopack_context__.k.signature();
+"use client";
+;
+;
+;
+;
+;
+;
+;
+/** Format time relative with extended granularity:
+ *  <1 min -> "just now"
+ *  <60m -> "Xm ago"
+ *  <24h -> "Xh ago"
+ *  <7d -> "Xd ago"
+ *  <30d -> "Xw ago" (weeks)
+ *  <365d -> "Xmo ago" (months)
+ *  >=365d -> "Xy ago"
+ */ function formatRelativeExtended(iso) {
+    if (!iso) return "—";
+    const then = new Date(iso).getTime();
+    if (isNaN(then)) return "—";
+    const diffMs = Date.now() - then;
+    const diffMins = Math.floor(diffMs / 60000);
+    if (diffMins < 1) return "just now";
+    if (diffMins < 60) return `${diffMins}m ago`;
+    const diffHours = Math.floor(diffMins / 60);
+    if (diffHours < 24) return `${diffHours}h ago`;
+    const diffDays = Math.floor(diffHours / 24);
+    if (diffDays < 7) return `${diffDays}d ago`;
+    if (diffDays < 30) {
+        const weeks = Math.floor(diffDays / 7);
+        return `${weeks}w ago`;
+    }
+    if (diffDays < 365) {
+        const months = Math.floor(diffDays / 30);
+        return `${months}mo ago`;
+    }
+    const years = Math.floor(diffDays / 365);
+    return `${years}y ago`;
+}
+function ProfilePage() {
+    _s();
+    const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"])();
+    const [user, setUser] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
+    const [editOpen, setEditOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [addEmailOpen, setAddEmailOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [activity, setActivity] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "ProfilePage.useEffect": ()=>{
+            let mounted = true;
+            const ac = new AbortController();
+            fetch("/api/me", {
+                signal: ac.signal
+            }).then({
+                "ProfilePage.useEffect": async (res)=>{
+                    if (!res.ok) return null;
+                    return await res.json();
+                }
+            }["ProfilePage.useEffect"]).then({
+                "ProfilePage.useEffect": (j)=>{
+                    if (!mounted || !j) return;
+                    setUser(j.user ?? null);
+                    setActivity(j.activity ?? null);
+                }
+            }["ProfilePage.useEffect"]).catch({
+                "ProfilePage.useEffect": (err)=>{
+                    if (err.name === "AbortError") return;
+                    setUser(null);
+                    setActivity(null);
+                }
+            }["ProfilePage.useEffect"]).finally({
+                "ProfilePage.useEffect": ()=>{
+                    if (mounted) setLoading(false);
+                }
+            }["ProfilePage.useEffect"]);
+            return ({
+                "ProfilePage.useEffect": ()=>{
+                    mounted = false;
+                    ac.abort();
+                }
+            })["ProfilePage.useEffect"];
+        }
+    }["ProfilePage.useEffect"], []);
+    async function handleSave(updated) {
+        const prev = user;
+        setUser((prevU)=>prevU ? {
+                ...prevU,
+                ...updated
+            } : prevU);
+        try {
+            const res_0 = await fetch("/api/me", {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(updated)
+            });
+            if (!res_0.ok) {
+                const txt = await res_0.text();
+                console.error("Save failed:", txt);
+                setUser(prev ?? null);
+                alert("Save failed. See console for details.");
+                return false;
+            }
+            const json = await res_0.json();
+            if (json?.user) setUser(json.user);
+            if (json?.activity) setActivity(json.activity);
+            return true;
+        } catch (err_0) {
+            console.error(err_0);
+            setUser(prev ?? null);
+            alert("Save failed due to network/server error.");
+            return false;
+        }
+    }
+    // Add extra email (only one allowed)
+    async function handleAddEmail(email) {
+        if (!user) return false;
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            alert("Invalid email");
+            return false;
+        }
+        // optimistic
+        const prev_0 = user;
+        const updatedProfile = {
+            ...user.profile ?? {},
+            extraEmail: email
+        };
+        setUser({
+            ...user,
+            profile: updatedProfile
+        });
+        try {
+            const res_1 = await fetch("/api/me", {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    profile: updatedProfile
+                })
+            });
+            if (!res_1.ok) {
+                const txt_0 = await res_1.text();
+                console.error("Add email failed:", txt_0);
+                setUser(prev_0);
+                alert("Failed to add email.");
+                return false;
+            }
+            const json_0 = await res_1.json();
+            if (json_0?.user) setUser(json_0.user);
+            if (json_0?.activity) setActivity(json_0.activity);
+            setAddEmailOpen(false);
+            return true;
+        } catch (err_1) {
+            console.error(err_1);
+            setUser(prev_0);
+            alert("Failed to add email (network).");
+            return false;
+        }
+    }
+    // Remove extra email
+    async function handleRemoveExtraEmail() {
+        if (!user) return false;
+        const prev_1 = user;
+        const updatedProfile_0 = {
+            ...user.profile ?? {}
+        };
+        delete updatedProfile_0.extraEmail;
+        setUser({
+            ...user,
+            profile: updatedProfile_0
+        });
+        try {
+            const res_2 = await fetch("/api/me", {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    profile: updatedProfile_0
+                })
+            });
+            if (!res_2.ok) {
+                const txt_1 = await res_2.text();
+                console.error("Remove email failed:", txt_1);
+                setUser(prev_1);
+                alert("Failed to remove email.");
+                return false;
+            }
+            const json_1 = await res_2.json();
+            if (json_1?.user) setUser(json_1.user);
+            if (json_1?.activity) setActivity(json_1.activity);
+            return true;
+        } catch (err_2) {
+            console.error(err_2);
+            setUser(prev_1);
+            alert("Failed to remove email (network).");
+            return false;
+        }
+    }
+    if (loading) return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: "p-6",
+        children: "Loading..."
+    }, void 0, false, {
+        fileName: "[project]/src/app/profile/page.tsx",
+        lineNumber: 219,
+        columnNumber: 23
+    }, this);
+    if (!user) return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: "p-6",
+        children: "Not logged in"
+    }, void 0, false, {
+        fileName: "[project]/src/app/profile/page.tsx",
+        lineNumber: 220,
+        columnNumber: 21
+    }, this);
+    const profile = user.profile ?? {};
+    const role = (user.role ?? "viewer").toString().toUpperCase();
+    const lastUpdatedLabel = formatRelativeExtended(user.updatedAt ?? profile?.updatedAt ?? null);
+    const headerUpdatedLabel = lastUpdatedLabel === "just now" ? "Updated just now" : `Updated ${lastUpdatedLabel}`;
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
+        className: "min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50",
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "max-w-7xl mx-auto px-6 py-8",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex items-center justify-between mb-6",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex items-center gap-4",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "h-12 w-12 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-md",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
+                                            width: "26",
+                                            height: "26",
+                                            viewBox: "0 0 24 24",
+                                            fill: "none",
+                                            "aria-hidden": true,
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                                                    d: "M3 12h18",
+                                                    stroke: "white",
+                                                    strokeWidth: "2",
+                                                    strokeLinecap: "round"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/profile/page.tsx",
+                                                    lineNumber: 232,
+                                                    columnNumber: 17
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                                                    d: "M7 6v12",
+                                                    stroke: "white",
+                                                    strokeWidth: "2",
+                                                    strokeLinecap: "round"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/profile/page.tsx",
+                                                    lineNumber: 233,
+                                                    columnNumber: 17
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/profile/page.tsx",
+                                            lineNumber: 231,
+                                            columnNumber: 15
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/profile/page.tsx",
+                                        lineNumber: 230,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "text-lg font-semibold text-slate-900",
+                                                children: "Profile"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                lineNumber: 237,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "text-xs text-slate-500",
+                                                children: "Manage your personal details and contact info"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                lineNumber: 238,
+                                                columnNumber: 15
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/profile/page.tsx",
+                                        lineNumber: 236,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/app/profile/page.tsx",
+                                lineNumber: 229,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex items-center gap-4",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "hidden sm:inline-flex items-center gap-2 rounded-full px-3 py-1 bg-slate-100 text-slate-800 text-sm",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
+                                                className: "uppercase",
+                                                children: role
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                lineNumber: 244,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                className: "text-xs text-slate-600",
+                                                children: "access"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                lineNumber: 245,
+                                                columnNumber: 15
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/profile/page.tsx",
+                                        lineNumber: 243,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$profile$2f$ProfileMenu$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                        email: user.email,
+                                        avatarUrl: profile?.avatarUrl
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/profile/page.tsx",
+                                        lineNumber: 248,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/app/profile/page.tsx",
+                                lineNumber: 242,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/app/profile/page.tsx",
+                        lineNumber: 228,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "grid grid-cols-1 lg:grid-cols-12 gap-6",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "lg:col-span-8",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
+                                        className: "bg-white/60 backdrop-blur-md rounded-3xl p-8 shadow-lg border border-slate-100",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "flex items-start gap-6",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "w-24 h-24 rounded-full overflow-hidden bg-slate-100 flex items-center justify-center",
+                                                        children: profile?.avatarUrl ? // eslint-disable-next-line @next/next/no-img-element
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                                                            src: profile.avatarUrl,
+                                                            alt: "avatar",
+                                                            className: "w-full h-full object-cover"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/profile/page.tsx",
+                                                            lineNumber: 260,
+                                                            columnNumber: 17
+                                                        }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "text-3xl font-semibold text-slate-700",
+                                                            children: (user.name || user.email || "U").charAt(0).toUpperCase()
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/profile/page.tsx",
+                                                            lineNumber: 260,
+                                                            columnNumber: 103
+                                                        }, this)
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/profile/page.tsx",
+                                                        lineNumber: 257,
+                                                        columnNumber: 17
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "flex-1",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "flex items-center gap-4",
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
+                                                                                className: "text-2xl font-bold text-slate-900",
+                                                                                children: user.name ?? "—"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                                                lineNumber: 266,
+                                                                                columnNumber: 23
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "text-sm text-slate-500",
+                                                                                children: user.email
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                                                lineNumber: 267,
+                                                                                columnNumber: 23
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/src/app/profile/page.tsx",
+                                                                        lineNumber: 265,
+                                                                        columnNumber: 21
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        className: "ml-auto flex items-center gap-3",
+                                                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                            onClick: ()=>setEditOpen(true),
+                                                                            className: "px-4 py-2 rounded-lg bg-blue-700 text-white shadow hover:opacity-95",
+                                                                            children: "Edit"
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/profile/page.tsx",
+                                                                            lineNumber: 271,
+                                                                            columnNumber: 23
+                                                                        }, this)
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/profile/page.tsx",
+                                                                        lineNumber: 270,
+                                                                        columnNumber: 21
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                                lineNumber: 264,
+                                                                columnNumber: 19
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "mt-4 text-xs text-slate-500",
+                                                                children: [
+                                                                    "Last profile update: ",
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                        className: "font-medium text-slate-700",
+                                                                        children: lastUpdatedLabel
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/profile/page.tsx",
+                                                                        lineNumber: 279,
+                                                                        columnNumber: 42
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                                lineNumber: 278,
+                                                                columnNumber: 19
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "mt-6 grid grid-cols-2 gap-4 text-sm text-slate-600",
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "text-xs text-slate-400",
+                                                                                children: "Full Name"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                                                lineNumber: 284,
+                                                                                columnNumber: 23
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "mt-1",
+                                                                                children: user.name ?? "—"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                                                lineNumber: 285,
+                                                                                columnNumber: 23
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/src/app/profile/page.tsx",
+                                                                        lineNumber: 283,
+                                                                        columnNumber: 21
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "text-xs text-slate-400",
+                                                                                children: "Display Name"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                                                lineNumber: 288,
+                                                                                columnNumber: 23
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "mt-1",
+                                                                                children: profile.displayName ?? user.name ?? "—"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                                                lineNumber: 289,
+                                                                                columnNumber: 23
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/src/app/profile/page.tsx",
+                                                                        lineNumber: 287,
+                                                                        columnNumber: 21
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "text-xs text-slate-400",
+                                                                                children: "Gender"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                                                lineNumber: 293,
+                                                                                columnNumber: 23
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "mt-1",
+                                                                                children: profile.gender ?? "I'd prefer not to say"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                                                lineNumber: 294,
+                                                                                columnNumber: 23
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/src/app/profile/page.tsx",
+                                                                        lineNumber: 292,
+                                                                        columnNumber: 21
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "text-xs text-slate-400",
+                                                                                children: "Country/Region"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                                                lineNumber: 298,
+                                                                                columnNumber: 23
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "mt-1",
+                                                                                children: profile.country ?? "—"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                                                lineNumber: 299,
+                                                                                columnNumber: 23
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/src/app/profile/page.tsx",
+                                                                        lineNumber: 297,
+                                                                        columnNumber: 21
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "text-xs text-slate-400",
+                                                                                children: "State"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                                                lineNumber: 303,
+                                                                                columnNumber: 23
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "mt-1",
+                                                                                children: profile.state ?? "—"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                                                lineNumber: 304,
+                                                                                columnNumber: 23
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/src/app/profile/page.tsx",
+                                                                        lineNumber: 302,
+                                                                        columnNumber: 21
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "text-xs text-slate-400",
+                                                                                children: "Language"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                                                lineNumber: 308,
+                                                                                columnNumber: 23
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "mt-1",
+                                                                                children: profile.language ?? "English"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                                                lineNumber: 309,
+                                                                                columnNumber: 23
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/src/app/profile/page.tsx",
+                                                                        lineNumber: 307,
+                                                                        columnNumber: 21
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        className: "col-span-2",
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "text-xs text-slate-400",
+                                                                                children: "Time zone"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                                                lineNumber: 313,
+                                                                                columnNumber: 23
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "mt-1 text-sm text-slate-600",
+                                                                                children: profile.timezone ?? "(GMT +05:30) India Standard Time (Asia/Kolkata)"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                                                lineNumber: 314,
+                                                                                columnNumber: 23
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/src/app/profile/page.tsx",
+                                                                        lineNumber: 312,
+                                                                        columnNumber: 21
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                                lineNumber: 282,
+                                                                columnNumber: 19
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/profile/page.tsx",
+                                                        lineNumber: 263,
+                                                        columnNumber: 17
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                lineNumber: 256,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "mt-6",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                                        className: "text-sm font-semibold text-slate-700 mb-2",
+                                                        children: "About"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/profile/page.tsx",
+                                                        lineNumber: 321,
+                                                        columnNumber: 17
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                        className: "text-sm text-slate-600",
+                                                        children: "Use this profile page to keep your contact details up to date. Your name, display name and timezone are used across the app for messaging and notifications."
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/profile/page.tsx",
+                                                        lineNumber: 322,
+                                                        columnNumber: 17
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                lineNumber: 320,
+                                                columnNumber: 15
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/profile/page.tsx",
+                                        lineNumber: 255,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
+                                        className: "mt-6 bg-white rounded-3xl p-6 shadow border border-slate-100",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "flex items-start justify-between",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                                                                className: "text-lg font-semibold mb-1",
+                                                                children: "My Email Addresses"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                                lineNumber: 330,
+                                                                columnNumber: 19
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                className: "text-sm text-slate-500 mb-4",
+                                                                children: "View and manage the email addresses associated with your account."
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                                lineNumber: 331,
+                                                                columnNumber: 19
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/profile/page.tsx",
+                                                        lineNumber: 329,
+                                                        columnNumber: 17
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "text-sm text-slate-500",
+                                                        children: headerUpdatedLabel
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/profile/page.tsx",
+                                                        lineNumber: 334,
+                                                        columnNumber: 17
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                lineNumber: 328,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "border rounded-lg p-4",
+                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "flex items-center justify-between",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "flex items-center gap-3",
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "w-10 h-10 rounded-full bg-rose-100 flex items-center justify-center text-rose-600",
+                                                                    children: "📧"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/profile/page.tsx",
+                                                                    lineNumber: 340,
+                                                                    columnNumber: 21
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                            className: "font-medium",
+                                                                            children: user.email
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/profile/page.tsx",
+                                                                            lineNumber: 342,
+                                                                            columnNumber: 23
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                            className: "text-xs text-slate-400",
+                                                                            children: "primary • added on account creation"
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/profile/page.tsx",
+                                                                            lineNumber: 343,
+                                                                            columnNumber: 23
+                                                                        }, this)
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "[project]/src/app/profile/page.tsx",
+                                                                    lineNumber: 341,
+                                                                    columnNumber: 21
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/app/profile/page.tsx",
+                                                            lineNumber: 339,
+                                                            columnNumber: 19
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "flex items-center gap-3",
+                                                            children: !profile?.extraEmail ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                className: "px-3 py-2 text-sm rounded bg-slate-50 text-blue-600",
+                                                                onClick: ()=>setAddEmailOpen(true),
+                                                                children: "+ Add Email Address"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                                lineNumber: 349,
+                                                                columnNumber: 45
+                                                            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "flex items-center gap-2",
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        className: "text-sm",
+                                                                        children: profile.extraEmail
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/profile/page.tsx",
+                                                                        lineNumber: 352,
+                                                                        columnNumber: 25
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                        className: "px-3 py-2 text-sm rounded bg-red-50 text-red-600",
+                                                                        onClick: ()=>void handleRemoveExtraEmail(),
+                                                                        children: "Remove"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/profile/page.tsx",
+                                                                        lineNumber: 353,
+                                                                        columnNumber: 25
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                                lineNumber: 351,
+                                                                columnNumber: 35
+                                                            }, this)
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/profile/page.tsx",
+                                                            lineNumber: 347,
+                                                            columnNumber: 19
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/profile/page.tsx",
+                                                    lineNumber: 338,
+                                                    columnNumber: 17
+                                                }, this)
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                lineNumber: 337,
+                                                columnNumber: 15
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/profile/page.tsx",
+                                        lineNumber: 327,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
+                                        className: "mt-6 bg-white rounded-3xl p-6 shadow border border-slate-100",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                                                className: "text-lg font-semibold mb-2",
+                                                children: "My Mobile Numbers"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                lineNumber: 365,
+                                                columnNumber: 3
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                className: "text-sm text-slate-500 mb-4",
+                                                children: "View and manage all of the mobile numbers associated with your account."
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                lineNumber: 366,
+                                                columnNumber: 3
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "border rounded-lg p-4",
+                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$profile$2f$PhoneVerification$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                                    profile: profile,
+                                                    onUserUpdate: (updatedUser)=>{
+                                                        // update profile page's user to show verified state
+                                                        // if your profile page has setUser in scope, call setUser(updatedUser)
+                                                        // here we'll assume you have setUser available; in your page component above you do:
+                                                        // const [user, setUser] = useState<User | null>(null);
+                                                        // So you can call setUser(updatedUser)
+                                                        // If you're editing the code block inline, replace below with setUser(updatedUser)
+                                                        (async ()=>{
+                                                            // attempt an optimistic refresh: call /api/me or use the returned user object
+                                                            if ("TURBOPACK compile-time truthy", 1) {
+                                                                // If the verify endpoint returned the whole user, use it:
+                                                                if (updatedUser) {
+                                                                    window.__applyUpdatedUser && window.__applyUpdatedUser(updatedUser);
+                                                                } else {
+                                                                    // fallback: re-fetch /api/me
+                                                                    const r = await fetch("/api/me");
+                                                                    if (r.ok) {
+                                                                        const j_0 = await r.json();
+                                                                        // @ts-ignore
+                                                                        window.__applyUpdatedUser && window.__applyUpdatedUser(j_0.user);
+                                                                    }
+                                                                }
+                                                            }
+                                                        })();
+                                                    }
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/profile/page.tsx",
+                                                    lineNumber: 369,
+                                                    columnNumber: 5
+                                                }, this)
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                lineNumber: 368,
+                                                columnNumber: 3
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/profile/page.tsx",
+                                        lineNumber: 364,
+                                        columnNumber: 11
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/app/profile/page.tsx",
+                                lineNumber: 254,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("aside", {
+                                className: "lg:col-span-4 space-y-4",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "bg-white rounded-2xl p-4 shadow-sm border border-slate-100",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "flex items-center justify-between",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                                        className: "text-sm font-semibold text-slate-700",
+                                                        children: "Profile Activity (30 days)"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/profile/page.tsx",
+                                                        lineNumber: 403,
+                                                        columnNumber: 17
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                        className: "text-xs text-slate-500",
+                                                        children: "Updated just now"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/profile/page.tsx",
+                                                        lineNumber: 404,
+                                                        columnNumber: 17
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                lineNumber: 402,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "mt-3",
+                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "flex items-end gap-6",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "text-2xl font-bold",
+                                                                    children: activity ? activity.logins30d : "—"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/profile/page.tsx",
+                                                                    lineNumber: 410,
+                                                                    columnNumber: 21
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "text-xs text-slate-500",
+                                                                    children: "Logins (30d)"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/profile/page.tsx",
+                                                                    lineNumber: 411,
+                                                                    columnNumber: 21
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/app/profile/page.tsx",
+                                                            lineNumber: 409,
+                                                            columnNumber: 19
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "text-2xl font-bold",
+                                                                    children: activity ? activity.changes30d : "—"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/profile/page.tsx",
+                                                                    lineNumber: 414,
+                                                                    columnNumber: 21
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "text-xs text-slate-500",
+                                                                    children: "Profile changes (30d)"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/profile/page.tsx",
+                                                                    lineNumber: 415,
+                                                                    columnNumber: 21
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/app/profile/page.tsx",
+                                                            lineNumber: 413,
+                                                            columnNumber: 19
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/profile/page.tsx",
+                                                    lineNumber: 408,
+                                                    columnNumber: 17
+                                                }, this)
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                lineNumber: 407,
+                                                columnNumber: 15
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/profile/page.tsx",
+                                        lineNumber: 401,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "bg-white rounded-2xl p-4 shadow-sm border border-slate-100",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
+                                                className: "text-sm font-semibold text-slate-700 mb-2",
+                                                children: "Quick actions"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                lineNumber: 422,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "flex flex-col gap-2",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                        className: "text-left px-3 py-2 rounded-lg bg-slate-50",
+                                                        onClick: ()=>router.push("/inbox"),
+                                                        children: "Open Inbox"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/profile/page.tsx",
+                                                        lineNumber: 424,
+                                                        columnNumber: 17
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                                        className: "text-left px-3 py-2 rounded-lg bg-slate-50",
+                                                        href: "/settings",
+                                                        children: "Settings & Integrations"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/profile/page.tsx",
+                                                        lineNumber: 425,
+                                                        columnNumber: 17
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                                        className: "text-left px-3 py-2 rounded-lg bg-slate-50",
+                                                        href: "/security",
+                                                        children: "Security"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/profile/page.tsx",
+                                                        lineNumber: 426,
+                                                        columnNumber: 17
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/app/profile/page.tsx",
+                                                lineNumber: 423,
+                                                columnNumber: 15
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/profile/page.tsx",
+                                        lineNumber: 421,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "text-center text-sm text-slate-500",
+                                        children: "Built for the Attack Capital assignment — profile management UI."
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/profile/page.tsx",
+                                        lineNumber: 430,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/app/profile/page.tsx",
+                                lineNumber: 400,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/app/profile/page.tsx",
+                        lineNumber: 252,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/app/profile/page.tsx",
+                lineNumber: 226,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$profile$2f$EditProfile$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                open: editOpen,
+                onClose: ()=>setEditOpen(false),
+                user: user,
+                onSave: async (payload)=>{
+                    const ok = await handleSave(payload);
+                    if (ok) setEditOpen(false);
+                    return ok;
+                }
+            }, void 0, false, {
+                fileName: "[project]/src/app/profile/page.tsx",
+                lineNumber: 435,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$profile$2f$AddEmailModal$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                open: addEmailOpen,
+                onClose: ()=>setAddEmailOpen(false),
+                onAdd: handleAddEmail
+            }, void 0, false, {
+                fileName: "[project]/src/app/profile/page.tsx",
+                lineNumber: 441,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/src/app/profile/page.tsx",
+        lineNumber: 225,
+        columnNumber: 10
+    }, this);
+}
+_s(ProfilePage, "52oYPKe2syVA1koVcfGNur1wmEk=", false, function() {
+    return [
+        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"]
+    ];
+});
+_c = ProfilePage;
+var _c;
+__turbopack_context__.k.register(_c, "ProfilePage");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+]);
+
+//# sourceMappingURL=src_f3274481._.js.map

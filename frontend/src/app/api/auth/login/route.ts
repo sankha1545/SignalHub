@@ -33,7 +33,7 @@ export async function POST(req: Request) {
       );
     }
 
-    // 🔹 1. Find the user
+    // 1) Find the user
     const user = await prisma.user.findUnique({
       where: { email },
       select: {
@@ -46,12 +46,12 @@ export async function POST(req: Request) {
       },
     });
 
-    // 🔹 2. Validate user existence
+    // 2) Validate existence
     if (!user) {
       return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
     }
 
-    // 🔹 3. Disallow password login for OAuth users
+    // 3) Disallow credentials login for OAuth-only users
     if (user.provider !== "credentials") {
       return NextResponse.json(
         {
@@ -61,31 +61,47 @@ export async function POST(req: Request) {
       );
     }
 
-    // 🔹 4. Ensure password exists
+    // 4) Ensure password exists
     if (!user.passwordHash) {
-      return NextResponse.json(
-        { error: "Password not set for this account" },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Password not set for this account" }, { status: 401 });
     }
 
-    // 🔹 5. Verify password
+    // 5) Verify password
     const valid = await verifyPassword(password, user.passwordHash);
     if (!valid) {
       return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
     }
 
-    // 🔹 6. Create JWT including role
+    // 6) Sign JWT that includes role for RBAC checks
     const token = signToken(
       {
         id: user.id,
         email: user.email,
-        role: user.role, // ✅ Added for RBAC
+        role: user.role,
       },
       "7d"
     );
 
-    // 🔹 7. Set cookie and respond
+    // 7) Record login activity (non-blocking; failures shouldn't break login)
+    (async () => {
+      try {
+        await prisma.activityLog.create({
+          data: {
+            userId: user.id,
+            type: "LOGIN",
+            meta: {
+              provider: "credentials",
+              ts: new Date().toISOString(),
+            },
+          },
+        });
+      } catch (err) {
+        // log but don't fail login
+        console.error("Failed to record login activity:", err);
+      }
+    })();
+
+    // 8) Respond and set cookie
     const res = NextResponse.json({
       ok: true,
       user: {
