@@ -20,26 +20,48 @@ var _s = __turbopack_context__.k.signature(), _s1 = __turbopack_context__.k.sign
 ;
 ;
 /**
- * Signup Page (fixed)
- *
- * - OTP flow (send, verify, resend)
- * - Credentials signup (requires OTP verified)
- * - Google signup (only on this page) — posts to /api/auth/google/signup
- *
- * Notes:
- * - Backend endpoints expected:
- *   POST /api/auth/send-otp     { email }
- *   POST /api/auth/verify-otp   { email, code }
- *   POST /api/auth/signup       { email, name, password, role, provider: "credentials" }
- *   POST /api/auth/google/signup{ email, name, sub }  (Google signup endpoint)
- */ function OtpInputGrid(t0) {
+ * Rewritten signup page with fixes:
+ * - client-side check for an existing admin (GET /api/auth/admin-exists)
+ * - prevents selecting/creating a second admin in the UI (UX-only; server-side enforcement required)
+ * - fixes jwt-decode import and robust Google SSO completion flow
+ * - auto-redirect to login when created countdown finishes
+ * - small UX improvements and defensive checks
+ */ // Small, dependency-free JWT payload decoder (no verification).
+// Accepts a JWT string and returns the decoded payload object or null on error.
+// Note: This only decodes base64url payload — it does NOT verify signatures.
+function decodeJwt(token) {
+    try {
+        const parts = token.split(".");
+        if (parts.length < 2) return null;
+        const b64 = parts[1];
+        // convert from base64url to base64
+        const b64fixed = b64.replace(/-/g, "+").replace(/_/g, "/");
+        // atob works in browsers
+        const decoded = atob(b64fixed.padEnd(Math.ceil(b64fixed.length / 4) * 4, "="));
+        // decode percent-encoded utf-8
+        try {
+            // handle utf-8 properly
+            return JSON.parse(decodeURIComponent(decoded.split("").map((c)=>{
+                const code = c.charCodeAt(0).toString(16).padStart(2, "0");
+                return "%" + code;
+            }).join("")));
+        } catch  {
+            // fallback if decodeURIComponent fails
+            return JSON.parse(decoded);
+        }
+    } catch (err) {
+        if ("TURBOPACK compile-time truthy", 1) console.debug("[auth] decodeJwt failed:", err);
+        return null;
+    }
+}
+function OtpInputGrid(t0) {
     _s();
     const $ = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$compiler$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["c"])(12);
-    if ($[0] !== "628fc09b3326b0b9715d769e2503e6c4e03c34942429153db2684d6ea109fd9b") {
+    if ($[0] !== "5a4c2745b29580ec33db2e2e8c5fe583f0ea42f551f411d79ed196bfc9d299f2") {
         for(let $i = 0; $i < 12; $i += 1){
             $[$i] = Symbol.for("react.memo_cache_sentinel");
         }
-        $[0] = "628fc09b3326b0b9715d769e2503e6c4e03c34942429153db2684d6ea109fd9b";
+        $[0] = "5a4c2745b29580ec33db2e2e8c5fe583f0ea42f551f411d79ed196bfc9d299f2";
     }
     const { value, onChange } = t0;
     let t1;
@@ -145,18 +167,18 @@ var _s = __turbopack_context__.k.signature(), _s1 = __turbopack_context__.k.sign
                             "OtpInputGrid[(anonymous)() > <input>.onKeyDown]": (e_3)=>handleKey(e_3, i_1)
                         }["OtpInputGrid[(anonymous)() > <input>.onKeyDown]"],
                         inputMode: "numeric",
-                        pattern: "\\d*",
+                        pattern: "\\\\d*",
                         maxLength: 1,
                         className: "w-12 h-14 rounded-lg border border-zinc-200 text-center text-lg font-medium focus:outline-none focus:ring-2 focus:ring-sky-400 bg-white"
                     }, i_1, false, {
                         fileName: "[project]/src/app/auth/signup/page.tsx",
-                        lineNumber: 121,
+                        lineNumber: 141,
                         columnNumber: 52
                     }, this)
             }["OtpInputGrid[(anonymous)()]"])
         }, void 0, false, {
             fileName: "[project]/src/app/auth/signup/page.tsx",
-            lineNumber: 118,
+            lineNumber: 138,
             columnNumber: 10
         }, this);
         $[8] = handlePaste;
@@ -179,7 +201,7 @@ function SignupPage() {
     const [otp, setOtp] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
     const [otpVerified, setOtpVerified] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [showOtpVerifiedMsg, setShowOtpVerifiedMsg] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
-    // timer
+    // timer for resend
     const [secondsLeft, setSecondsLeft] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(0);
     const intervalRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
     // signup fields
@@ -191,7 +213,17 @@ function SignupPage() {
     const [busy, setBusy] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [message, setMessage] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [createdSuccess, setCreatedSuccess] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
-    // cleanup interval on unmount
+    // Google SSO completion flow state
+    const [pendingGoogle, setPendingGoogle] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    const [googleUsername, setGoogleUsername] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [googleRole, setGoogleRole] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("viewer");
+    const [createdByGoogle, setCreatedByGoogle] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    // redirect countdown for created account
+    const [createdCountdown, setCreatedCountdown] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    const createdIntervalRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    // Admin existence check (client-side UX control)
+    const [adminExists, setAdminExists] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    // cleanup intervals on unmount
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "SignupPage.useEffect": ()=>{
             return ({
@@ -199,6 +231,10 @@ function SignupPage() {
                     if (intervalRef.current) {
                         window.clearInterval(intervalRef.current);
                         intervalRef.current = null;
+                    }
+                    if (createdIntervalRef.current) {
+                        window.clearInterval(createdIntervalRef.current);
+                        createdIntervalRef.current = null;
                     }
                 }
             })["SignupPage.useEffect"];
@@ -234,6 +270,57 @@ function SignupPage() {
     }["SignupPage.useEffect"], [
         secondsLeft
     ]);
+    // created redirect countdown: start + auto-redirect when it reaches 0
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "SignupPage.useEffect": ()=>{
+            // clear any existing timer when createdCountdown changes
+            if (createdIntervalRef.current) {
+                window.clearInterval(createdIntervalRef.current);
+                createdIntervalRef.current = null;
+            }
+            if (createdCountdown && createdCountdown > 0) {
+                createdIntervalRef.current = window.setInterval({
+                    "SignupPage.useEffect": ()=>{
+                        setCreatedCountdown({
+                            "SignupPage.useEffect": (c)=>{
+                                if (!c || c <= 1) {
+                                    if (createdIntervalRef.current) {
+                                        window.clearInterval(createdIntervalRef.current);
+                                        createdIntervalRef.current = null;
+                                    }
+                                    return 0;
+                                }
+                                return c - 1;
+                            }
+                        }["SignupPage.useEffect"]);
+                    }
+                }["SignupPage.useEffect"], 1000);
+            }
+            return ({
+                "SignupPage.useEffect": ()=>{
+                    if (createdIntervalRef.current) {
+                        window.clearInterval(createdIntervalRef.current);
+                        createdIntervalRef.current = null;
+                    }
+                }
+            })["SignupPage.useEffect"];
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        }
+    }["SignupPage.useEffect"], [
+        createdCountdown
+    ]);
+    // when countdown reaches zero, navigate to login automatically
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "SignupPage.useEffect": ()=>{
+            if (createdCountdown === 0 && createdSuccess) {
+                router.push("/auth/login");
+            }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        }
+    }["SignupPage.useEffect"], [
+        createdCountdown,
+        createdSuccess
+    ]);
     function flash(type, text, ms = 4000) {
         setMessage({
             type,
@@ -241,6 +328,32 @@ function SignupPage() {
         });
         window.setTimeout(()=>setMessage(null), ms);
     }
+    // fetch admin existence (UX-only) — server MUST enforce single-admin as well
+    async function fetchAdminExists() {
+        try {
+            const res = await fetch("/api/auth/admin-exists");
+            if (!res.ok) {
+                // treat as unknown; don't block signup
+                setAdminExists(null);
+                return;
+            }
+            const data = await res.json();
+            setAdminExists(Boolean(data?.exists));
+            // if admin exists and current role is admin, reset to viewer
+            setRole((r)=>data?.exists && r === "admin" ? "viewer" : r);
+            setGoogleRole((r)=>data?.exists && r === "admin" ? "viewer" : r);
+        } catch (err) {
+            console.error("admin-exists check failed", err);
+            setAdminExists(null);
+        }
+    }
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "SignupPage.useEffect": ()=>{
+            // initial check
+            fetchAdminExists();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        }
+    }["SignupPage.useEffect"], []);
     // SEND OTP
     async function handleSendOtp() {
         setMessage(null);
@@ -297,6 +410,8 @@ function SignupPage() {
                 setShowOtpVerifiedMsg(true);
                 flash("success", "OTP verified.");
                 setTimeout(()=>setShowOtpVerifiedMsg(false), 3000);
+                // re-check admin availability now that user is moving forward
+                fetchAdminExists();
             }
         } catch (err) {
             console.error(err);
@@ -313,6 +428,10 @@ function SignupPage() {
         if (!name?.trim()) return flash("error", "Please enter your full name.");
         if (!password || password.length < 8) return flash("error", "Password must be at least 8 characters.");
         if (password !== password2) return flash("error", "Passwords do not match.");
+        // Protect UI-side: don't attempt to create a second admin
+        if (role === "admin" && adminExists) {
+            return flash("error", "An admin account already exists. You cannot create another admin.");
+        }
         setBusy(true);
         try {
             const res = await fetch("/api/auth/signup", {
@@ -331,9 +450,14 @@ function SignupPage() {
             const data = await res.json();
             if (!res.ok) {
                 flash("error", data?.error ?? "Signup failed.");
+                // refresh adminExists in case server told us admin exists
+                fetchAdminExists();
             } else {
                 setCreatedSuccess(true);
+                setCreatedByGoogle(false);
                 flash("success", "Your account has been created successfully.");
+                // start 4s redirect timer
+                setCreatedCountdown(4);
             }
         } catch (err) {
             console.error(err);
@@ -347,60 +471,130 @@ function SignupPage() {
         if (secondsLeft > 0) return;
         await handleSendOtp();
     }
-    // GOOGLE SIGNUP (only allowed on signup page)
+    // GOOGLE SIGNUP (start SSO completion flow)
     async function onGoogleSuccess(credentialResponse) {
         try {
             if (!credentialResponse?.credential) {
                 return flash("error", "Google response missing credential.");
             }
-            // decode the JWT credential to extract email/name/sub
-            const decoded = jwtdecode(credentialResponse.credential);
+            const decoded = decodeJwt(credentialResponse.credential);
             const googleEmail = decoded?.email;
             const googleName = decoded?.name || decoded?.given_name || "";
-            const sub = decoded?.sub; // Google user id
+            const sub = decoded?.sub;
             if (!googleEmail || !sub) {
                 return flash("error", "Could not extract Google profile information.");
             }
-            setBusy(true);
-            const res = await fetch("/api/auth/google/signup", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    email: googleEmail,
-                    name: googleName,
-                    sub
-                })
-            });
-            const data = await res.json();
-            if (!res.ok) {
-                flash("error", data?.error ?? "Google signup failed.");
-            } else {
-                flash("success", "Signed up with Google — redirecting...");
-                // backend should set cookie; redirect to dashboard
-                window.setTimeout(()=>{
-                    router.push("/dashboard");
-                }, 700);
-            }
+            // store pending Google info and open completion form (we do NOT create account yet)
+            const pending = {
+                email: googleEmail,
+                name: googleName,
+                sub
+            };
+            setPendingGoogle(pending);
+            setGoogleUsername(googleEmail.split("@")[0]);
+            // ensure adminRole is only available if admin doesn't already exist
+            await fetchAdminExists();
+            setGoogleRole(adminExists ? "viewer" : "viewer");
+            localStorage.setItem("pendingGoogleSignup", JSON.stringify(pending));
+            flash("success", "Google verified — complete your account details below.");
         } catch (err) {
             console.error("google signup error", err);
             flash("error", "Google signup failed.");
-        } finally{
-            setBusy(false);
         }
     }
     function onGoogleError() {
         flash("error", "Google authentication failed or was cancelled.");
     }
-    const googleClientId = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "";
+    const googleClientId = ("TURBOPACK compile-time value", "417226253372-acn3brddaf6m3b67a6bjlr86pvb3k43l.apps.googleusercontent.com") || "";
+    // Complete Google SSO signup (final step)
+    async function finalizeGoogleSignup(e) {
+        if (e) e.preventDefault();
+        setMessage(null);
+        if (!pendingGoogle) return flash("error", "No Google session found. Please sign in with Google again.");
+        if (!googleUsername || !googleUsername.trim()) return flash("error", "Please enter a username.");
+        // Prevent UI attempt to create second admin
+        if (googleRole === "admin" && adminExists) {
+            return flash("error", "An admin account already exists. You cannot create another admin.");
+        }
+        setBusy(true);
+        try {
+            const payload = {
+                email: pendingGoogle.email,
+                name: pendingGoogle.name,
+                sub: pendingGoogle.sub,
+                username: googleUsername.trim(),
+                role: googleRole
+            };
+            const res = await fetch("/api/auth/google/signup", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+            if (!res.ok) {
+                flash("error", data?.error ?? "Failed to finalize Google signup.");
+                // re-check admin availability
+                fetchAdminExists();
+            } else {
+                setCreatedSuccess(true);
+                setCreatedByGoogle(true);
+                flash("success", "Your account is created successfully.");
+                // clear pending
+                setPendingGoogle(null);
+                localStorage.removeItem("pendingGoogleSignup");
+                // start 4s timer to redirect
+                setCreatedCountdown(4);
+            }
+        } catch (err) {
+            console.error(err);
+            flash("error", "Network error while finalizing Google signup.");
+        } finally{
+            setBusy(false);
+        }
+    }
+    // if user reloads the page and had a pending google signup in localStorage, restore it
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "SignupPage.useEffect": ()=>{
+            try {
+                const raw = localStorage.getItem("pendingGoogleSignup");
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    if (parsed?.email && parsed?.sub) {
+                        setPendingGoogle(parsed);
+                        setGoogleUsername(parsed.email.split("@")[0]);
+                    }
+                }
+            } catch (e) {
+            // ignore
+            }
+            // also ensure we know adminExist status
+            fetchAdminExists();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        }
+    }["SignupPage.useEffect"], []);
+    function handleSelectRole(desired) {
+        if (desired === "admin" && adminExists) {
+            flash("error", "An admin account already exists. You cannot select Admin.");
+            return;
+        }
+        setRole(desired);
+    }
+    function handleSelectGoogleRole(desired) {
+        if (desired === "admin" && adminExists) {
+            flash("error", "An admin account already exists. You cannot select Admin.");
+            return;
+        }
+        setGoogleRole(desired);
+    }
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "min-h-screen bg-gradient-to-b from-zinc-50 to-white dark:from-black dark:to-zinc-900 flex items-center justify-center p-6",
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
             className: "w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-8",
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("aside", {
-                    className: "hidden lg:flex flex-col justify-center rounded-2xl p-10 bg-gradient-to-br from-emerald-600 to-sky-600 text-white shadow-lg overflow-hidden",
+                    className: "hidden lg:flex flex-col justify-center rounded-2xl p-10 bg-gradient-to-br from-sky-600 to-indigo-600 text-white shadow-lg overflow-hidden",
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "mb-6",
@@ -412,7 +606,7 @@ function SignupPage() {
                                         children: "UR"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/auth/signup/page.tsx",
-                                        lineNumber: 369,
+                                        lineNumber: 557,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -422,7 +616,7 @@ function SignupPage() {
                                                 children: "UnifyReach"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                lineNumber: 371,
+                                                lineNumber: 559,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -430,24 +624,24 @@ function SignupPage() {
                                                 children: "Customer engagement made simple"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                lineNumber: 372,
+                                                lineNumber: 560,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/auth/signup/page.tsx",
-                                        lineNumber: 370,
+                                        lineNumber: 558,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/auth/signup/page.tsx",
-                                lineNumber: 368,
+                                lineNumber: 556,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/app/auth/signup/page.tsx",
-                            lineNumber: 367,
+                            lineNumber: 555,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -455,7 +649,7 @@ function SignupPage() {
                             children: "Conversations that convert"
                         }, void 0, false, {
                             fileName: "[project]/src/app/auth/signup/page.tsx",
-                            lineNumber: 377,
+                            lineNumber: 565,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -463,7 +657,7 @@ function SignupPage() {
                             children: "Centralize messages from SMS, WhatsApp and Email — collaborate, respond fast, and never lose context."
                         }, void 0, false, {
                             fileName: "[project]/src/app/auth/signup/page.tsx",
-                            lineNumber: 378,
+                            lineNumber: 566,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
@@ -477,20 +671,20 @@ function SignupPage() {
                                             children: "✓"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/auth/signup/page.tsx",
-                                            lineNumber: 382,
+                                            lineNumber: 570,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                             children: "Threaded timelines & contact history"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/auth/signup/page.tsx",
-                                            lineNumber: 383,
+                                            lineNumber: 571,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/auth/signup/page.tsx",
-                                    lineNumber: 381,
+                                    lineNumber: 569,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
@@ -501,20 +695,20 @@ function SignupPage() {
                                             children: "✓"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/auth/signup/page.tsx",
-                                            lineNumber: 386,
+                                            lineNumber: 574,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                             children: "Schedule messages & automations"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/auth/signup/page.tsx",
-                                            lineNumber: 387,
+                                            lineNumber: 575,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/auth/signup/page.tsx",
-                                    lineNumber: 385,
+                                    lineNumber: 573,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
@@ -525,26 +719,26 @@ function SignupPage() {
                                             children: "✓"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/auth/signup/page.tsx",
-                                            lineNumber: 390,
+                                            lineNumber: 578,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                             children: "Real-time team collaboration"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/auth/signup/page.tsx",
-                                            lineNumber: 391,
+                                            lineNumber: 579,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/auth/signup/page.tsx",
-                                    lineNumber: 389,
+                                    lineNumber: 577,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/auth/signup/page.tsx",
-                            lineNumber: 380,
+                            lineNumber: 568,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -552,13 +746,13 @@ function SignupPage() {
                             children: "Privacy-first • Enterprise-ready • Secure by design"
                         }, void 0, false, {
                             fileName: "[project]/src/app/auth/signup/page.tsx",
-                            lineNumber: 395,
+                            lineNumber: 583,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/auth/signup/page.tsx",
-                    lineNumber: 366,
+                    lineNumber: 554,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -574,7 +768,7 @@ function SignupPage() {
                                         children: "Create your account"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/auth/signup/page.tsx",
-                                        lineNumber: 401,
+                                        lineNumber: 589,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -582,13 +776,13 @@ function SignupPage() {
                                         children: "Sign up and centralize your customer conversations"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/auth/signup/page.tsx",
-                                        lineNumber: 402,
+                                        lineNumber: 590,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/auth/signup/page.tsx",
-                                lineNumber: 400,
+                                lineNumber: 588,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -599,15 +793,15 @@ function SignupPage() {
                                     children: message.text
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/auth/signup/page.tsx",
-                                    lineNumber: 406,
+                                    lineNumber: 594,
                                     columnNumber: 27
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/app/auth/signup/page.tsx",
-                                lineNumber: 405,
+                                lineNumber: 593,
                                 columnNumber: 13
                             }, this),
-                            !otpSent && !createdSuccess && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
+                            !otpSent && !createdSuccess && !pendingGoogle && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
                                 onSubmit: (e)=>{
                                     e.preventDefault();
                                     handleSendOtp();
@@ -622,7 +816,7 @@ function SignupPage() {
                                                 children: "Work email"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                lineNumber: 416,
+                                                lineNumber: 605,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -636,13 +830,13 @@ function SignupPage() {
                                                 autoComplete: "email"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                lineNumber: 417,
+                                                lineNumber: 606,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/auth/signup/page.tsx",
-                                        lineNumber: 415,
+                                        lineNumber: 604,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -653,15 +847,15 @@ function SignupPage() {
                                                 disabled: busy,
                                                 className: "flex-1 rounded-md px-4 py-2 text-white font-semibold",
                                                 style: {
-                                                    background: "linear-gradient(90deg,#10b981,#06b6d4)"
+                                                    background: "linear-gradient(90deg,#06b6d4,#7c3aed)"
                                                 },
-                                                children: busy ? "Sending…" : "Create account"
+                                                children: busy ? "Sending…" : "Send OTP"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                lineNumber: 421,
+                                                lineNumber: 610,
                                                 columnNumber: 19
                                             }, this),
-                                            googleClientId ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            ("TURBOPACK compile-time truthy", 1) ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 style: {
                                                     minWidth: 120
                                                 },
@@ -673,87 +867,23 @@ function SignupPage() {
                                                         useOneTap: false
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                        lineNumber: 431,
+                                                        lineNumber: 620,
                                                         columnNumber: 25
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                    lineNumber: 430,
+                                                    lineNumber: 619,
                                                     columnNumber: 23
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                lineNumber: 427,
+                                                lineNumber: 616,
                                                 columnNumber: 37
-                                            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
-                                                className: "inline-flex items-center gap-2 rounded-md px-3 py-2 border border-zinc-200 dark:border-zinc-800 text-sm hover:bg-zinc-50 dark:hover:bg-zinc-800",
-                                                href: "#",
-                                                onClick: (e)=>{
-                                                    e.preventDefault();
-                                                    flash("error", "Google client id not configured");
-                                                },
-                                                children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
-                                                        className: "w-4 h-4",
-                                                        viewBox: "0 0 533.5 544.3",
-                                                        "aria-hidden": true,
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                                                                fill: "#4285f4",
-                                                                d: "M533.5 278.4c0-18.4-1.6-36.1-4.7-53.4H272v101.2h146.9c-6.3 34-25 62.8-53.4 82v68.4h86.5c50.6-46.6 81.5-115.4 81.5-198.2z"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                                lineNumber: 438,
-                                                                columnNumber: 25
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                                                                fill: "#34a853",
-                                                                d: "M272 544.3c72.6 0 133.6-24.1 178.2-65.6l-86.5-68.4c-24 16.1-54.9 25.6-91.7 25.6-70.6 0-130.3-47.6-151.6-111.6H34.7v69.8C79.2 485.7 168.6 544.3 272 544.3z"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                                lineNumber: 439,
-                                                                columnNumber: 25
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                                                                fill: "#fbbc04",
-                                                                d: "M120.4 331.9c-10.9-32.9-10.9-68.2 0-101.1V161h-85.7C9.9 211.3 0 245.9 0 278.4c0 32.6 9.9 67.1 34.7 97.5l85.7-44z"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                                lineNumber: 440,
-                                                                columnNumber: 25
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                                                                fill: "#ea4335",
-                                                                d: "M272 109.1c39.4 0 74.7 13.6 102.6 40.4l77-77C405.6 25 345.1 0 272 0 168.6 0 79.2 58.6 34.7 146.1l85.7 44.8C141.7 156.7 201.4 109.1 272 109.1z"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                                lineNumber: 441,
-                                                                columnNumber: 25
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                        lineNumber: 437,
-                                                        columnNumber: 23
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                        className: "text-sm",
-                                                        children: "Google"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                        lineNumber: 443,
-                                                        columnNumber: 23
-                                                    }, this)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                lineNumber: 433,
-                                                columnNumber: 30
-                                            }, this)
+                                            }, this) : /*#__PURE__*/ "TURBOPACK unreachable"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/auth/signup/page.tsx",
-                                        lineNumber: 420,
+                                        lineNumber: 609,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -766,14 +896,14 @@ function SignupPage() {
                                                 children: "Terms"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                lineNumber: 447,
+                                                lineNumber: 636,
                                                 columnNumber: 85
                                             }, this),
                                             "."
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/auth/signup/page.tsx",
-                                        lineNumber: 447,
+                                        lineNumber: 636,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -787,22 +917,22 @@ function SignupPage() {
                                                 children: "Login"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                lineNumber: 450,
+                                                lineNumber: 639,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/auth/signup/page.tsx",
-                                        lineNumber: 448,
+                                        lineNumber: 637,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/auth/signup/page.tsx",
-                                lineNumber: 411,
-                                columnNumber: 45
+                                lineNumber: 600,
+                                columnNumber: 63
                             }, this),
-                            otpSent && !otpVerified && !createdSuccess && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            otpSent && !otpVerified && !createdSuccess && !pendingGoogle && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "space-y-4",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -813,14 +943,14 @@ function SignupPage() {
                                                 children: email
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                lineNumber: 458,
+                                                lineNumber: 648,
                                                 columnNumber: 45
                                             }, this),
                                             ". Enter it below to verify your email."
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/auth/signup/page.tsx",
-                                        lineNumber: 457,
+                                        lineNumber: 647,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(OtpInputGrid, {
@@ -828,7 +958,7 @@ function SignupPage() {
                                         onChange: setOtp
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/auth/signup/page.tsx",
-                                        lineNumber: 461,
+                                        lineNumber: 651,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -841,7 +971,7 @@ function SignupPage() {
                                                 children: busy ? "Verifying…" : "Verify OTP"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                lineNumber: 464,
+                                                lineNumber: 654,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -852,7 +982,7 @@ function SignupPage() {
                                                         children: secondsLeft > 0 ? `Resend in ${secondsLeft}s` : "Didn’t receive it?"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                        lineNumber: 469,
+                                                        lineNumber: 659,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -862,36 +992,36 @@ function SignupPage() {
                                                         children: "Resend"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                        lineNumber: 470,
+                                                        lineNumber: 660,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                lineNumber: 468,
+                                                lineNumber: 658,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/auth/signup/page.tsx",
-                                        lineNumber: 463,
+                                        lineNumber: 653,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/auth/signup/page.tsx",
-                                lineNumber: 456,
-                                columnNumber: 60
+                                lineNumber: 646,
+                                columnNumber: 78
                             }, this),
                             showOtpVerifiedMsg && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "mt-3 mb-2 rounded-md bg-emerald-50 text-emerald-700 px-3 py-2 text-sm text-center",
                                 children: "✓ OTP verified — continue creating your account"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/auth/signup/page.tsx",
-                                lineNumber: 477,
+                                lineNumber: 667,
                                 columnNumber: 36
                             }, this),
-                            otpVerified && !createdSuccess && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
+                            otpVerified && !createdSuccess && !pendingGoogle && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
                                 onSubmit: handleSignup,
                                 className: "space-y-4 mt-3",
                                 children: [
@@ -902,7 +1032,7 @@ function SignupPage() {
                                                 children: "Full name"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                lineNumber: 483,
+                                                lineNumber: 674,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -913,13 +1043,13 @@ function SignupPage() {
                                                 placeholder: "Jane Doe"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                lineNumber: 484,
+                                                lineNumber: 675,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/auth/signup/page.tsx",
-                                        lineNumber: 482,
+                                        lineNumber: 673,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -929,7 +1059,7 @@ function SignupPage() {
                                                 children: "Password"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                lineNumber: 488,
+                                                lineNumber: 679,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -941,7 +1071,7 @@ function SignupPage() {
                                                 placeholder: "Choose a strong password"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                lineNumber: 489,
+                                                lineNumber: 680,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -949,13 +1079,13 @@ function SignupPage() {
                                                 children: "Minimum 8 characters."
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                lineNumber: 490,
+                                                lineNumber: 681,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/auth/signup/page.tsx",
-                                        lineNumber: 487,
+                                        lineNumber: 678,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -965,7 +1095,7 @@ function SignupPage() {
                                                 children: "Confirm password"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                lineNumber: 494,
+                                                lineNumber: 685,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -977,13 +1107,13 @@ function SignupPage() {
                                                 placeholder: "Re-enter your password"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                lineNumber: 495,
+                                                lineNumber: 686,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/auth/signup/page.tsx",
-                                        lineNumber: 493,
+                                        lineNumber: 684,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("fieldset", {
@@ -994,7 +1124,7 @@ function SignupPage() {
                                                 children: "Role"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                lineNumber: 499,
+                                                lineNumber: 690,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1007,10 +1137,10 @@ function SignupPage() {
                                                                 type: "radio",
                                                                 name: "role",
                                                                 checked: role === "viewer",
-                                                                onChange: ()=>setRole("viewer")
+                                                                onChange: ()=>handleSelectRole("viewer")
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                                lineNumber: 502,
+                                                                lineNumber: 693,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1018,13 +1148,13 @@ function SignupPage() {
                                                                 children: "Viewer"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                                lineNumber: 503,
+                                                                lineNumber: 694,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                        lineNumber: 501,
+                                                        lineNumber: 692,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -1034,10 +1164,10 @@ function SignupPage() {
                                                                 type: "radio",
                                                                 name: "role",
                                                                 checked: role === "editor",
-                                                                onChange: ()=>setRole("editor")
+                                                                onChange: ()=>handleSelectRole("editor")
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                                lineNumber: 506,
+                                                                lineNumber: 697,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1045,26 +1175,28 @@ function SignupPage() {
                                                                 children: "Editor"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                                lineNumber: 507,
+                                                                lineNumber: 698,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                        lineNumber: 505,
+                                                        lineNumber: 696,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
                                                         className: "inline-flex items-center gap-2",
+                                                        title: adminExists ? "An admin already exists" : "Create as admin",
                                                         children: [
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                                                 type: "radio",
                                                                 name: "role",
                                                                 checked: role === "admin",
-                                                                onChange: ()=>setRole("admin")
+                                                                onChange: ()=>handleSelectRole("admin"),
+                                                                disabled: Boolean(adminExists)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                                lineNumber: 510,
+                                                                lineNumber: 701,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1072,30 +1204,38 @@ function SignupPage() {
                                                                 children: "Admin"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                                lineNumber: 511,
+                                                                lineNumber: 702,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                        lineNumber: 509,
+                                                        lineNumber: 700,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/auth/signup/page.tsx",
-                                                lineNumber: 500,
+                                                lineNumber: 691,
                                                 columnNumber: 19
+                                            }, this),
+                                            adminExists && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "text-xs text-zinc-500 mt-2",
+                                                children: "An admin account already exists — creating another admin is disabled. Server still enforces single-admin."
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/auth/signup/page.tsx",
+                                                lineNumber: 705,
+                                                columnNumber: 35
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/auth/signup/page.tsx",
-                                        lineNumber: 498,
+                                        lineNumber: 689,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                         type: "submit",
-                                        disabled: busy,
+                                        disabled: busy || role === "admin" && Boolean(adminExists),
                                         className: "w-full rounded-md px-4 py-2 text-white font-semibold",
                                         style: {
                                             background: "linear-gradient(90deg,#06b6d4,#7c3aed)"
@@ -1103,14 +1243,254 @@ function SignupPage() {
                                         children: busy ? "Creating…" : "Create account"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/auth/signup/page.tsx",
-                                        lineNumber: 516,
+                                        lineNumber: 708,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/auth/signup/page.tsx",
-                                lineNumber: 481,
-                                columnNumber: 48
+                                lineNumber: 672,
+                                columnNumber: 66
+                            }, this),
+                            pendingGoogle && !createdSuccess && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
+                                onSubmit: finalizeGoogleSignup,
+                                className: "space-y-4 mt-3",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                className: "block text-sm text-zinc-700 dark:text-zinc-300",
+                                                children: "Email"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/auth/signup/page.tsx",
+                                                lineNumber: 718,
+                                                columnNumber: 19
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                value: pendingGoogle.email,
+                                                readOnly: true,
+                                                className: "mt-2 w-full rounded-lg border border-zinc-200 dark:border-zinc-800 px-3 py-2 bg-zinc-50"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/auth/signup/page.tsx",
+                                                lineNumber: 719,
+                                                columnNumber: 19
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/auth/signup/page.tsx",
+                                        lineNumber: 717,
+                                        columnNumber: 17
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                className: "block text-sm text-zinc-700 dark:text-zinc-300",
+                                                children: "Full name"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/auth/signup/page.tsx",
+                                                lineNumber: 723,
+                                                columnNumber: 19
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                value: pendingGoogle.name,
+                                                readOnly: true,
+                                                className: "mt-2 w-full rounded-lg border border-zinc-200 dark:border-zinc-800 px-3 py-2 bg-zinc-50"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/auth/signup/page.tsx",
+                                                lineNumber: 724,
+                                                columnNumber: 19
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/auth/signup/page.tsx",
+                                        lineNumber: 722,
+                                        columnNumber: 17
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                className: "block text-sm text-zinc-700 dark:text-zinc-300",
+                                                children: "Choose username"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/auth/signup/page.tsx",
+                                                lineNumber: 728,
+                                                columnNumber: 19
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                value: googleUsername,
+                                                onChange: (e)=>setGoogleUsername(e.target.value),
+                                                required: true,
+                                                className: "mt-2 w-full rounded-lg border border-zinc-200 dark:border-zinc-800 px-3 py-2",
+                                                placeholder: "username"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/auth/signup/page.tsx",
+                                                lineNumber: 729,
+                                                columnNumber: 19
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/auth/signup/page.tsx",
+                                        lineNumber: 727,
+                                        columnNumber: 17
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("fieldset", {
+                                        className: "mt-1",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("legend", {
+                                                className: "text-sm text-zinc-700 dark:text-zinc-300 mb-2",
+                                                children: "Role"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/auth/signup/page.tsx",
+                                                lineNumber: 733,
+                                                columnNumber: 19
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "flex gap-4",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                        className: "inline-flex items-center gap-2",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                                type: "radio",
+                                                                name: "googleRole",
+                                                                checked: googleRole === "viewer",
+                                                                onChange: ()=>handleSelectGoogleRole("viewer")
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/auth/signup/page.tsx",
+                                                                lineNumber: 736,
+                                                                columnNumber: 23
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                className: "text-sm",
+                                                                children: "Viewer"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/auth/signup/page.tsx",
+                                                                lineNumber: 737,
+                                                                columnNumber: 23
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/auth/signup/page.tsx",
+                                                        lineNumber: 735,
+                                                        columnNumber: 21
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                        className: "inline-flex items-center gap-2",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                                type: "radio",
+                                                                name: "googleRole",
+                                                                checked: googleRole === "editor",
+                                                                onChange: ()=>handleSelectGoogleRole("editor")
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/auth/signup/page.tsx",
+                                                                lineNumber: 740,
+                                                                columnNumber: 23
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                className: "text-sm",
+                                                                children: "Editor"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/auth/signup/page.tsx",
+                                                                lineNumber: 741,
+                                                                columnNumber: 23
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/auth/signup/page.tsx",
+                                                        lineNumber: 739,
+                                                        columnNumber: 21
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                        className: "inline-flex items-center gap-2",
+                                                        title: adminExists ? "An admin already exists" : "Create as admin",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                                type: "radio",
+                                                                name: "googleRole",
+                                                                checked: googleRole === "admin",
+                                                                onChange: ()=>handleSelectGoogleRole("admin"),
+                                                                disabled: Boolean(adminExists)
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/auth/signup/page.tsx",
+                                                                lineNumber: 744,
+                                                                columnNumber: 23
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                className: "text-sm",
+                                                                children: "Admin"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/auth/signup/page.tsx",
+                                                                lineNumber: 745,
+                                                                columnNumber: 23
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/auth/signup/page.tsx",
+                                                        lineNumber: 743,
+                                                        columnNumber: 21
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/app/auth/signup/page.tsx",
+                                                lineNumber: 734,
+                                                columnNumber: 19
+                                            }, this),
+                                            adminExists && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "text-xs text-zinc-500 mt-2",
+                                                children: "An admin account already exists — creating another admin is disabled. Server still enforces single-admin."
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/auth/signup/page.tsx",
+                                                lineNumber: 748,
+                                                columnNumber: 35
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/auth/signup/page.tsx",
+                                        lineNumber: 732,
+                                        columnNumber: 17
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "flex gap-3",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                type: "submit",
+                                                disabled: busy || googleRole === "admin" && Boolean(adminExists),
+                                                className: "flex-1 rounded-md px-4 py-2 text-white font-semibold",
+                                                style: {
+                                                    background: "linear-gradient(90deg,#06b6d4,#7c3aed)"
+                                                },
+                                                children: busy ? "Creating…" : "Finish signup"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/auth/signup/page.tsx",
+                                                lineNumber: 752,
+                                                columnNumber: 19
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                type: "button",
+                                                className: "inline-flex items-center gap-2 rounded-md px-3 py-2 border border-zinc-200 dark:border-zinc-800 text-sm hover:bg-zinc-50 dark:hover:bg-zinc-800",
+                                                onClick: ()=>{
+                                                    // cancel pending google flow
+                                                    setPendingGoogle(null);
+                                                    localStorage.removeItem("pendingGoogleSignup");
+                                                },
+                                                children: "Cancel"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/auth/signup/page.tsx",
+                                                lineNumber: 758,
+                                                columnNumber: 19
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/auth/signup/page.tsx",
+                                        lineNumber: 751,
+                                        columnNumber: 17
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/app/auth/signup/page.tsx",
+                                lineNumber: 716,
+                                columnNumber: 50
                             }, this),
                             createdSuccess && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "mt-6 text-center space-y-4",
@@ -1120,54 +1500,75 @@ function SignupPage() {
                                         children: "Your account has been successfully created."
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/auth/signup/page.tsx",
-                                        lineNumber: 524,
+                                        lineNumber: 770,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                            onClick: ()=>router.push("/auth/login"),
-                                            className: "inline-flex items-center gap-2 rounded-md px-4 py-2 bg-white/90 text-emerald-700 border border-emerald-200",
-                                            children: "Go to login page"
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/auth/signup/page.tsx",
-                                            lineNumber: 526,
-                                            columnNumber: 19
-                                        }, this)
-                                    }, void 0, false, {
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "text-sm text-zinc-600",
+                                                children: [
+                                                    "Redirecting to login in ",
+                                                    createdCountdown ?? 0,
+                                                    "s…"
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/app/auth/signup/page.tsx",
+                                                lineNumber: 772,
+                                                columnNumber: 19
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "mt-3",
+                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                    onClick: ()=>router.push("/auth/login"),
+                                                    className: "inline-flex items-center gap-2 rounded-md px-4 py-2 bg-white/90 text-emerald-700 border border-emerald-200",
+                                                    children: "Go to login page"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/auth/signup/page.tsx",
+                                                    lineNumber: 774,
+                                                    columnNumber: 21
+                                                }, this)
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/auth/signup/page.tsx",
+                                                lineNumber: 773,
+                                                columnNumber: 19
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
                                         fileName: "[project]/src/app/auth/signup/page.tsx",
-                                        lineNumber: 525,
+                                        lineNumber: 771,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/auth/signup/page.tsx",
-                                lineNumber: 523,
+                                lineNumber: 769,
                                 columnNumber: 32
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/auth/signup/page.tsx",
-                        lineNumber: 399,
+                        lineNumber: 587,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/app/auth/signup/page.tsx",
-                    lineNumber: 398,
+                    lineNumber: 586,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/app/auth/signup/page.tsx",
-            lineNumber: 365,
+            lineNumber: 553,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/app/auth/signup/page.tsx",
-        lineNumber: 364,
+        lineNumber: 552,
         columnNumber: 10
     }, this);
 }
-_s1(SignupPage, "XTqCGpuzCDrEK2tqynjNAyG6DX8=", false, function() {
+_s1(SignupPage, "SDXJMECKOUwnci7SU7TMOZ8JBXY=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"]
     ];

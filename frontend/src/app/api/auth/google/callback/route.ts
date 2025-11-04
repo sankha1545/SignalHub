@@ -5,28 +5,32 @@ import { prisma } from "@/lib/prisma";
 import { signToken } from "@/lib/auth";
 
 /**
- * Secure Google OAuth callback handler.
+ * Google OAuth callback handler
  *
- * Key guarantees:
- *  - Validates OAuth `state` nonce against httpOnly cookie `google_oauth_nonce`.
- *  - Clears nonce cookie on all returns (success or error).
- *  - Respects `mode` in state: "login" or "signup".
- *  - Will NOT sign in or link a Google account to an existing email/password account.
- *  - Will only auto-create accounts when mode === 'signup' OR AUTO_CREATE_OAUTH_USERS=true.
+ * Guarantees:
+ *  - Validates state nonce against httpOnly cookie `google_oauth_nonce`
+ *  - Clears nonce cookie on all returns (success / error)
+ *  - Honors state.mode === "login" | "signup"
+ *  - Will not allow Google to take over an existing email/password account
+ *  - Auto-creates account only for mode==='signup' OR AUTO_CREATE_OAUTH_USERS=true
+ *
+ * Notes:
+ *  - This handler expects a previously set nonce cookie (google_oauth_nonce)
+ *  - For production, ensure GOOGLE_CLIENT_ID/SECRET are set
  */
 
-const REDIRECT_AFTER_LOGIN = process.env.NEXT_PUBLIC_AFTER_LOGIN || "/welcome";
+const REDIRECT_AFTER_LOGIN = process.env.NEXT_PUBLIC_AFTER_LOGIN ?? "/welcome";
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
 const OAUTH_REDIRECT = BASE_URL + "/api/auth/google/callback";
-const COOKIE_NAME = "session";
-const COOKIE_MAX_AGE = 7 * 24 * 60 * 60; // seconds
+const SESSION_COOKIE = "session";
+const SESSION_MAX_AGE = 7 * 24 * 60 * 60; // seconds
 const NONCE_COOKIE = "google_oauth_nonce";
 const TEMP_GOOGLE_COOKIE = "google_oauth_temp";
-const TEMP_GOOGLE_MAX_AGE = 60 * 5; // 5 minutes
-
+const TEMP_GOOGLE_MAX_AGE = 60 * 5; // seconds
 const AUTO_CREATE_OAUTH_USERS = (process.env.AUTO_CREATE_OAUTH_USERS ?? "false").toLowerCase() === "true";
+const isProd = process.env.NODE_ENV === "production";
 
-/** Helper: redirect with error code/message appended as query params to a local path */
+/** Helper — redirect to path under BASE_URL and attach error query params */
 function redirectWithError(path: string, code: string, message?: string) {
   const u = new URL(path, BASE_URL);
   u.searchParams.set("error", code);
@@ -34,17 +38,13 @@ function redirectWithError(path: string, code: string, message?: string) {
   return NextResponse.redirect(u.toString());
 }
 
-/* ---------------- ENV-AWARE COOKIE HELPERS ---------------- */
-
-const isProd = process.env.NODE_ENV === "production";
-
-/** Clear nonce cookie in response (works with res.cookies or header fallback). */
-function clearNonceCookie(res: NextResponse) {
+/** Env-aware cookie clear (tries res.cookies.set then header fallback) */
+function clearCookie(res: NextResponse, name: string) {
   try {
-    res.cookies.set(NONCE_COOKIE, "", { httpOnly: true, sameSite: isProd ? "none" : "lax", secure: isProd, path: "/", maxAge: 0 });
+    res.cookies.set(name, "", { httpOnly: true, sameSite: isProd ? "none" : "lax", secure: isProd, path: "/", maxAge: 0 });
   } catch {
     const parts = [
-      `${NONCE_COOKIE}=`,
+      `${name}=`,
       "Path=/",
       "Max-Age=0",
       "HttpOnly",
@@ -55,45 +55,34 @@ function clearNonceCookie(res: NextResponse) {
   }
 }
 
-/** Set session cookie with environment-aware SameSite/Secure and a debug log. */
-function setSessionCookie(res: NextResponse, token: string) {
+/** Env-aware cookie set (session/temp) */
+function setCookie(res: NextResponse, name: string, value: string, maxAge = SESSION_MAX_AGE) {
   const sameSite = isProd ? "none" : "lax";
   const secure = isProd;
-  const value = encodeURIComponent(token);
-
+  const enc = encodeURIComponent(value);
   try {
-    res.cookies.set(COOKIE_NAME, value, {
-      httpOnly: true,
-      secure,
-      sameSite: sameSite as "lax" | "none" | "strict",
-      path: "/",
-      maxAge: COOKIE_MAX_AGE,
-    });
-    console.debug(`[auth/google/callback] set session cookie via res.cookies: ${COOKIE_NAME} (sameSite=${sameSite}, secure=${secure})`);
+    res.cookies.set(name, enc, { httpOnly: true, secure, sameSite: sameSite as "none" | "lax" | "strict", path: "/", maxAge });
+    // don't log sensitive values in production
+    if (!isProd) console.debug(`[auth/google/callback] set cookie ${name} (sameSite=${sameSite}, secure=${secure})`);
   } catch {
-    const cookieParts = [
-      `${COOKIE_NAME}=${value}`,
+    const parts = [
+      `${name}=${enc}`,
       "Path=/",
-      `Max-Age=${COOKIE_MAX_AGE}`,
+      `Max-Age=${maxAge}`,
       "HttpOnly",
       isProd ? "SameSite=None" : "SameSite=Lax",
       secure ? "Secure" : "",
     ].filter(Boolean);
-    const header = cookieParts.join("; ");
-    res.headers.set("Set-Cookie", header);
-    console.debug(`[auth/google/callback] set session cookie via header: ${header}`);
+    res.headers.set("Set-Cookie", parts.join("; "));
+    if (!isProd) console.debug(`[auth/google/callback] set cookie header: ${parts.join("; ")}`);
   }
 }
 
-/**
- * Read cookie from Request robustly.
- * Prefer request.headers.get('cookie') fallback. On Next runtimes there may be a request.cookies API,
- * but the safe portable approach is to inspect headers.
- */
+/** Read cookie robustly from raw request headers (portable across runtimes) */
 function readCookieValue(request: Request, name: string): string | null {
   try {
-    const cookieHeader = request.headers.get("cookie") ?? "";
-    const match = cookieHeader.match(new RegExp(`${name}=([^;]+)`));
+    const header = request.headers.get("cookie") ?? "";
+    const match = header.match(new RegExp(`(?:^|; )${name}=([^;]+)`));
     return match ? decodeURIComponent(match[1]) : null;
   } catch (e) {
     console.error("[auth/google/callback] readCookieValue error:", e);
@@ -101,14 +90,12 @@ function readCookieValue(request: Request, name: string): string | null {
   }
 }
 
-/* ---------------- END helper replacements ---------------- */
-
-/** Parse mode and nonce from state string (state expected as querystring: mode=signup&nonce=abc) */
-function parseState(rawState: string | null) {
+/** Parse state param of the form: mode=signup&nonce=abc&returnTo=/x */
+function parseState(raw: string | null) {
   const result = { mode: "login" as "login" | "signup", nonce: null as string | null, returnTo: null as string | null };
-  if (!rawState) return result;
+  if (!raw) return result;
   try {
-    const decoded = decodeURIComponent(rawState);
+    const decoded = decodeURIComponent(raw);
     const params = new URLSearchParams(decoded);
     const m = params.get("mode");
     if (m === "signup") result.mode = "signup";
@@ -117,59 +104,63 @@ function parseState(rawState: string | null) {
     const r = params.get("returnTo");
     if (r) result.returnTo = r;
     return result;
-  } catch {
+  } catch (e) {
+    if (!isProd) console.debug("[auth/google/callback] parseState failed:", e);
     return result;
   }
+}
+
+/** Normalize provider role string to lowercase canonical form used across the app */
+function normalizeRole(r: string | null | undefined) {
+  if (!r) return "viewer";
+  return String(r).trim().toLowerCase();
 }
 
 export async function GET(request: Request) {
   try {
     const url = new URL(request.url);
     const code = url.searchParams.get("code");
-    const err = url.searchParams.get("error");
-    if (err) {
-      console.error("Google OAuth returned error param:", err);
-      const res = redirectWithError("/auth/login", "google_oauth_error", String(err));
-      clearNonceCookie(res);
-      return res;
-    }
-    if (!code) {
-      const res = redirectWithError("/auth/login", "missing_code", "Missing authorization code from Google.");
-      clearNonceCookie(res);
+    const errorParam = url.searchParams.get("error");
+    if (errorParam) {
+      console.error("[auth/google/callback] OAuth error param:", errorParam);
+      const res = redirectWithError("/auth/login", "google_oauth_error", String(errorParam));
+      clearCookie(res, NONCE_COOKIE);
       return res;
     }
 
-    // Parse state and nonce and validate against cookie
+    if (!code) {
+      const res = redirectWithError("/auth/login", "missing_code", "Missing authorization code from Google.");
+      clearCookie(res, NONCE_COOKIE);
+      return res;
+    }
+
+    // Validate state/nonce
     const rawState = url.searchParams.get("state");
     const { mode, nonce: stateNonce, returnTo } = parseState(rawState);
 
-    // Read nonce cookie set by the login initiator
     const cookieNonce = readCookieValue(request, NONCE_COOKIE);
-
     if (!stateNonce || !cookieNonce || stateNonce !== cookieNonce) {
       console.warn("[auth/google/callback] state nonce mismatch", { stateNonce, cookieNonce });
       const res = redirectWithError("/auth/login", "invalid_state", "OAuth state mismatch (possible CSRF).");
-      clearNonceCookie(res);
+      clearCookie(res, NONCE_COOKIE);
       return res;
     }
 
     // Exchange code for tokens
-    const oauth2Client = new google.auth.OAuth2(
-      process.env.GOOGLE_CLIENT_ID,
-      process.env.GOOGLE_CLIENT_SECRET,
-      OAUTH_REDIRECT
-    );
-    const { tokens } = await oauth2Client.getToken(code);
+    const oauth2Client = new google.auth.OAuth2(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET, OAUTH_REDIRECT);
+    const tokenResp = await oauth2Client.getToken(code);
+    const tokens = tokenResp.tokens;
     oauth2Client.setCredentials(tokens);
 
-    // Request basic profile info (email, id, name, picture)
+    // Fetch userinfo
     const oauth2 = google.oauth2({ version: "v2", auth: oauth2Client });
-    const { data } = await oauth2.userinfo.get();
+    const profileResp = await oauth2.userinfo.get();
+    const data = profileResp.data;
 
     if (!data || !data.email) {
-      console.error("Google profile did not return email:", data);
+      console.error("[auth/google/callback] google.userinfo missing email:", data);
       const res = redirectWithError("/auth/login", "no_email", "Google did not return an email.");
-      clearNonceCookie(res);
+      clearCookie(res, NONCE_COOKIE);
       return res;
     }
 
@@ -178,43 +169,36 @@ export async function GET(request: Request) {
     const picture = data.picture ?? null;
     const providerAccountId = data.id ?? undefined;
     if (!providerAccountId) {
-      console.error("Google profile missing id:", data);
+      console.error("[auth/google/callback] google.userinfo missing id:", data);
       const res = redirectWithError("/auth/login", "no_provider_id", "Google profile missing id.");
-      clearNonceCookie(res);
+      clearCookie(res, NONCE_COOKIE);
       return res;
     }
 
-    // Find existing account by providerAccountId (authoritative for provider link)
+    // Try to find existing account (provider account table is authoritative for provider link)
     const existingAccount = await prisma.account.findFirst({
-      where: { provider: "google", providerAccountId },
+      where: { provider: "google", providerAccountId: String(providerAccountId) },
     });
 
-    // Find user by email (may be undefined)
-    let userByEmail = await prisma.user.findUnique({ where: { email }, include: { profile: true } });
+    // Find a user by email (may be null)
+    let user = await prisma.user.findUnique({ where: { email }, include: { profile: true } });
 
-    // If account exists, ensure we use its user
+    // If account exists, prefer its user
     if (existingAccount) {
-      const accountUser = await prisma.user.findUnique({
-        where: { id: existingAccount.userId },
-        include: { profile: true },
-      });
+      const accountUser = await prisma.user.findUnique({ where: { id: existingAccount.userId }, include: { profile: true } });
       if (!accountUser) {
-        console.error("Account exists for google provider but no user found", {
-          providerAccountId,
-          accountId: existingAccount.id,
-          userId: existingAccount.userId,
-        });
+        console.error("[auth/google/callback] account present but user missing", { existingAccount });
         const res = redirectWithError("/auth/login", "server_error", "Inconsistent account state. Contact support.");
-        clearNonceCookie(res);
+        clearCookie(res, NONCE_COOKIE);
         return res;
       }
-      userByEmail = accountUser;
+      user = accountUser;
     }
 
-    // If user exists (either by email or via account->user)
-    if (userByEmail) {
-      // Normalize provider field into tokens
-      const providerField = (userByEmail.provider ?? "").toString();
+    // CASE: user exists (by email or from account)
+    if (user) {
+      // Normalize provider field on user to detect existing providers
+      const providerField = (user.provider ?? "").toString();
       const currentProviders = providerField
         .split(",")
         .map((p) => p.trim().toLowerCase())
@@ -223,44 +207,46 @@ export async function GET(request: Request) {
       const hasGoogle = currentProviders.includes("google");
       const hasCredentials =
         currentProviders.includes("credentials") ||
+        currentProviders.includes("local") ||
         currentProviders.includes("email") ||
-        Boolean((userByEmail as any).passwordHash) ||
-        Boolean((userByEmail as any).password);
+        Boolean((user as any).passwordHash) ||
+        Boolean((user as any).password);
 
-      // Conflict: account linked to different user
-      if (existingAccount && existingAccount.userId !== userByEmail.id) {
-        console.error("Google account linked to different user", {
+      // If the google account was linked to a different user -> conflict
+      if (existingAccount && existingAccount.userId !== user.id) {
+        console.error("[auth/google/callback] google account linked to a different user", {
           providerAccountId,
           existingAccountUserId: existingAccount.userId,
-          currentUserId: userByEmail.id,
+          currentUserId: user.id,
         });
         const res = redirectWithError("/auth/login", "account_link_conflict", "This Google account is linked to a different user.");
-        clearNonceCookie(res);
+        clearCookie(res, NONCE_COOKIE);
         return res;
       }
 
-      // CRITICAL: do NOT allow Google login to succeed if user has credentials but is NOT linked to google
+      // Do NOT allow Google sign-in to succeed if there's an email/password account that is NOT linked to Google
       if (hasCredentials && !hasGoogle) {
         const res = redirectWithError(
           "/auth/login",
           "provider_mismatch",
           "An account exists for this email using an email/password. Sign in with email/password or link Google from account settings."
         );
-        clearNonceCookie(res);
+        clearCookie(res, NONCE_COOKIE);
         return res;
       }
 
-      // Allowed to sign in: ensure account exists and update tokens
+      // At this point user is allowed to sign in with Google:
+      // - ensure an account record exists (create if needed) and update tokens
       if (!existingAccount) {
         await prisma.account.create({
           data: {
             provider: "google",
-            providerAccountId,
+            providerAccountId: String(providerAccountId),
             access_token: tokens.access_token ?? undefined,
             refresh_token: tokens.refresh_token ?? undefined,
             expires_at: tokens.expiry_date ? Math.floor(tokens.expiry_date / 1000) : undefined,
             id_token: (tokens as any).id_token ?? undefined,
-            userId: userByEmail.id,
+            userId: user.id,
           },
         });
       } else {
@@ -275,35 +261,36 @@ export async function GET(request: Request) {
         });
       }
 
-      // Make sure 'google' present in provider list
+      // Ensure 'google' is included in user's provider list
       if (!hasGoogle) {
         currentProviders.push("google");
-        await prisma.user.update({ where: { id: userByEmail.id }, data: { provider: currentProviders.join(",") } });
+        await prisma.user.update({ where: { id: user.id }, data: { provider: currentProviders.join(",") } });
       }
 
-      // Ensure profile exists or update missing fields
-      if (!userByEmail.profile) {
+      // Ensure profile exists and fill missing fields
+      if (!user.profile) {
         await prisma.profile.create({
-          data: { userId: userByEmail.id, displayName: userByEmail.name ?? name ?? undefined, avatarUrl: picture ?? undefined },
+          data: { userId: user.id, displayName: user.name ?? name ?? undefined, avatarUrl: picture ?? undefined },
         });
       } else {
         const needUpdate: Record<string, any> = {};
-        if (!userByEmail.profile.displayName && (userByEmail.name ?? name)) needUpdate.displayName = userByEmail.name ?? name;
-        if (!userByEmail.profile.avatarUrl && picture) needUpdate.avatarUrl = picture;
+        if (!user.profile.displayName && (user.name ?? name)) needUpdate.displayName = user.name ?? name;
+        if (!user.profile.avatarUrl && picture) needUpdate.avatarUrl = picture;
         if (Object.keys(needUpdate).length) {
-          await prisma.profile.update({ where: { userId: userByEmail.id }, data: needUpdate });
+          await prisma.profile.update({ where: { userId: user.id }, data: needUpdate });
         }
       }
 
-      // Issue session (canonical id claim)
-      const token = signToken({ id: userByEmail.id, email: userByEmail.email, role: userByEmail.role ?? "VIEWER" }, "7d");
+      // Issue session token and redirect
+      const token = signToken({ id: user.id, email: user.email, role: normalizeRole(user.role) }, "7d");
       const res = NextResponse.redirect(returnTo ?? REDIRECT_AFTER_LOGIN);
-      setSessionCookie(res, token);
-      clearNonceCookie(res);
+      setCookie(res, SESSION_COOKIE, token, SESSION_MAX_AGE);
+      clearCookie(res, NONCE_COOKIE);
       return res;
     }
 
-    // No user and no existing account -> decide create vs explicit signup
+    // CASE: no user found by email and no existing provider linking
+    // If mode === 'signup' or AUTO_CREATE_OAUTH_USERS is enabled, create user+account atomically
     if (mode === "signup" || AUTO_CREATE_OAUTH_USERS) {
       const created = await prisma.$transaction(async (tx) => {
         const newUser = await tx.user.create({
@@ -312,7 +299,7 @@ export async function GET(request: Request) {
             name,
             provider: "google",
             emailVerified: true,
-            role: "VIEWER",
+            role: "viewer",
             profile: { create: { displayName: name ?? undefined, avatarUrl: picture ?? undefined } },
           },
         });
@@ -320,7 +307,7 @@ export async function GET(request: Request) {
         await tx.account.create({
           data: {
             provider: "google",
-            providerAccountId,
+            providerAccountId: String(providerAccountId),
             access_token: tokens.access_token ?? undefined,
             refresh_token: tokens.refresh_token ?? undefined,
             expires_at: tokens.expiry_date ? Math.floor(tokens.expiry_date / 1000) : undefined,
@@ -332,17 +319,17 @@ export async function GET(request: Request) {
         return newUser;
       });
 
-      const token = signToken({ id: created.id, email: created.email, role: created.role ?? "VIEWER" }, "7d");
+      const token = signToken({ id: created.id, email: created.email, role: normalizeRole(created.role) }, "7d");
       const res = NextResponse.redirect(returnTo ?? REDIRECT_AFTER_LOGIN);
-      console.debug("[auth/google/callback] about to set session for userId:", created?.id ?? "<new?>");
-      setSessionCookie(res, token);
-      clearNonceCookie(res);
+      setCookie(res, SESSION_COOKIE, token, SESSION_MAX_AGE);
+      clearCookie(res, NONCE_COOKIE);
       return res;
     }
 
-    // Otherwise: explicit signup required. stash minimal profile in temp cookie and redirect to signup UI.
+    // Otherwise: require explicit signup completion. Store minimal temp payload in an httpOnly cookie and redirect to signup completion UI
     const tempPayload = JSON.stringify({
-      sub: providerAccountId,
+      provider: "google",
+      providerAccountId: String(providerAccountId),
       email,
       name,
       picture,
@@ -352,34 +339,15 @@ export async function GET(request: Request) {
       },
     });
 
-    const res = NextResponse.redirect(new URL("/auth/google/signup", BASE_URL).toString());
-    try {
-      res.cookies.set(TEMP_GOOGLE_COOKIE, encodeURIComponent(tempPayload), {
-        httpOnly: true,
-        sameSite: isProd ? "none" : "lax",
-        secure: isProd,
-        maxAge: TEMP_GOOGLE_MAX_AGE,
-        path: "/",
-      });
-    } catch {
-      const cookieParts = [
-        `${TEMP_GOOGLE_COOKIE}=${encodeURIComponent(tempPayload)}`,
-        "Path=/",
-        `Max-Age=${TEMP_GOOGLE_MAX_AGE}`,
-        "HttpOnly",
-        isProd ? "SameSite=None" : "SameSite=Lax",
-        isProd ? "Secure" : "",
-      ].filter(Boolean);
-      res.headers.set("Set-Cookie", cookieParts.join("; "));
-    }
-
-    // Finally clear the nonce cookie
-    clearNonceCookie(res);
+    const signupUrl = new URL("/auth/google/signup", BASE_URL).toString();
+    const res = NextResponse.redirect(signupUrl);
+    setCookie(res, TEMP_GOOGLE_COOKIE, tempPayload, TEMP_GOOGLE_MAX_AGE);
+    clearCookie(res, NONCE_COOKIE);
     return res;
   } catch (err) {
-    console.error("Google callback handler error:", err);
+    console.error("[auth/google/callback] handler error:", err);
     const res = redirectWithError("/auth/login", "server_error", "An internal error occurred during Google sign-in.");
-    clearNonceCookie(res);
+    clearCookie(res, NONCE_COOKIE);
     return res;
   }
 }

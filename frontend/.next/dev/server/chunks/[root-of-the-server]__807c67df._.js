@@ -118,6 +118,8 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__
 ;
 ;
 const JWT_SECRET = process.env.SESSION_SECRET || process.env.NEXTAUTH_SECRET || process.env.JWT_SECRET || "dev-secret";
+// Keep legacy cookie names to support older sessions during migration.
+// Order matters: prefer 'session' then fallbacks.
 const COOKIE_CANDIDATES = [
     "session",
     "token",
@@ -126,23 +128,21 @@ const COOKIE_CANDIDATES = [
     "auth"
 ];
 function signToken(payload, expiresIn = "7d") {
-    const finalPayload = {
-        ...payload
-    };
-    // Prefer canonical claim `sub` for user id
-    if (!finalPayload.sub) {
-        if (finalPayload.id) finalPayload.sub = finalPayload.id;
-        else if (finalPayload.userId) finalPayload.sub = finalPayload.userId;
-    }
-    // Remove redundant id/userId if present to reduce confusion (optional)
-    // keep email and role as-is
+    const finalPayload = {};
+    // Accept common id fallback keys for compatibility
+    const providedId = payload?.id ?? payload?.userId ?? payload?.sub ?? payload?.uid ?? null;
+    if (providedId) finalPayload.id = String(providedId);
+    if (payload?.email) finalPayload.email = payload.email;
+    if (payload?.role) finalPayload.role = payload.role;
+    // If you need extra claims (exp, aud, etc), add intentionally here.
     return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$jsonwebtoken$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].sign(finalPayload, JWT_SECRET, {
         expiresIn
     });
 }
 function verifyToken(token) {
     try {
-        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$jsonwebtoken$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].verify(token, JWT_SECRET);
+        const decoded = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$jsonwebtoken$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].verify(token, JWT_SECRET);
+        return decoded;
     } catch (err) {
         if ("TURBOPACK compile-time truthy", 1) {
             console.debug("[auth] verifyToken failed:", err?.message ?? err);
@@ -158,7 +158,9 @@ async function verifyPassword(password, hash) {
     try {
         return __TURBOPACK__imported__module__$5b$externals$5d2f$bcrypt__$5b$external$5d$__$28$bcrypt$2c$__cjs$29$__["default"].compare(password, hash);
     } catch (err) {
-        if ("TURBOPACK compile-time truthy", 1) console.error("[auth] verifyPassword error:", err);
+        if ("TURBOPACK compile-time truthy", 1) {
+            console.error("[auth] verifyPassword error:", err);
+        }
         return false;
     }
 }
@@ -170,7 +172,7 @@ async function getUserFromRequest(req) {
             const token = authHeader.slice(7).trim();
             const payload = verifyToken(token);
             if (payload) {
-                const userId = payload.sub ?? payload.id ?? payload.userId ?? payload.uid;
+                const userId = payload.id ?? payload.sub ?? payload.userId ?? payload.uid;
                 if (userId) {
                     const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique({
                         where: {
@@ -190,25 +192,30 @@ async function getUserFromRequest(req) {
             }
         }
         // 2) Cookies
-        // Try the candidate cookie names in order and return the first user matched.
+        // NextRequest cookie API: req.cookies.get(name) returns { name, value } | undefined
         for (const name of COOKIE_CANDIDATES){
-            // NextRequest exposes cookies via req.cookies.get(name)
             try {
                 const cookie = req.cookies.get(name);
                 if (!cookie) {
-                    if ("TURBOPACK compile-time truthy", 1) console.debug(`[auth] cookie probe: ${name} => <missing>`);
+                    if ("TURBOPACK compile-time truthy", 1) {
+                        console.debug(`[auth] cookie probe: ${name} => missing`);
+                    }
                     continue;
                 }
                 const token = cookie.value;
                 if (!token) continue;
                 const payload = verifyToken(token);
                 if (!payload) {
-                    if ("TURBOPACK compile-time truthy", 1) console.debug(`[auth] cookie ${name} token failed verify/expired`);
+                    if ("TURBOPACK compile-time truthy", 1) {
+                        console.debug(`[auth] cookie ${name} token failed verify/expired`);
+                    }
                     continue;
                 }
-                const userId = payload.sub ?? payload.id ?? payload.userId ?? payload.uid;
+                const userId = payload.id ?? payload.sub ?? payload.userId ?? payload.uid;
                 if (!userId) {
-                    if ("TURBOPACK compile-time truthy", 1) console.debug(`[auth] cookie ${name} token missing id/sub/userId/uid`);
+                    if ("TURBOPACK compile-time truthy", 1) {
+                        console.debug(`[auth] cookie ${name} token missing id/sub/userId/uid`);
+                    }
                     continue;
                 }
                 const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique({
@@ -223,14 +230,21 @@ async function getUserFromRequest(req) {
                     }
                 });
                 if (user) {
-                    if ("TURBOPACK compile-time truthy", 1) console.debug(`[auth] cookie ${name} matched user id ${user.id}`);
+                    if ("TURBOPACK compile-time truthy", 1) {
+                        console.debug(`[auth] cookie ${name} matched user id ${user.id}`);
+                    }
                     return user;
                 } else {
-                    if ("TURBOPACK compile-time truthy", 1) console.debug(`[auth] cookie ${name} decoded id ${userId} not found`);
+                    if ("TURBOPACK compile-time truthy", 1) {
+                        console.debug(`[auth] cookie ${name} decoded id ${userId} not found`);
+                    }
                 }
             } catch (err) {
-                // Some runtimes may throw on req.cookies access — continue to next candidate
-                if ("TURBOPACK compile-time truthy", 1) console.debug(`[auth] cookie probe error for ${name}:`, err);
+                // Some runtimes may throw on cookie access — continue to next candidate
+                if ("TURBOPACK compile-time truthy", 1) {
+                    console.debug(`[auth] cookie probe error for ${name}:`, err);
+                }
+                continue;
             }
         }
         // nothing matched
@@ -262,37 +276,58 @@ __turbopack_context__.s([
     ()=>POST
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/server.js [app-route] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/prisma.ts [app-route] (ecmascript)"); // default export expected
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/prisma.ts [app-route] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$auth$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/auth.ts [app-route] (ecmascript)");
 ;
 ;
 ;
 /**
- * Builds a secure cookie string for JWT token.
- */ function buildCookie(token) {
-    const maxAge = 7 * 24 * 60 * 60; // 7 days
-    const secure = ("TURBOPACK compile-time value", "development") === "production";
-    return [
-        `token=${token}`,
+ * POST /api/auth/login
+ *
+ * Accepts: { email, password }
+ * - Blocks credential login for OAuth-only accounts.
+ * - Parses legacy provider strings (comma separated).
+ * - Sets an httpOnly session cookie named "session".
+ */ const SESSION_COOKIE_NAME = "session";
+const SESSION_MAX_AGE = 7 * 24 * 60 * 60; // 7 days
+function jsonError(msg, status = 400) {
+    return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+        ok: false,
+        error: msg
+    }, {
+        status
+    });
+}
+/** Parse provider field into normalized array (handles comma-lists, nulls) */ function parseProviders(providerField) {
+    if (!providerField) return [];
+    return providerField.toString().split(",").map((p)=>p.trim().toLowerCase()).filter(Boolean);
+}
+/**
+ * Build fallback Set-Cookie header value. In production use SameSite=None + Secure
+ * so cookies work across sites (if that's your intended deployment). In non-prod use Lax.
+ */ function buildCookieHeader(name, value, maxAge = SESSION_MAX_AGE) {
+    const isProd = ("TURBOPACK compile-time value", "development") === "production";
+    const sameSite = ("TURBOPACK compile-time falsy", 0) ? "TURBOPACK unreachable" : "Lax";
+    const secure = !!isProd;
+    const parts = [
+        `${name}=${encodeURIComponent(value)}`,
         "Path=/",
-        "HttpOnly",
-        "SameSite=Strict",
         `Max-Age=${maxAge}`,
+        "HttpOnly",
+        `SameSite=${sameSite}`,
         ("TURBOPACK compile-time falsy", 0) ? "TURBOPACK unreachable" : ""
-    ].filter(Boolean).join("; ");
+    ].filter(Boolean);
+    return parts.join("; ");
 }
 async function POST(req) {
     try {
-        const { email: rawEmail, password } = await req.json();
-        const email = (rawEmail || "").toString().trim().toLowerCase();
+        const body = await req.json().catch(()=>({}));
+        const rawEmail = (body?.email ?? "").toString();
+        const password = (body?.password ?? "").toString();
+        const email = rawEmail.trim().toLowerCase();
         if (!email || !password) {
-            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-                error: "Email and password are required."
-            }, {
-                status: 400
-            });
+            return jsonError("Email and password are required.", 400);
         }
-        // 1️⃣ Find the user strictly by normalized email
         const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique({
             where: {
                 email
@@ -306,46 +341,35 @@ async function POST(req) {
                 provider: true
             }
         });
-        // 2️⃣ Validate existence
-        if (!user) {
+        // Do not reveal whether email exists
+        if (!user) return jsonError("Invalid email or password.", 401);
+        // Robust provider parsing
+        const providers = parseProviders(user.provider);
+        const hasCredentials = providers.includes("credentials") || providers.includes("email") || providers.includes("local") || !!user.passwordHash;
+        const oauthProviders = providers.filter((p)=>p !== "credentials" && p !== "email" && p !== "local");
+        // If user does NOT have credentials, but has external provider(s) — block credential login
+        if (!hasCredentials) {
+            const providerLabel = oauthProviders.length ? oauthProviders.join(", ") : "an external provider";
             return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-                error: "Invalid email or password."
-            }, {
-                status: 401
-            });
-        }
-        // 3️⃣ Block credential login for OAuth-only accounts
-        if (user.provider && user.provider !== "credentials") {
-            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-                error: `This account was created using ${user.provider}. Please sign in with ${user.provider} instead.`
+                ok: false,
+                error: `This account was created using ${providerLabel}. Please sign in with ${providerLabel} or link credentials from account settings.`
             }, {
                 status: 403
             });
         }
-        // 4️⃣ Ensure password hash exists
         if (!user.passwordHash) {
-            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-                error: "Password not set for this account."
-            }, {
-                status: 401
-            });
+            // Defensive: if provider claims credentials but no password is stored
+            return jsonError("Password not set for this account. Please reset your password.", 401);
         }
-        // 5️⃣ Verify password using bcrypt (verifyPassword imported from lib/auth)
         const valid = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$auth$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["verifyPassword"])(password, user.passwordHash);
-        if (!valid) {
-            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-                error: "Invalid email or password."
-            }, {
-                status: 401
-            });
-        }
-        // 6️⃣ Sign JWT token containing full user claims (for RBAC)
+        if (!valid) return jsonError("Invalid email or password.", 401);
+        // Create session token (7d) — include canonical role from DB
         const token = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$auth$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["signToken"])({
             id: user.id,
             email: user.email,
             role: user.role
         }, "7d");
-        // 7️⃣ Log login event (non-blocking)
+        // Fire-and-forget activity log (non-blocking)
         (async ()=>{
             try {
                 await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].activityLog.create({
@@ -358,11 +382,10 @@ async function POST(req) {
                         }
                     }
                 });
-            } catch (err) {
-                console.error("⚠️ Failed to record login activity:", err);
+            } catch (e) {
+                console.error("⚠️ Failed to record login activity:", e);
             }
         })();
-        // 8️⃣ Return successful login with Set-Cookie header
         const res = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             ok: true,
             user: {
@@ -370,18 +393,30 @@ async function POST(req) {
                 email: user.email,
                 name: user.name,
                 role: user.role,
-                provider: user.provider
+                provider: providers.length ? providers.join(",") : "credentials"
             }
         });
-        res.headers.set("Set-Cookie", buildCookie(token));
+        // Prefer NextResponse cookies API; fall back to Set-Cookie header if necessary
+        try {
+            // Use NextResponse cookies API when runtime supports it
+            res.cookies.set(SESSION_COOKIE_NAME, token, {
+                httpOnly: true,
+                sameSite: "lax",
+                secure: ("TURBOPACK compile-time value", "development") === "production",
+                path: "/",
+                maxAge: SESSION_MAX_AGE
+            });
+        } catch  {
+            // Fallback header — set SameSite=None in prod (to match typical cross-site usage), Lax otherwise
+            res.headers.set("Set-Cookie", buildCookieHeader(SESSION_COOKIE_NAME, token, SESSION_MAX_AGE));
+        }
+        if ("TURBOPACK compile-time truthy", 1) {
+            console.debug("[auth/login] session cookie set for userId:", user.id);
+        }
         return res;
     } catch (err) {
         console.error("❌ Login error:", err);
-        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-            error: "Internal server error."
-        }, {
-            status: 500
-        });
+        return jsonError("Internal server error.", 500);
     }
 }
 }),

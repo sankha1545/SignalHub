@@ -3,22 +3,51 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { GoogleOAuthProvider, GoogleLogin, CredentialResponse } from "@react-oauth/google";
-import {jwtDecode} from "jwt-decode";
+
 
 /**
- * page.tsx — Signup page
- * - OTP flow (send, verify, resend)
- * - Credentials signup
- * - Google SSO: after successful Google sign-in, we DO NOT auto-create the account.
- *   Instead we show a small completion form (username + role). After submission,
- *   account is created and a 4s success timer redirects to the login page.
- *
- * Backend endpoints expected:
- * - POST /api/auth/send-otp     { email }
- * - POST /api/auth/verify-otp   { email, code }
- * - POST /api/auth/signup       { email, name, password, role, provider: "credentials" }
- * - POST /api/auth/google/signup{ email, name, sub, username, role } <-- used for finalizing SSO
+ * Rewritten signup page with fixes:
+ * - client-side check for an existing admin (GET /api/auth/admin-exists)
+ * - prevents selecting/creating a second admin in the UI (UX-only; server-side enforcement required)
+ * - fixes jwt-decode import and robust Google SSO completion flow
+ * - auto-redirect to login when created countdown finishes
+ * - small UX improvements and defensive checks
  */
+// Small, dependency-free JWT payload decoder (no verification).
+// Accepts a JWT string and returns the decoded payload object or null on error.
+// Note: This only decodes base64url payload — it does NOT verify signatures.
+function decodeJwt(token: string): any | null {
+  try {
+    const parts = token.split(".");
+    if (parts.length < 2) return null;
+    const b64 = parts[1];
+    // convert from base64url to base64
+    const b64fixed = b64.replace(/-/g, "+").replace(/_/g, "/");
+    // atob works in browsers
+    const decoded = atob(b64fixed.padEnd(Math.ceil(b64fixed.length / 4) * 4, "="));
+    // decode percent-encoded utf-8
+    try {
+      // handle utf-8 properly
+      return JSON.parse(
+        decodeURIComponent(
+          decoded
+            .split("")
+            .map((c) => {
+              const code = c.charCodeAt(0).toString(16).padStart(2, "0");
+              return "%" + code;
+            })
+            .join("")
+        )
+      );
+    } catch {
+      // fallback if decodeURIComponent fails
+      return JSON.parse(decoded);
+    }
+  } catch (err) {
+    if (process.env.NODE_ENV !== "production") console.debug("[auth] decodeJwt failed:", err);
+    return null;
+  }
+}
 
 function OtpInputGrid({ value, onChange }: { value: string; onChange: (v: string) => void }) {
   const refs = useRef<Array<HTMLInputElement | null>>([]);
@@ -117,6 +146,9 @@ export default function SignupPage() {
   const [createdCountdown, setCreatedCountdown] = useState<number | null>(null);
   const createdIntervalRef = useRef<number | null>(null);
 
+  // Admin existence check (client-side UX control)
+  const [adminExists, setAdminExists] = useState<boolean | null>(null);
+
   // cleanup intervals on unmount
   useEffect(() => {
     return () => {
@@ -154,46 +186,76 @@ export default function SignupPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [secondsLeft]);
 
-  // created redirect countdown
-// --- created redirect countdown (safe) ---
-useEffect(() => {
-  // clear any existing timer when createdCountdown changes
-  if (createdIntervalRef.current) {
-    window.clearInterval(createdIntervalRef.current);
-    createdIntervalRef.current = null;
-  }
-
-  // start timer if createdCountdown is a positive number
-  if (createdCountdown && createdCountdown > 0) {
-    createdIntervalRef.current = window.setInterval(() => {
-      setCreatedCountdown((c) => {
-        if (!c || c <= 1) {
-          // stop the interval and set countdown to 0 (do NOT call router.push here)
-          if (createdIntervalRef.current) {
-            window.clearInterval(createdIntervalRef.current);
-            createdIntervalRef.current = null;
-          }
-          return 0;
-        }
-        return c - 1;
-      });
-    }, 1000);
-  }
-
-  return () => {
+  // created redirect countdown: start + auto-redirect when it reaches 0
+  useEffect(() => {
+    // clear any existing timer when createdCountdown changes
     if (createdIntervalRef.current) {
       window.clearInterval(createdIntervalRef.current);
       createdIntervalRef.current = null;
     }
-  };
-// eslint-disable-next-line react-hooks/exhaustive-deps
-}, [createdCountdown]);
 
+    if (createdCountdown && createdCountdown > 0) {
+      createdIntervalRef.current = window.setInterval(() => {
+        setCreatedCountdown((c) => {
+          if (!c || c <= 1) {
+            if (createdIntervalRef.current) {
+              window.clearInterval(createdIntervalRef.current);
+              createdIntervalRef.current = null;
+            }
+            return 0;
+          }
+          return c - 1;
+        });
+      }, 1000);
+    }
+
+    return () => {
+      if (createdIntervalRef.current) {
+        window.clearInterval(createdIntervalRef.current);
+        createdIntervalRef.current = null;
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [createdCountdown]);
+
+  // when countdown reaches zero, navigate to login automatically
+  useEffect(() => {
+    if (createdCountdown === 0 && createdSuccess) {
+      router.push("/auth/login");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [createdCountdown, createdSuccess]);
 
   function flash(type: "error" | "success", text: string, ms = 4000) {
     setMessage({ type, text });
     window.setTimeout(() => setMessage(null), ms);
   }
+
+  // fetch admin existence (UX-only) — server MUST enforce single-admin as well
+  async function fetchAdminExists() {
+    try {
+      const res = await fetch("/api/auth/admin-exists");
+      if (!res.ok) {
+        // treat as unknown; don't block signup
+        setAdminExists(null);
+        return;
+      }
+      const data = await res.json();
+      setAdminExists(Boolean(data?.exists));
+      // if admin exists and current role is admin, reset to viewer
+      setRole((r) => (data?.exists && r === "admin" ? "viewer" : r));
+      setGoogleRole((r) => (data?.exists && r === "admin" ? "viewer" : r));
+    } catch (err) {
+      console.error("admin-exists check failed", err);
+      setAdminExists(null);
+    }
+  }
+
+  useEffect(() => {
+    // initial check
+    fetchAdminExists();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // SEND OTP
   async function handleSendOtp() {
@@ -243,6 +305,8 @@ useEffect(() => {
         setShowOtpVerifiedMsg(true);
         flash("success", "OTP verified.");
         setTimeout(() => setShowOtpVerifiedMsg(false), 3000);
+        // re-check admin availability now that user is moving forward
+        fetchAdminExists();
       }
     } catch (err) {
       console.error(err);
@@ -261,6 +325,11 @@ useEffect(() => {
     if (!password || password.length < 8) return flash("error", "Password must be at least 8 characters.");
     if (password !== password2) return flash("error", "Passwords do not match.");
 
+    // Protect UI-side: don't attempt to create a second admin
+    if (role === "admin" && adminExists) {
+      return flash("error", "An admin account already exists. You cannot create another admin.");
+    }
+
     setBusy(true);
     try {
       const res = await fetch("/api/auth/signup", {
@@ -271,6 +340,8 @@ useEffect(() => {
       const data = await res.json();
       if (!res.ok) {
         flash("error", data?.error ?? "Signup failed.");
+        // refresh adminExists in case server told us admin exists
+        fetchAdminExists();
       } else {
         setCreatedSuccess(true);
         setCreatedByGoogle(false);
@@ -299,7 +370,7 @@ useEffect(() => {
         return flash("error", "Google response missing credential.");
       }
 
-      const decoded: any = jwtDecode(credentialResponse.credential);
+      const decoded: any = decodeJwt(credentialResponse.credential);
       const googleEmail = decoded?.email;
       const googleName = decoded?.name || decoded?.given_name || "";
       const sub = decoded?.sub;
@@ -312,7 +383,11 @@ useEffect(() => {
       const pending = { email: googleEmail, name: googleName, sub };
       setPendingGoogle(pending);
       setGoogleUsername(googleEmail.split("@")[0]);
-      setGoogleRole("viewer");
+
+      // ensure adminRole is only available if admin doesn't already exist
+      await fetchAdminExists();
+      setGoogleRole(adminExists ? "viewer" : "viewer");
+
       localStorage.setItem("pendingGoogleSignup", JSON.stringify(pending));
 
       flash("success", "Google verified — complete your account details below.");
@@ -335,6 +410,11 @@ useEffect(() => {
     if (!pendingGoogle) return flash("error", "No Google session found. Please sign in with Google again.");
     if (!googleUsername || !googleUsername.trim()) return flash("error", "Please enter a username.");
 
+    // Prevent UI attempt to create second admin
+    if (googleRole === "admin" && adminExists) {
+      return flash("error", "An admin account already exists. You cannot create another admin.");
+    }
+
     setBusy(true);
     try {
       const payload = {
@@ -352,6 +432,8 @@ useEffect(() => {
       const data = await res.json();
       if (!res.ok) {
         flash("error", data?.error ?? "Failed to finalize Google signup.");
+        // re-check admin availability
+        fetchAdminExists();
       } else {
         setCreatedSuccess(true);
         setCreatedByGoogle(true);
@@ -384,7 +466,26 @@ useEffect(() => {
     } catch (e) {
       // ignore
     }
+    // also ensure we know adminExist status
+    fetchAdminExists();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  function handleSelectRole(desired: "viewer" | "editor" | "admin") {
+    if (desired === "admin" && adminExists) {
+      flash("error", "An admin account already exists. You cannot select Admin.");
+      return;
+    }
+    setRole(desired);
+  }
+
+  function handleSelectGoogleRole(desired: "viewer" | "editor" | "admin") {
+    if (desired === "admin" && adminExists) {
+      flash("error", "An admin account already exists. You cannot select Admin.");
+      return;
+    }
+    setGoogleRole(desired);
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-zinc-50 to-white dark:from-black dark:to-zinc-900 flex items-center justify-center p-6">
@@ -485,10 +586,10 @@ useEffect(() => {
                       }}
                     >
                       <svg className="w-4 h-4" viewBox="0 0 533.5 544.3" aria-hidden>
-                        <path fill="#4285f4" d="M533.5 278.4c0-18.4-1.6-36.1-4.7-53.4H272v101.2h146.9c-6.3 34-25 62.8-53.4 82v68.4h86.5c50.6-46.6 81.5-115.4 81.5-198.2z"/>
-                        <path fill="#34a853" d="M272 544.3c72.6 0 133.6-24.1 178.2-65.6l-86.5-68.4c-24 16.1-54.9 25.6-91.7 25.6-70.6 0-130.3-47.6-151.6-111.6H34.7v69.8C79.2 485.7 168.6 544.3 272 544.3z"/>
-                        <path fill="#fbbc04" d="M120.4 331.9c-10.9-32.9-10.9-68.2 0-101.1V161h-85.7C9.9 211.3 0 245.9 0 278.4c0 32.6 9.9 67.1 34.7 97.5l85.7-44z"/>
-                        <path fill="#ea4335" d="M272 109.1c39.4 0 74.7 13.6 102.6 40.4l77-77C405.6 25 345.1 0 272 0 168.6 0 79.2 58.6 34.7 146.1l85.7 44.8C141.7 156.7 201.4 109.1 272 109.1z"/>
+                        <path fill="#4285f4" d="M533.5 278.4c0-18.4-1.6-36.1-4.7-53.4H272v101.2h146.9c-6.3 34-25 62.8-53.4 82v68.4h86.5c50.6-46.6 81.5-115.4 81.5-198.2z" />
+                        <path fill="#34a853" d="M272 544.3c72.6 0 133.6-24.1 178.2-65.6l-86.5-68.4c-24 16.1-54.9 25.6-91.7 25.6-70.6 0-130.3-47.6-151.6-111.6H34.7v69.8C79.2 485.7 168.6 544.3 272 544.3z" />
+                        <path fill="#fbbc04" d="M120.4 331.9c-10.9-32.9-10.9-68.2 0-101.1V161h-85.7C9.9 211.3 0 245.9 0 278.4c0 32.6 9.9 67.1 34.7 97.5l85.7-44z" />
+                        <path fill="#ea4335" d="M272 109.1c39.4 0 74.7 13.6 102.6 40.4l77-77C405.6 25 345.1 0 272 0 168.6 0 79.2 58.6 34.7 146.1l85.7 44.8C141.7 156.7 201.4 109.1 272 109.1z" />
                       </svg>
                       <span className="text-sm">Google</span>
                     </a>
@@ -558,21 +659,24 @@ useEffect(() => {
                   <legend className="text-sm text-zinc-700 dark:text-zinc-300 mb-2">Role</legend>
                   <div className="flex gap-4">
                     <label className="inline-flex items-center gap-2">
-                      <input type="radio" name="role" checked={role === "viewer"} onChange={() => setRole("viewer")} />
+                      <input type="radio" name="role" checked={role === "viewer"} onChange={() => handleSelectRole("viewer")} />
                       <span className="text-sm">Viewer</span>
                     </label>
                     <label className="inline-flex items-center gap-2">
-                      <input type="radio" name="role" checked={role === "editor"} onChange={() => setRole("editor")} />
+                      <input type="radio" name="role" checked={role === "editor"} onChange={() => handleSelectRole("editor")} />
                       <span className="text-sm">Editor</span>
                     </label>
-                    <label className="inline-flex items-center gap-2">
-                      <input type="radio" name="role" checked={role === "admin"} onChange={() => setRole("admin")} />
+                    <label className="inline-flex items-center gap-2" title={adminExists ? "An admin already exists" : "Create as admin"}>
+                      <input type="radio" name="role" checked={role === "admin"} onChange={() => handleSelectRole("admin")} disabled={Boolean(adminExists)} />
                       <span className="text-sm">Admin</span>
                     </label>
                   </div>
+                  {adminExists && (
+                    <div className="text-xs text-zinc-500 mt-2">An admin account already exists — creating another admin is disabled. Server still enforces single-admin.</div>
+                  )}
                 </fieldset>
 
-                <button type="submit" disabled={busy} className="w-full rounded-md px-4 py-2 text-white font-semibold" style={{ background: "linear-gradient(90deg,#06b6d4,#7c3aed)" }}>
+                <button type="submit" disabled={busy || (role === "admin" && Boolean(adminExists))} className="w-full rounded-md px-4 py-2 text-white font-semibold" style={{ background: "linear-gradient(90deg,#06b6d4,#7c3aed)" }}>
                   {busy ? "Creating…" : "Create account"}
                 </button>
               </form>
@@ -600,22 +704,25 @@ useEffect(() => {
                   <legend className="text-sm text-zinc-700 dark:text-zinc-300 mb-2">Role</legend>
                   <div className="flex gap-4">
                     <label className="inline-flex items-center gap-2">
-                      <input type="radio" name="googleRole" checked={googleRole === "viewer"} onChange={() => setGoogleRole("viewer")} />
+                      <input type="radio" name="googleRole" checked={googleRole === "viewer"} onChange={() => handleSelectGoogleRole("viewer")} />
                       <span className="text-sm">Viewer</span>
                     </label>
                     <label className="inline-flex items-center gap-2">
-                      <input type="radio" name="googleRole" checked={googleRole === "editor"} onChange={() => setGoogleRole("editor")} />
+                      <input type="radio" name="googleRole" checked={googleRole === "editor"} onChange={() => handleSelectGoogleRole("editor")} />
                       <span className="text-sm">Editor</span>
                     </label>
-                    <label className="inline-flex items-center gap-2">
-                      <input type="radio" name="googleRole" checked={googleRole === "admin"} onChange={() => setGoogleRole("admin")} />
+                    <label className="inline-flex items-center gap-2" title={adminExists ? "An admin already exists" : "Create as admin"}>
+                      <input type="radio" name="googleRole" checked={googleRole === "admin"} onChange={() => handleSelectGoogleRole("admin")} disabled={Boolean(adminExists)} />
                       <span className="text-sm">Admin</span>
                     </label>
                   </div>
+                  {adminExists && (
+                    <div className="text-xs text-zinc-500 mt-2">An admin account already exists — creating another admin is disabled. Server still enforces single-admin.</div>
+                  )}
                 </fieldset>
 
                 <div className="flex gap-3">
-                  <button type="submit" disabled={busy} className="flex-1 rounded-md px-4 py-2 text-white font-semibold" style={{ background: "linear-gradient(90deg,#06b6d4,#7c3aed)" }}>
+                  <button type="submit" disabled={busy || (googleRole === "admin" && Boolean(adminExists))} className="flex-1 rounded-md px-4 py-2 text-white font-semibold" style={{ background: "linear-gradient(90deg,#06b6d4,#7c3aed)" }}>
                     {busy ? "Creating…" : "Finish signup"}
                   </button>
 

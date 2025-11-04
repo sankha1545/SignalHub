@@ -166,7 +166,8 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__
 ;
 ;
 const JWT_SECRET = process.env.SESSION_SECRET || process.env.NEXTAUTH_SECRET || process.env.JWT_SECRET || "dev-secret";
-// Keep legacy candidates for graceful migration; prefer "session".
+// Keep legacy cookie names to support older sessions during migration.
+// Order matters: prefer 'session' then fallbacks.
 const COOKIE_CANDIDATES = [
     "session",
     "token",
@@ -175,22 +176,21 @@ const COOKIE_CANDIDATES = [
     "auth"
 ];
 function signToken(payload, expiresIn = "7d") {
-    // Build a safe payload that always contains 'id' as canonical user id claim.
     const finalPayload = {};
-    // Prefer explicit id/userId/sub from provided payload
+    // Accept common id fallback keys for compatibility
     const providedId = payload?.id ?? payload?.userId ?? payload?.sub ?? payload?.uid ?? null;
     if (providedId) finalPayload.id = String(providedId);
     if (payload?.email) finalPayload.email = payload.email;
     if (payload?.role) finalPayload.role = payload.role;
-    // Copy any other non-sensitive claims you intentionally want (none by default).
-    // Sign and return
+    // If you need extra claims (exp, aud, etc), add intentionally here.
     return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$jsonwebtoken$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].sign(finalPayload, JWT_SECRET, {
         expiresIn
     });
 }
 function verifyToken(token) {
     try {
-        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$jsonwebtoken$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].verify(token, JWT_SECRET);
+        const decoded = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$jsonwebtoken$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].verify(token, JWT_SECRET);
+        return decoded;
     } catch (err) {
         if ("TURBOPACK compile-time truthy", 1) {
             console.debug("[auth] verifyToken failed:", err?.message ?? err);
@@ -206,7 +206,9 @@ async function verifyPassword(password, hash) {
     try {
         return __TURBOPACK__imported__module__$5b$externals$5d2f$bcrypt__$5b$external$5d$__$28$bcrypt$2c$__cjs$29$__["default"].compare(password, hash);
     } catch (err) {
-        if ("TURBOPACK compile-time truthy", 1) console.error("[auth] verifyPassword error:", err);
+        if ("TURBOPACK compile-time truthy", 1) {
+            console.error("[auth] verifyPassword error:", err);
+        }
         return false;
     }
 }
@@ -218,7 +220,6 @@ async function getUserFromRequest(req) {
             const token = authHeader.slice(7).trim();
             const payload = verifyToken(token);
             if (payload) {
-                // Prefer canonical id, fallback to sub/userId/uid
                 const userId = payload.id ?? payload.sub ?? payload.userId ?? payload.uid;
                 if (userId) {
                     const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique({
@@ -239,26 +240,30 @@ async function getUserFromRequest(req) {
             }
         }
         // 2) Cookies
-        // Try the candidate cookie names in order and return the first user matched.
+        // NextRequest cookie API: req.cookies.get(name) returns { name, value } | undefined
         for (const name of COOKIE_CANDIDATES){
             try {
-                // NextRequest exposes cookies via req.cookies.get(name)
                 const cookie = req.cookies.get(name);
                 if (!cookie) {
-                    if ("TURBOPACK compile-time truthy", 1) console.debug(`[auth] cookie probe: ${name} => <missing>`);
+                    if ("TURBOPACK compile-time truthy", 1) {
+                        console.debug(`[auth] cookie probe: ${name} => missing`);
+                    }
                     continue;
                 }
                 const token = cookie.value;
                 if (!token) continue;
                 const payload = verifyToken(token);
                 if (!payload) {
-                    if ("TURBOPACK compile-time truthy", 1) console.debug(`[auth] cookie ${name} token failed verify/expired`);
+                    if ("TURBOPACK compile-time truthy", 1) {
+                        console.debug(`[auth] cookie ${name} token failed verify/expired`);
+                    }
                     continue;
                 }
-                // Prefer id, fall back to sub/userId/uid for migrated tokens
                 const userId = payload.id ?? payload.sub ?? payload.userId ?? payload.uid;
                 if (!userId) {
-                    if ("TURBOPACK compile-time truthy", 1) console.debug(`[auth] cookie ${name} token missing id/sub/userId/uid`);
+                    if ("TURBOPACK compile-time truthy", 1) {
+                        console.debug(`[auth] cookie ${name} token missing id/sub/userId/uid`);
+                    }
                     continue;
                 }
                 const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique({
@@ -273,14 +278,21 @@ async function getUserFromRequest(req) {
                     }
                 });
                 if (user) {
-                    if ("TURBOPACK compile-time truthy", 1) console.debug(`[auth] cookie ${name} matched user id ${user.id}`);
+                    if ("TURBOPACK compile-time truthy", 1) {
+                        console.debug(`[auth] cookie ${name} matched user id ${user.id}`);
+                    }
                     return user;
                 } else {
-                    if ("TURBOPACK compile-time truthy", 1) console.debug(`[auth] cookie ${name} decoded id ${userId} not found`);
+                    if ("TURBOPACK compile-time truthy", 1) {
+                        console.debug(`[auth] cookie ${name} decoded id ${userId} not found`);
+                    }
                 }
             } catch (err) {
-                // Some runtimes may throw on req.cookies access — continue to next candidate
-                if ("TURBOPACK compile-time truthy", 1) console.debug(`[auth] cookie probe error for ${name}:`, err);
+                // Some runtimes may throw on cookie access — continue to next candidate
+                if ("TURBOPACK compile-time truthy", 1) {
+                    console.debug(`[auth] cookie probe error for ${name}:`, err);
+                }
+                continue;
             }
         }
         // nothing matched

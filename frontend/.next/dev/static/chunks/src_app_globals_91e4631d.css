@@ -1413,6 +1413,10 @@
     color: var(--color-zinc-900);
   }
 
+  .lowercase {
+    text-transform: lowercase;
+  }
+
   .uppercase {
     text-transform: uppercase;
   }

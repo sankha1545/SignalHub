@@ -118,7 +118,8 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__
 ;
 ;
 const JWT_SECRET = process.env.SESSION_SECRET || process.env.NEXTAUTH_SECRET || process.env.JWT_SECRET || "dev-secret";
-// Keep legacy candidates for graceful migration; prefer "session".
+// Keep legacy cookie names to support older sessions during migration.
+// Order matters: prefer 'session' then fallbacks.
 const COOKIE_CANDIDATES = [
     "session",
     "token",
@@ -127,22 +128,21 @@ const COOKIE_CANDIDATES = [
     "auth"
 ];
 function signToken(payload, expiresIn = "7d") {
-    // Build a safe payload that always contains 'id' as canonical user id claim.
     const finalPayload = {};
-    // Prefer explicit id/userId/sub from provided payload
+    // Accept common id fallback keys for compatibility
     const providedId = payload?.id ?? payload?.userId ?? payload?.sub ?? payload?.uid ?? null;
     if (providedId) finalPayload.id = String(providedId);
     if (payload?.email) finalPayload.email = payload.email;
     if (payload?.role) finalPayload.role = payload.role;
-    // Copy any other non-sensitive claims you intentionally want (none by default).
-    // Sign and return
+    // If you need extra claims (exp, aud, etc), add intentionally here.
     return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$jsonwebtoken$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].sign(finalPayload, JWT_SECRET, {
         expiresIn
     });
 }
 function verifyToken(token) {
     try {
-        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$jsonwebtoken$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].verify(token, JWT_SECRET);
+        const decoded = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$jsonwebtoken$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].verify(token, JWT_SECRET);
+        return decoded;
     } catch (err) {
         if ("TURBOPACK compile-time truthy", 1) {
             console.debug("[auth] verifyToken failed:", err?.message ?? err);
@@ -158,7 +158,9 @@ async function verifyPassword(password, hash) {
     try {
         return __TURBOPACK__imported__module__$5b$externals$5d2f$bcrypt__$5b$external$5d$__$28$bcrypt$2c$__cjs$29$__["default"].compare(password, hash);
     } catch (err) {
-        if ("TURBOPACK compile-time truthy", 1) console.error("[auth] verifyPassword error:", err);
+        if ("TURBOPACK compile-time truthy", 1) {
+            console.error("[auth] verifyPassword error:", err);
+        }
         return false;
     }
 }
@@ -170,7 +172,6 @@ async function getUserFromRequest(req) {
             const token = authHeader.slice(7).trim();
             const payload = verifyToken(token);
             if (payload) {
-                // Prefer canonical id, fallback to sub/userId/uid
                 const userId = payload.id ?? payload.sub ?? payload.userId ?? payload.uid;
                 if (userId) {
                     const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique({
@@ -191,26 +192,30 @@ async function getUserFromRequest(req) {
             }
         }
         // 2) Cookies
-        // Try the candidate cookie names in order and return the first user matched.
+        // NextRequest cookie API: req.cookies.get(name) returns { name, value } | undefined
         for (const name of COOKIE_CANDIDATES){
             try {
-                // NextRequest exposes cookies via req.cookies.get(name)
                 const cookie = req.cookies.get(name);
                 if (!cookie) {
-                    if ("TURBOPACK compile-time truthy", 1) console.debug(`[auth] cookie probe: ${name} => <missing>`);
+                    if ("TURBOPACK compile-time truthy", 1) {
+                        console.debug(`[auth] cookie probe: ${name} => missing`);
+                    }
                     continue;
                 }
                 const token = cookie.value;
                 if (!token) continue;
                 const payload = verifyToken(token);
                 if (!payload) {
-                    if ("TURBOPACK compile-time truthy", 1) console.debug(`[auth] cookie ${name} token failed verify/expired`);
+                    if ("TURBOPACK compile-time truthy", 1) {
+                        console.debug(`[auth] cookie ${name} token failed verify/expired`);
+                    }
                     continue;
                 }
-                // Prefer id, fall back to sub/userId/uid for migrated tokens
                 const userId = payload.id ?? payload.sub ?? payload.userId ?? payload.uid;
                 if (!userId) {
-                    if ("TURBOPACK compile-time truthy", 1) console.debug(`[auth] cookie ${name} token missing id/sub/userId/uid`);
+                    if ("TURBOPACK compile-time truthy", 1) {
+                        console.debug(`[auth] cookie ${name} token missing id/sub/userId/uid`);
+                    }
                     continue;
                 }
                 const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique({
@@ -225,14 +230,21 @@ async function getUserFromRequest(req) {
                     }
                 });
                 if (user) {
-                    if ("TURBOPACK compile-time truthy", 1) console.debug(`[auth] cookie ${name} matched user id ${user.id}`);
+                    if ("TURBOPACK compile-time truthy", 1) {
+                        console.debug(`[auth] cookie ${name} matched user id ${user.id}`);
+                    }
                     return user;
                 } else {
-                    if ("TURBOPACK compile-time truthy", 1) console.debug(`[auth] cookie ${name} decoded id ${userId} not found`);
+                    if ("TURBOPACK compile-time truthy", 1) {
+                        console.debug(`[auth] cookie ${name} decoded id ${userId} not found`);
+                    }
                 }
             } catch (err) {
-                // Some runtimes may throw on req.cookies access — continue to next candidate
-                if ("TURBOPACK compile-time truthy", 1) console.debug(`[auth] cookie probe error for ${name}:`, err);
+                // Some runtimes may throw on cookie access — continue to next candidate
+                if ("TURBOPACK compile-time truthy", 1) {
+                    console.debug(`[auth] cookie probe error for ${name}:`, err);
+                }
+                continue;
             }
         }
         // nothing matched
@@ -273,16 +285,19 @@ var __TURBOPACK__imported__module__$5b$externals$5d2f40$prisma$2f$client__$5b$ex
 ;
 ;
 ;
-/** compute since date */ function sinceDays(days = 30) {
+/** compute since date (UTC) */ function sinceDays(days = 30) {
     const d = new Date();
-    d.setDate(d.getDate() - days);
+    d.setUTCDate(d.getUTCDate() - days);
     return d;
 }
 /** Helper: compute base64 size (bytes) */ function base64SizeBytes(base64String) {
+    if (!base64String || typeof base64String !== "string") return 0;
     const comma = base64String.indexOf(",");
     const b64 = comma >= 0 ? base64String.slice(comma + 1) : base64String;
-    const padding = b64.endsWith("==") ? 2 : b64.endsWith("=") ? 1 : 0;
-    return Math.ceil(b64.length * 3 / 4) - padding;
+    // remove whitespace/newlines that may be present
+    const normalized = b64.replace(/\s+/g, "");
+    const padding = normalized.endsWith("==") ? 2 : normalized.endsWith("=") ? 1 : 0;
+    return Math.ceil(normalized.length * 3 / 4) - padding;
 }
 /** Whitelisted writable profile fields */ const ALLOWED_PROFILE_FIELDS = new Set([
     "avatarUrl",
@@ -297,12 +312,14 @@ var __TURBOPACK__imported__module__$5b$externals$5d2f40$prisma$2f$client__$5b$ex
     "countryGeonameId",
     "stateGeonameId"
 ]);
-function sanitizeProfilePayload(raw) {
+/** Sensible max avatar bytes (2 MB) */ const MAX_AVATAR_BYTES = 2 * 1024 * 1024;
+/** Sanitize profile payload — returns cleaned object or null */ function sanitizeProfilePayload(raw) {
     if (!raw || typeof raw !== "object") return null;
     const cleaned = {};
     const rejectedKeys = [];
     for (const [k, v] of Object.entries(raw)){
         if (ALLOWED_PROFILE_FIELDS.has(k)) {
+            // Coerce empty strings -> null to ease DB upsert semantics
             cleaned[k] = v === "" ? null : v;
         } else {
             rejectedKeys.push(k);
@@ -314,13 +331,14 @@ function sanitizeProfilePayload(raw) {
     return Object.keys(cleaned).length === 0 ? null : cleaned;
 }
 async function GET(req) {
-    // getUserFromRequest expects NextRequest so pass it directly
+    // getUserFromRequest expects NextRequest
     const sessionUser = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$auth$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["getUserFromRequest"])(req);
     if (!sessionUser) return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
         user: null
     }, {
         status: 401
     });
+    // Re-fetch canonical user from DB (don't trust token-only role if changed)
     const dbUser = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique({
         where: {
             id: sessionUser.id
@@ -335,7 +353,7 @@ async function GET(req) {
         }
     });
     if (!dbUser) {
-        // user disappeared from DB — treat as unauthorized
+        // user removed from DB; treat as unauthorized
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             user: null
         }, {
@@ -378,16 +396,40 @@ async function PATCH(req) {
     }, {
         status: 401
     });
-    const body = await req.json().catch(()=>({}));
+    const rawBody = await req.json().catch(()=>({}));
+    if (!rawBody || typeof rawBody !== "object") {
+        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+            error: "Invalid request body"
+        }, {
+            status: 400
+        });
+    }
     const userUpdates = {};
-    if (typeof body.name === "string") userUpdates.name = body.name;
+    if (typeof rawBody.name === "string") {
+        const trimmed = rawBody.name.trim();
+        if (!trimmed) {
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                error: "Name cannot be empty"
+            }, {
+                status: 400
+            });
+        }
+        userUpdates.name = trimmed;
+    }
     let profilePayload = null;
-    if (body.profile && typeof body.profile === "object") {
-        const incomingProfile = body.profile;
+    if (rawBody.profile && typeof rawBody.profile === "object") {
+        const incomingProfile = rawBody.profile;
+        // If avatarBase64 is supplied, validate size early
         if (incomingProfile.avatarBase64) {
             const size = base64SizeBytes(incomingProfile.avatarBase64);
-            const max = 2 * 1024 * 1024;
-            if (size > max) {
+            if (size <= 0) {
+                return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                    error: "Invalid avatar data"
+                }, {
+                    status: 400
+                });
+            }
+            if (size > MAX_AVATAR_BYTES) {
                 return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
                     error: "Avatar exceeds 2 MB limit"
                 }, {
@@ -395,7 +437,9 @@ async function PATCH(req) {
                 });
             }
         }
+        // sanitize profile to allowed fields
         profilePayload = sanitizeProfilePayload(incomingProfile);
+        // if avatarBase64 present and sanitized, map to avatarUrl field (stored as base64 in DB)
         if (incomingProfile.avatarBase64) {
             profilePayload = {
                 ...profilePayload ?? {},
@@ -436,21 +480,24 @@ async function PATCH(req) {
                 updatedAt: true
             }
         });
+        // Log profile change activity if profile changed
         if (profilePayload) {
-            try {
-                await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].activityLog.create({
-                    data: {
-                        userId: sessionUser.id,
-                        type: "PROFILE_CHANGE",
-                        meta: {
-                            fields: Object.keys(body.profile ?? {}),
-                            ts: new Date().toISOString()
+            (async ()=>{
+                try {
+                    await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].activityLog.create({
+                        data: {
+                            userId: sessionUser.id,
+                            type: "PROFILE_CHANGE",
+                            meta: {
+                                fields: Object.keys(rawBody.profile ?? {}),
+                                ts: new Date().toISOString()
+                            }
                         }
-                    }
-                });
-            } catch (err) {
-                console.error("Failed to write profile change activity:", err);
-            }
+                    });
+                } catch (err) {
+                    console.error("Failed to write profile change activity:", err);
+                }
+            })();
         }
         const since = sinceDays(30);
         const [logins30d, changes30d] = await Promise.all([

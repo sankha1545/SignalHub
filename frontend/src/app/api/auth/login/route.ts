@@ -29,19 +29,23 @@ function parseProviders(providerField: string | null | undefined): string[] {
     .filter(Boolean);
 }
 
-/** Build fallback Set-Cookie header value (used if res.cookies.set fails) */
+/**
+ * Build fallback Set-Cookie header value. In production use SameSite=None + Secure
+ * so cookies work across sites (if that's your intended deployment). In non-prod use Lax.
+ */
 function buildCookieHeader(name: string, value: string, maxAge = SESSION_MAX_AGE) {
-  const secure = process.env.NODE_ENV === "production";
-  return [
-    `${name}=${value}`,
+  const isProd = process.env.NODE_ENV === "production";
+  const sameSite = isProd ? "None" : "Lax";
+  const secure = !!isProd;
+  const parts = [
+    `${name}=${encodeURIComponent(value)}`,
     "Path=/",
     `Max-Age=${maxAge}`,
     "HttpOnly",
-    "SameSite=Lax",
+    `SameSite=${sameSite}`,
     secure ? "Secure" : "",
-  ]
-    .filter(Boolean)
-    .join("; ");
+  ].filter(Boolean);
+  return parts.join("; ");
 }
 
 export async function POST(req: Request) {
@@ -71,9 +75,14 @@ export async function POST(req: Request) {
     if (!user) return jsonError("Invalid email or password.", 401);
 
     // Robust provider parsing
-    const providers = parseProviders(user.provider);
-    const hasCredentials = providers.includes("credentials") || providers.includes("email") || !!user.passwordHash;
-    const oauthProviders = providers.filter((p) => p !== "credentials" && p !== "email");
+    const providers = parseProviders(user.provider as string | null | undefined);
+    const hasCredentials =
+      providers.includes("credentials") ||
+      providers.includes("email") ||
+      providers.includes("local") ||
+      !!user.passwordHash;
+
+    const oauthProviders = providers.filter((p) => p !== "credentials" && p !== "email" && p !== "local");
 
     // If user does NOT have credentials, but has external provider(s) — block credential login
     if (!hasCredentials) {
@@ -88,17 +97,17 @@ export async function POST(req: Request) {
     }
 
     if (!user.passwordHash) {
-      // Defensive: if provider indicates credentials but no password is stored
+      // Defensive: if provider claims credentials but no password is stored
       return jsonError("Password not set for this account. Please reset your password.", 401);
     }
 
     const valid = await verifyPassword(password, user.passwordHash);
     if (!valid) return jsonError("Invalid email or password.", 401);
 
-    // Create session token (7d)
+    // Create session token (7d) — include canonical role from DB
     const token = signToken({ id: user.id, email: user.email, role: user.role }, "7d");
 
-    // Fire-and-forget activity log
+    // Fire-and-forget activity log (non-blocking)
     (async () => {
       try {
         await prisma.activityLog.create({
@@ -115,11 +124,18 @@ export async function POST(req: Request) {
 
     const res = NextResponse.json({
       ok: true,
-      user: { id: user.id, email: user.email, name: user.name, role: user.role, provider: providers.length ? providers.join(",") : "credentials" },
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+        provider: providers.length ? providers.join(",") : "credentials",
+      },
     });
 
     // Prefer NextResponse cookies API; fall back to Set-Cookie header if necessary
     try {
+      // Use NextResponse cookies API when runtime supports it
       res.cookies.set(SESSION_COOKIE_NAME, token, {
         httpOnly: true,
         sameSite: "lax",
@@ -128,10 +144,13 @@ export async function POST(req: Request) {
         maxAge: SESSION_MAX_AGE,
       } as any);
     } catch {
+      // Fallback header — set SameSite=None in prod (to match typical cross-site usage), Lax otherwise
       res.headers.set("Set-Cookie", buildCookieHeader(SESSION_COOKIE_NAME, token, SESSION_MAX_AGE));
     }
 
-    if (process.env.NODE_ENV !== "production") console.debug("[auth/login] session cookie set for userId:", user.id);
+    if (process.env.NODE_ENV !== "production") {
+      console.debug("[auth/login] session cookie set for userId:", user.id);
+    }
 
     return res;
   } catch (err) {

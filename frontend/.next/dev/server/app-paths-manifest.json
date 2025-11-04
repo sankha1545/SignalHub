@@ -1,7 +1,10 @@
 {
+  "/(authenticated)/admin/page": "app/(authenticated)/admin/page.js",
   "/_not-found/page": "app/_not-found/page.js",
-  "/api/auth/clear-sessions/route": "app/api/auth/clear-sessions/route.js",
+  "/api/auth/admin-exists/route": "app/api/auth/admin-exists/route.js",
+  "/api/auth/google/signup/route": "app/api/auth/google/signup/route.js",
   "/api/auth/google/verify/route": "app/api/auth/google/verify/route.js",
+  "/api/auth/login/route": "app/api/auth/login/route.js",
   "/api/auth/send-otp/route": "app/api/auth/send-otp/route.js",
   "/api/auth/signup/route": "app/api/auth/signup/route.js",
   "/api/auth/verify-otp/route": "app/api/auth/verify-otp/route.js",

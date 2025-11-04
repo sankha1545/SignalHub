@@ -118,7 +118,8 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__
 ;
 ;
 const JWT_SECRET = process.env.SESSION_SECRET || process.env.NEXTAUTH_SECRET || process.env.JWT_SECRET || "dev-secret";
-// Keep legacy candidates for graceful migration; prefer "session".
+// Keep legacy cookie names to support older sessions during migration.
+// Order matters: prefer 'session' then fallbacks.
 const COOKIE_CANDIDATES = [
     "session",
     "token",
@@ -127,22 +128,21 @@ const COOKIE_CANDIDATES = [
     "auth"
 ];
 function signToken(payload, expiresIn = "7d") {
-    // Build a safe payload that always contains 'id' as canonical user id claim.
     const finalPayload = {};
-    // Prefer explicit id/userId/sub from provided payload
+    // Accept common id fallback keys for compatibility
     const providedId = payload?.id ?? payload?.userId ?? payload?.sub ?? payload?.uid ?? null;
     if (providedId) finalPayload.id = String(providedId);
     if (payload?.email) finalPayload.email = payload.email;
     if (payload?.role) finalPayload.role = payload.role;
-    // Copy any other non-sensitive claims you intentionally want (none by default).
-    // Sign and return
+    // If you need extra claims (exp, aud, etc), add intentionally here.
     return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$jsonwebtoken$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].sign(finalPayload, JWT_SECRET, {
         expiresIn
     });
 }
 function verifyToken(token) {
     try {
-        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$jsonwebtoken$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].verify(token, JWT_SECRET);
+        const decoded = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$jsonwebtoken$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].verify(token, JWT_SECRET);
+        return decoded;
     } catch (err) {
         if ("TURBOPACK compile-time truthy", 1) {
             console.debug("[auth] verifyToken failed:", err?.message ?? err);
@@ -158,7 +158,9 @@ async function verifyPassword(password, hash) {
     try {
         return __TURBOPACK__imported__module__$5b$externals$5d2f$bcrypt__$5b$external$5d$__$28$bcrypt$2c$__cjs$29$__["default"].compare(password, hash);
     } catch (err) {
-        if ("TURBOPACK compile-time truthy", 1) console.error("[auth] verifyPassword error:", err);
+        if ("TURBOPACK compile-time truthy", 1) {
+            console.error("[auth] verifyPassword error:", err);
+        }
         return false;
     }
 }
@@ -170,7 +172,6 @@ async function getUserFromRequest(req) {
             const token = authHeader.slice(7).trim();
             const payload = verifyToken(token);
             if (payload) {
-                // Prefer canonical id, fallback to sub/userId/uid
                 const userId = payload.id ?? payload.sub ?? payload.userId ?? payload.uid;
                 if (userId) {
                     const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique({
@@ -191,26 +192,30 @@ async function getUserFromRequest(req) {
             }
         }
         // 2) Cookies
-        // Try the candidate cookie names in order and return the first user matched.
+        // NextRequest cookie API: req.cookies.get(name) returns { name, value } | undefined
         for (const name of COOKIE_CANDIDATES){
             try {
-                // NextRequest exposes cookies via req.cookies.get(name)
                 const cookie = req.cookies.get(name);
                 if (!cookie) {
-                    if ("TURBOPACK compile-time truthy", 1) console.debug(`[auth] cookie probe: ${name} => <missing>`);
+                    if ("TURBOPACK compile-time truthy", 1) {
+                        console.debug(`[auth] cookie probe: ${name} => missing`);
+                    }
                     continue;
                 }
                 const token = cookie.value;
                 if (!token) continue;
                 const payload = verifyToken(token);
                 if (!payload) {
-                    if ("TURBOPACK compile-time truthy", 1) console.debug(`[auth] cookie ${name} token failed verify/expired`);
+                    if ("TURBOPACK compile-time truthy", 1) {
+                        console.debug(`[auth] cookie ${name} token failed verify/expired`);
+                    }
                     continue;
                 }
-                // Prefer id, fall back to sub/userId/uid for migrated tokens
                 const userId = payload.id ?? payload.sub ?? payload.userId ?? payload.uid;
                 if (!userId) {
-                    if ("TURBOPACK compile-time truthy", 1) console.debug(`[auth] cookie ${name} token missing id/sub/userId/uid`);
+                    if ("TURBOPACK compile-time truthy", 1) {
+                        console.debug(`[auth] cookie ${name} token missing id/sub/userId/uid`);
+                    }
                     continue;
                 }
                 const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique({
@@ -225,14 +230,21 @@ async function getUserFromRequest(req) {
                     }
                 });
                 if (user) {
-                    if ("TURBOPACK compile-time truthy", 1) console.debug(`[auth] cookie ${name} matched user id ${user.id}`);
+                    if ("TURBOPACK compile-time truthy", 1) {
+                        console.debug(`[auth] cookie ${name} matched user id ${user.id}`);
+                    }
                     return user;
                 } else {
-                    if ("TURBOPACK compile-time truthy", 1) console.debug(`[auth] cookie ${name} decoded id ${userId} not found`);
+                    if ("TURBOPACK compile-time truthy", 1) {
+                        console.debug(`[auth] cookie ${name} decoded id ${userId} not found`);
+                    }
                 }
             } catch (err) {
-                // Some runtimes may throw on req.cookies access — continue to next candidate
-                if ("TURBOPACK compile-time truthy", 1) console.debug(`[auth] cookie probe error for ${name}:`, err);
+                // Some runtimes may throw on cookie access — continue to next candidate
+                if ("TURBOPACK compile-time truthy", 1) {
+                    console.debug(`[auth] cookie probe error for ${name}:`, err);
+                }
+                continue;
             }
         }
         // nothing matched
@@ -274,11 +286,10 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$auth$2e$ts__$5
     const sameSite = ("TURBOPACK compile-time falsy", 0) ? "TURBOPACK unreachable" : "lax";
     const secure = isProd;
     const maxAge = 7 * 24 * 60 * 60; // 7 days
-    const value = encodeURIComponent(token);
     try {
         res.cookies.set({
             name: "session",
-            value,
+            value: token,
             httpOnly: true,
             secure,
             sameSite: sameSite,
@@ -288,7 +299,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$auth$2e$ts__$5
     } catch  {
         // header fallback for runtimes that expect a Set-Cookie header string
         const parts = [
-            `session=${value}`,
+            `session=${encodeURIComponent(token)}`,
             "Path=/",
             `Max-Age=${maxAge}`,
             "HttpOnly",
@@ -296,6 +307,32 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$auth$2e$ts__$5
             ("TURBOPACK compile-time falsy", 0) ? "TURBOPACK unreachable" : ""
         ].filter(Boolean);
         res.headers.set("Set-Cookie", parts.join("; "));
+    }
+}
+/** Normalize a client-provided role into the Prisma enum value (uppercase) */ function normalizeRoleForDb(raw) {
+    if (!raw) return "VIEWER";
+    const v = String(raw).trim();
+    if ([
+        "VIEWER",
+        "EDITOR",
+        "ADMIN"
+    ].includes(v)) return v;
+    const lower = v.toLowerCase();
+    if (lower === "viewer") return "VIEWER";
+    if (lower === "editor") return "EDITOR";
+    if (lower === "admin") return "ADMIN";
+    return "VIEWER";
+}
+/** Helper: check whether any admin exists (uses provided tx if present) */ async function adminExistsTx(tx) {
+    const p = tx ?? __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"];
+    // Use a raw SQL check to avoid enum validation conflicts; returns boolean
+    try {
+        const result = await p.$queryRaw`SELECT COUNT(*)::int AS count FROM "User" WHERE LOWER(role::text) = 'admin'`;
+        return (result?.[0]?.count ?? 0) > 0;
+    } catch (err) {
+        console.error("[signup] adminExistsTx fallback query error:", err);
+        // conservative default: assume admin exists to avoid accidental duplicate admin creation
+        return true;
     }
 }
 async function POST(req) {
@@ -323,8 +360,9 @@ async function POST(req) {
                 status: 400
             });
         }
-        // Prevent client from assigning roles on signup — default to VIEWER.
-        const DEFAULT_ROLE = "VIEWER";
+        // Normalize requested role (client may send viewer/editor/admin in any case)
+        const requestedRoleRaw = (body.role || "").toString().trim();
+        const requestedRoleForDb = normalizeRoleForDb(requestedRoleRaw); // e.g. "VIEWER"|"EDITOR"|"ADMIN"
         // If user already exists -> conflict (for OAuth flows you may want to link instead)
         const existing = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique({
             where: {
@@ -364,12 +402,76 @@ async function POST(req) {
                 });
             }
             const passwordHash = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$auth$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["hashPassword"])(password);
+            // If requested role is ADMIN -> perform atomic check+create using a transaction
+            if (requestedRoleForDb === "ADMIN") {
+                try {
+                    const result = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].$transaction(async (tx)=>{
+                        const exists = await adminExistsTx(tx);
+                        if (exists) {
+                            // signal admin exists by throwing a sentinel
+                            throw {
+                                code: "ADMIN_EXISTS"
+                            };
+                        }
+                        const user = await tx.user.create({
+                            data: {
+                                email,
+                                name,
+                                passwordHash,
+                                role: "ADMIN",
+                                emailVerified: true,
+                                provider: "credentials"
+                            },
+                            select: {
+                                id: true,
+                                email: true,
+                                name: true,
+                                role: true,
+                                provider: true
+                            }
+                        });
+                        // cleanup OTPs inside same tx if desired (optional)
+                        await tx.emailOtp.deleteMany({
+                            where: {
+                                email
+                            }
+                        });
+                        return user;
+                    });
+                    const token = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$auth$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["signToken"])({
+                        id: result.id,
+                        email: result.email,
+                        role: result.role
+                    }, "7d");
+                    const res = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                        ok: true,
+                        user: result
+                    });
+                    setSessionCookie(res, token);
+                    return res;
+                } catch (err) {
+                    if (err && err.code === "ADMIN_EXISTS") {
+                        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                            error: "An admin account already exists"
+                        }, {
+                            status: 409
+                        });
+                    }
+                    console.error("signup (credentials/admin) transaction error:", err);
+                    return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                        error: "Server error"
+                    }, {
+                        status: 500
+                    });
+                }
+            }
+            // Non-admin create path (viewer/editor)
             const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.create({
                 data: {
                     email,
                     name,
                     passwordHash,
-                    role: DEFAULT_ROLE,
+                    role: requestedRoleForDb,
                     emailVerified: true,
                     provider: "credentials"
                 },
@@ -405,12 +507,76 @@ async function POST(req) {
         if (provider === "google") {
             // For OAuth you typically verify the Google token on the server before creating.
             // Here we assume upstream verification was done and we just create the account.
+            // If requested role is ADMIN -> atomic check+create
+            if (requestedRoleForDb === "ADMIN") {
+                try {
+                    const result = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].$transaction(async (tx)=>{
+                        const exists = await adminExistsTx(tx);
+                        if (exists) {
+                            throw {
+                                code: "ADMIN_EXISTS"
+                            };
+                        }
+                        const user = await tx.user.create({
+                            data: {
+                                email,
+                                name,
+                                passwordHash: null,
+                                role: "ADMIN",
+                                emailVerified: true,
+                                provider: "google"
+                            },
+                            select: {
+                                id: true,
+                                email: true,
+                                name: true,
+                                role: true,
+                                provider: true
+                            }
+                        });
+                        await tx.account.create({
+                            data: {
+                                provider: "google",
+                                providerAccountId: body?.role ? String(body.role) : String(body.email),
+                                userId: user.id
+                            }
+                        }).catch(()=>{}); // optional: ignore if account table not used here
+                        return user;
+                    });
+                    const token = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$auth$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["signToken"])({
+                        id: result.id,
+                        email: result.email,
+                        role: result.role
+                    }, "7d");
+                    const res = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                        ok: true,
+                        user: result
+                    });
+                    setSessionCookie(res, token);
+                    return res;
+                } catch (err) {
+                    if (err && err.code === "ADMIN_EXISTS") {
+                        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                            error: "An admin account already exists"
+                        }, {
+                            status: 409
+                        });
+                    }
+                    console.error("google signup error (admin path):", err);
+                    return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                        error: "Server error"
+                    }, {
+                        status: 500
+                    });
+                }
+            }
+            // Non-admin google create path
             const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.create({
                 data: {
                     email,
                     name,
                     passwordHash: null,
-                    role: DEFAULT_ROLE,
+                    role: requestedRoleForDb,
                     emailVerified: true,
                     provider: "google"
                 },
@@ -440,6 +606,14 @@ async function POST(req) {
             status: 400
         });
     } catch (err) {
+        // special-case thrown admin-exists signal from transaction
+        if (err && err.code === "ADMIN_EXISTS") {
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                error: "An admin account already exists"
+            }, {
+                status: 409
+            });
+        }
         console.error("signup error:", err);
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             error: "Server error"

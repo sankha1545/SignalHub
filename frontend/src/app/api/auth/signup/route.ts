@@ -7,7 +7,7 @@ type ReqBody = {
   email?: string;
   name?: string;
   password?: string;
-  // client-sent role will be ignored for security; admin changes role server-side
+  // client-sent role will be normalized server-side
   role?: string;
   provider?: "credentials" | "google" | string;
 };
@@ -18,12 +18,11 @@ function setSessionCookie(res: NextResponse, token: string) {
   const sameSite = isProd ? "none" : "lax";
   const secure = isProd;
   const maxAge = 7 * 24 * 60 * 60; // 7 days
-  const value = encodeURIComponent(token);
 
   try {
     res.cookies.set({
       name: "session",
-      value,
+      value: token,
       httpOnly: true,
       secure,
       sameSite: sameSite as "lax" | "none" | "strict",
@@ -33,7 +32,7 @@ function setSessionCookie(res: NextResponse, token: string) {
   } catch {
     // header fallback for runtimes that expect a Set-Cookie header string
     const parts = [
-      `session=${value}`,
+      `session=${encodeURIComponent(token)}`,
       "Path=/",
       `Max-Age=${maxAge}`,
       "HttpOnly",
@@ -41,6 +40,32 @@ function setSessionCookie(res: NextResponse, token: string) {
       secure ? "Secure" : "",
     ].filter(Boolean);
     res.headers.set("Set-Cookie", parts.join("; "));
+  }
+}
+
+/** Normalize a client-provided role into the Prisma enum value (uppercase) */
+function normalizeRoleForDb(raw?: string | null) {
+  if (!raw) return "VIEWER";
+  const v = String(raw).trim();
+  if (["VIEWER", "EDITOR", "ADMIN"].includes(v)) return v;
+  const lower = v.toLowerCase();
+  if (lower === "viewer") return "VIEWER";
+  if (lower === "editor") return "EDITOR";
+  if (lower === "admin") return "ADMIN";
+  return "VIEWER";
+}
+
+/** Helper: check whether any admin exists (uses provided tx if present) */
+async function adminExistsTx(tx?: typeof prisma) {
+  const p = tx ?? prisma;
+  // Use a raw SQL check to avoid enum validation conflicts; returns boolean
+  try {
+    const result = await p.$queryRaw<Array<{ count: number }>>`SELECT COUNT(*)::int AS count FROM "User" WHERE LOWER(role::text) = 'admin'`;
+    return (result?.[0]?.count ?? 0) > 0;
+  } catch (err) {
+    console.error("[signup] adminExistsTx fallback query error:", err);
+    // conservative default: assume admin exists to avoid accidental duplicate admin creation
+    return true;
   }
 }
 
@@ -68,8 +93,9 @@ export async function POST(req: Request) {
       );
     }
 
-    // Prevent client from assigning roles on signup — default to VIEWER.
-    const DEFAULT_ROLE = "VIEWER";
+    // Normalize requested role (client may send viewer/editor/admin in any case)
+    const requestedRoleRaw = (body.role || "").toString().trim();
+    const requestedRoleForDb = normalizeRoleForDb(requestedRoleRaw); // e.g. "VIEWER"|"EDITOR"|"ADMIN"
 
     // If user already exists -> conflict (for OAuth flows you may want to link instead)
     const existing = await prisma.user.findUnique({ where: { email } });
@@ -104,12 +130,51 @@ export async function POST(req: Request) {
 
       const passwordHash = await hashPassword(password);
 
+      // If requested role is ADMIN -> perform atomic check+create using a transaction
+      if (requestedRoleForDb === "ADMIN") {
+        try {
+          const result = await prisma.$transaction(async (tx) => {
+            const exists = await adminExistsTx(tx);
+            if (exists) {
+              // signal admin exists by throwing a sentinel
+              throw { code: "ADMIN_EXISTS" };
+            }
+            const user = await tx.user.create({
+              data: {
+                email,
+                name,
+                passwordHash,
+                role: "ADMIN",
+                emailVerified: true,
+                provider: "credentials",
+              },
+              select: { id: true, email: true, name: true, role: true, provider: true },
+            });
+            // cleanup OTPs inside same tx if desired (optional)
+            await tx.emailOtp.deleteMany({ where: { email } });
+            return user;
+          });
+
+          const token = signToken({ id: result.id, email: result.email, role: result.role }, "7d");
+          const res = NextResponse.json({ ok: true, user: result });
+          setSessionCookie(res, token);
+          return res;
+        } catch (err) {
+          if (err && err.code === "ADMIN_EXISTS") {
+            return NextResponse.json({ error: "An admin account already exists" }, { status: 409 });
+          }
+          console.error("signup (credentials/admin) transaction error:", err);
+          return NextResponse.json({ error: "Server error" }, { status: 500 });
+        }
+      }
+
+      // Non-admin create path (viewer/editor)
       const user = await prisma.user.create({
         data: {
           email,
           name,
           passwordHash,
-          role: DEFAULT_ROLE,
+          role: requestedRoleForDb, // 'VIEWER' or 'EDITOR'
           emailVerified: true,
           provider: "credentials",
         },
@@ -134,12 +199,56 @@ export async function POST(req: Request) {
     if (provider === "google") {
       // For OAuth you typically verify the Google token on the server before creating.
       // Here we assume upstream verification was done and we just create the account.
+
+      // If requested role is ADMIN -> atomic check+create
+      if (requestedRoleForDb === "ADMIN") {
+        try {
+          const result = await prisma.$transaction(async (tx) => {
+            const exists = await adminExistsTx(tx);
+            if (exists) {
+              throw { code: "ADMIN_EXISTS" };
+            }
+            const user = await tx.user.create({
+              data: {
+                email,
+                name,
+                passwordHash: null,
+                role: "ADMIN",
+                emailVerified: true,
+                provider: "google",
+              },
+              select: { id: true, email: true, name: true, role: true, provider: true },
+            });
+            await tx.account.create({
+              data: {
+                provider: "google",
+                providerAccountId: body?.role ? String(body.role) : String(body.email), // placeholder if needed
+                userId: user.id,
+              },
+            }).catch(() => {}); // optional: ignore if account table not used here
+            return user;
+          });
+
+          const token = signToken({ id: result.id, email: result.email, role: result.role }, "7d");
+          const res = NextResponse.json({ ok: true, user: result });
+          setSessionCookie(res, token);
+          return res;
+        } catch (err) {
+          if (err && err.code === "ADMIN_EXISTS") {
+            return NextResponse.json({ error: "An admin account already exists" }, { status: 409 });
+          }
+          console.error("google signup error (admin path):", err);
+          return NextResponse.json({ error: "Server error" }, { status: 500 });
+        }
+      }
+
+      // Non-admin google create path
       const user = await prisma.user.create({
         data: {
           email,
           name,
           passwordHash: null,
-          role: DEFAULT_ROLE,
+          role: requestedRoleForDb, // VIEWER or EDITOR
           emailVerified: true,
           provider: "google",
         },
@@ -154,7 +263,11 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ error: "Unsupported provider" }, { status: 400 });
-  } catch (err) {
+  } catch (err: any) {
+    // special-case thrown admin-exists signal from transaction
+    if (err && err.code === "ADMIN_EXISTS") {
+      return NextResponse.json({ error: "An admin account already exists" }, { status: 409 });
+    }
     console.error("signup error:", err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
