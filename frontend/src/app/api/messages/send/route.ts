@@ -1,36 +1,21 @@
 // frontend/src/app/api/messages/send/route.ts
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
+import { sendSms, sendWhatsApp } from "@/lib/providers/twilio";
+import { sendEmail } from "@/lib/providers/email";
 
-/**
- * Message send route (matches schema.prisma models)
- *
- * Behavior:
- *  - Resolve user from NextAuth session, then cookie token, then Authorization header.
- *  - If resolved user record exists, use it. If missing, behavior controlled by AUTO_CREATE_USERS:
- *      - AUTO_CREATE_USERS=true  -> auto-create a minimal user (dev convenience)
- *      - otherwise -> return 401 (auth mismatch)
- *  - Ensure Contact exists (lookup by id or normalized phone; create minimal if missing).
- *  - Find or create Thread for that contact (creatorId set only if user exists).
- *  - Create Message using scalar `threadId` and `senderId`.
- *
- * Notes:
- *  - Designed to be robust in development. Do NOT enable AUTO_CREATE_USERS in production unless you understand the implications.
- *  - This file intentionally returns extra error details in non-production to help debugging.
- */
 
-// --------------------------- Helpers & config ---------------------------
+
 const ALLOWED_CHANNELS = ["SMS", "WHATSAPP", "EMAIL", "TWITTER", "MESSENGER"] as const;
 type Channel = typeof ALLOWED_CHANNELS[number];
 
-const AUTO_CREATE_USERS = process.env.AUTO_CREATE_USERS === "true"; // set true for dev autoprov behavior
+const AUTO_CREATE_USERS = process.env.AUTO_CREATE_USERS === "true";
+const JWT_SECRET = process.env.JWT_SECRET ?? "dev-secret";
 
 function devLog(...args: any[]) {
   if (process.env.NODE_ENV !== "production") console.debug("[/api/messages/send]", ...args);
 }
 
-// JWT helpers (verify then decode fallback)
-const JWT_SECRET = process.env.JWT_SECRET ?? "dev-secret";
 function tryDecodeToken(token: string | null) {
   if (!token) return null;
   try {
@@ -63,7 +48,7 @@ function extractLikelyCookieToken(cookieHeader: string | null) {
     "sessionToken",
   ];
   for (const name of names) {
-    const found = cookieHeader.split(";").map(s => s.trim()).find(s => s.startsWith(`${name}=`));
+    const found = cookieHeader.split(";").map((s) => s.trim()).find((s) => s.startsWith(`${name}=`));
     if (found) {
       const eq = found.indexOf("=");
       if (eq === -1) continue;
@@ -75,7 +60,6 @@ function extractLikelyCookieToken(cookieHeader: string | null) {
 
 function normalizePhone(p?: string | null) {
   if (!p) return null;
-  // simple normalizer — keep leading plus if present
   const trimmed = p.trim();
   return trimmed.replace(/[()\s.-]/g, "");
 }
@@ -107,11 +91,21 @@ async function tryGetNextAuthSessionUserId() {
   return { id: null, email: null };
 }
 
-// --------------------------- Route handler ---------------------------
+/** Append failedReason+provider to message.metadata (best-effort) */
+async function appendFailedReasonToMessage(messageId: string, provider: string, reason: string) {
+  try {
+    const existing = await prisma.message.findUnique({ where: { id: messageId } });
+    const newMeta = { ...(existing?.metadata ?? {}), failedReason: reason, provider };
+    await prisma.message.update({ where: { id: messageId }, data: { metadata: newMeta as any } });
+  } catch (e) {
+    devLog("appendFailedReasonToMessage failed:", e);
+  }
+}
+
 export async function POST(req: Request) {
   devLog("start POST");
 
-  // parse body safely
+  // parse JSON body
   let body: any = null;
   try {
     body = await req.json();
@@ -124,6 +118,7 @@ export async function POST(req: Request) {
   const channelRaw = typeof body.channel === "string" ? body.channel.trim().toUpperCase() : null;
   const messageBody = typeof body.body === "string" ? body.body.trim() : null;
   const contactIdProvided = typeof body.contactId === "string" ? body.contactId : undefined;
+  const sendAtRaw = body.sendAt ? new Date(body.sendAt) : null;
 
   if (!toRaw || !channelRaw || !messageBody) {
     return NextResponse.json({ error: "Missing required fields (to, channel, body)" }, { status: 400 });
@@ -140,6 +135,7 @@ export async function POST(req: Request) {
   // ---------------------------
   let resolvedUserId: string | null = null;
   let resolvedEmail: string | null = null;
+
   try {
     const fromNextAuth = await tryGetNextAuthSessionUserId();
     resolvedUserId = fromNextAuth.id ?? resolvedUserId;
@@ -164,7 +160,6 @@ export async function POST(req: Request) {
     }
   }
 
-  // Authorization header fallback (Bearer)
   if (!resolvedUserId && !resolvedEmail) {
     try {
       const authHeader = req.headers.get("authorization") ?? req.headers.get("Authorization");
@@ -205,7 +200,6 @@ export async function POST(req: Request) {
         }, { status: 401 });
       }
 
-      // Create minimal user for dev convenience. Keep fields minimal to avoid unique violations.
       const createData: any = {
         email: resolvedEmail ?? `${resolvedUserId ?? "devuser"}@example.invalid`,
         role: "VIEWER",
@@ -217,7 +211,6 @@ export async function POST(req: Request) {
         senderUser = await prisma.user.create({ data: createData });
         devLog("auto-created sender user (dev):", senderUser.id);
       } catch (createErr) {
-        // If setting id failed (rare), retry without id
         devLog("user.create failed (with id). Retrying without id:", createErr?.message ?? createErr);
         const fallback = { ...createData };
         delete fallback.id;
@@ -252,7 +245,6 @@ export async function POST(req: Request) {
         ...(contactIdProvided ? { id: contactIdProvided } : {}),
         phone: phoneNormalized ?? undefined,
       };
-      // drop undefined keys
       Object.keys(createPayload).forEach((k) => createPayload[k] === undefined && delete createPayload[k]);
 
       contact = await prisma.contact.create({ data: createPayload });
@@ -260,7 +252,6 @@ export async function POST(req: Request) {
     }
   } catch (err) {
     console.error("[/api/messages/send] contact ensure failed:", err);
-    // If unique constraint fails (rare), give specific info in dev
     if (process.env.NODE_ENV !== "production") {
       return NextResponse.json({
         ok: false,
@@ -279,14 +270,13 @@ export async function POST(req: Request) {
   try {
     thread = await prisma.thread.findFirst({
       where: { contactId: contact.id },
-      orderBy: { lastAt: "desc" },
+      orderBy: { lastAt: "desc" as const },
     });
 
     if (!thread) {
       thread = await prisma.thread.create({
         data: {
           contactId: contact.id,
-          // schema allows creatorId to be nullable; set because senderUser exists
           creatorId: senderUser?.id ?? undefined,
           lastAt: new Date(),
         } as any,
@@ -309,36 +299,58 @@ export async function POST(req: Request) {
   }
 
   // ---------------------------
-  // Create the message (use scalar senderId)
+  // Scheduled messages — create ScheduledMessage and return early
   // ---------------------------
+  if (sendAtRaw && !Number.isNaN(sendAtRaw.getTime())) {
+    try {
+      const scheduled = await prisma.scheduledMessage.create({
+        data: {
+          threadId: thread.id,
+          senderId: senderUser?.id ?? undefined,
+          body: messageBody,
+          channel,
+          sendAt: sendAtRaw,
+          metadata: { to: phoneNormalized, ...(body.metadata ?? {}) },
+        },
+      });
+      devLog("created scheduledMessage:", scheduled.id);
+      return NextResponse.json({ ok: true, scheduled, thread, notice: "Message scheduled for future delivery." });
+    } catch (err: any) {
+      console.error("[/api/messages/send] failed creating scheduled message:", err);
+      return NextResponse.json({
+        ok: false,
+        error: "Failed to schedule message",
+        detail: process.env.NODE_ENV !== "production" ? (err?.message ?? String(err)) : undefined,
+      }, { status: 500 });
+    }
+  }
+
+  // ---------------------------
+  // Create the outbound Message (do NOT set `status` on Message)
+  // ---------------------------
+  let createdMessage: any = null;
   try {
     const messageData: any = {
       threadId: thread.id,
-      senderId: senderUser?.id ?? null, // Message.senderId is nullable in schema; use null only if senderUser is missing (shouldn't be)
+      senderId: senderUser?.id ?? null,
       body: messageBody,
       channel,
       direction: "OUTBOUND",
-      metadata: { to: phoneNormalized },
+      metadata: { to: phoneNormalized, ...(body.metadata ?? {}) },
+      // Note: Message model doesn't have `status` in your schema. Use externalId / sentAt / deliveredAt.
     };
 
-    const message = await prisma.message.create({ data: messageData });
-    devLog("created message:", message.id);
+    createdMessage = await prisma.message.create({ data: messageData });
+    devLog("created message:", createdMessage.id);
 
-    // update thread.lastAt (best-effort)
+    // best-effort update thread.lastAt
     try {
-      await prisma.thread.update({
-        where: { id: thread.id },
-        data: { lastAt: new Date() },
-      });
+      await prisma.thread.update({ where: { id: thread.id }, data: { lastAt: new Date() } });
     } catch (updateErr) {
       devLog("failed to update thread.lastAt:", updateErr?.message ?? updateErr);
     }
-
-    return NextResponse.json({ ok: true, message, thread });
   } catch (err: any) {
     console.error("[/api/messages/send] error creating message (full):", err);
-
-    // return helpful error in development
     if (process.env.NODE_ENV !== "production") {
       return NextResponse.json({
         ok: false,
@@ -347,7 +359,116 @@ export async function POST(req: Request) {
         meta: err?.meta ?? null,
       }, { status: 500 });
     }
-
     return NextResponse.json({ ok: false, error: "Internal server error" }, { status: 500 });
   }
+
+  // ---------------------------
+  // Immediate delivery for supported channels (graceful fallback if provider not configured)
+  // ---------------------------
+  try {
+    if (channel === "SMS") {
+      devLog("sending SMS via provider...", { to: createdMessage.metadata?.to ?? toRaw });
+      try {
+        const res = await sendSms({ to: createdMessage.metadata?.to ?? toRaw, body: messageBody });
+        await prisma.message.update({
+          where: { id: createdMessage.id },
+          data: {
+            externalId: (res as any)?.sid ?? (res as any)?.id ?? null,
+            sentAt: new Date(),
+          },
+        });
+      } catch (providerErr: any) {
+        devLog("provider send failed (SMS):", providerErr?.message ?? providerErr);
+        await appendFailedReasonToMessage(createdMessage.id, "twilio", providerErr?.message ?? String(providerErr));
+        const message = await prisma.message.findUnique({ where: { id: createdMessage.id } });
+        return NextResponse.json({
+          ok: true,
+          message,
+          thread,
+          notice: "Message saved but Twilio SMS send failed (provider not configured or error). Delivery pending.",
+          debug: process.env.NODE_ENV !== "production" ? { providerError: providerErr?.message ?? String(providerErr) } : undefined,
+        });
+      }
+    } else if (channel === "WHATSAPP") {
+      devLog("sending WhatsApp via provider...", { to: createdMessage.metadata?.to ?? toRaw });
+      try {
+        const res = await sendWhatsApp({ to: createdMessage.metadata?.to ?? toRaw, body: messageBody });
+        await prisma.message.update({
+          where: { id: createdMessage.id },
+          data: {
+            externalId: (res as any)?.sid ?? (res as any)?.id ?? null,
+            sentAt: new Date(),
+          },
+        });
+      } catch (providerErr: any) {
+        devLog("provider send failed (WHATSAPP):", providerErr?.message ?? providerErr);
+        await appendFailedReasonToMessage(createdMessage.id, "twilio_whatsapp", providerErr?.message ?? String(providerErr));
+        const message = await prisma.message.findUnique({ where: { id: createdMessage.id } });
+        return NextResponse.json({
+          ok: true,
+          message,
+          thread,
+          notice: "Message saved but Twilio WhatsApp send failed (provider not configured or error). Delivery pending.",
+          debug: process.env.NODE_ENV !== "production" ? { providerError: providerErr?.message ?? String(providerErr) } : undefined,
+        });
+      }
+    } else if (channel === "EMAIL") {
+      devLog("sending EMAIL via provider...", { to: createdMessage.metadata?.to ?? toRaw });
+      try {
+        const emailRes = await sendEmail({
+          to: createdMessage.metadata?.to ?? toRaw,
+          subject: body.subject ?? "Message from SignalHub",
+          html: body.html ?? `<div>${messageBody}</div>`,
+          text: body.text ?? messageBody,
+          from: body.from ?? undefined,
+        });
+        await prisma.message.update({
+          where: { id: createdMessage.id },
+          data: {
+            externalId: (emailRes as any)?.id ?? (emailRes as any)?.messageId ?? null,
+            sentAt: new Date(),
+          },
+        });
+      } catch (providerErr: any) {
+        devLog("provider send failed (EMAIL):", providerErr?.message ?? providerErr);
+        await appendFailedReasonToMessage(createdMessage.id, "email", providerErr?.message ?? String(providerErr));
+        const message = await prisma.message.findUnique({ where: { id: createdMessage.id } });
+        return NextResponse.json({
+          ok: true,
+          message,
+          thread,
+          notice: "Message saved but email send failed (provider not configured or error). Delivery pending.",
+          debug: process.env.NODE_ENV !== "production" ? { providerError: providerErr?.message ?? String(providerErr) } : undefined,
+        });
+      }
+    } else {
+      // TWITTER / MESSENGER: not integrated yet — keep message in DB for later processing
+      devLog(`channel ${channel} not integrated for immediate delivery; message left in DB for later processing.`);
+      const message = await prisma.message.findUnique({ where: { id: createdMessage.id } });
+      return NextResponse.json({
+        ok: true,
+        message,
+        thread,
+        notice: `Channel ${channel} is not integrated for immediate delivery. Message stored.`,
+      });
+    }
+  } catch (fatalErr: any) {
+    // Defensive catch - provider-level errors should have been handled above
+    console.error("[/api/messages/send] unexpected fatal error during provider send:", fatalErr);
+    await appendFailedReasonToMessage(createdMessage.id, "internal", fatalErr?.message ?? String(fatalErr));
+    const message = await prisma.message.findUnique({ where: { id: createdMessage.id } });
+    return NextResponse.json({
+      ok: true,
+      message,
+      thread,
+      notice: "Message saved but delivery failed due to an internal error. Check server logs.",
+      debug: process.env.NODE_ENV !== "production" ? { error: String(fatalErr) } : undefined,
+    });
+  }
+
+  // ---------------------------
+  // Re-fetch and return the updated message
+  // ---------------------------
+  const message = await prisma.message.findUnique({ where: { id: createdMessage.id } });
+  return NextResponse.json({ ok: true, message, thread });
 }

@@ -1,18 +1,38 @@
-import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
-import { scheduleQueue } from '@/lib/queue';
+// src/app/api/messages/schedule/route.ts
+import { NextResponse } from "next/server";
+import prisma from "@/lib/prisma";
 
 export async function POST(req: Request) {
-  const body = await req.json();
-  const { threadId, to, channel, body: text, sendAt, senderId } = body;
-  // validate perms (editor/admin) - check session
+  try {
+    const body = await req.json();
+    const { to, channel, body: messageBody, sendAt, contactId, threadId, metadata } = body ?? {};
 
-  const scheduled = await prisma.scheduledMessage.create({
-    data: { threadId, senderId, body: text, channel, sendAt: new Date(sendAt), status: 'scheduled' }
-  });
+    if (!to || !channel || !messageBody || !sendAt) {
+      return NextResponse.json({ error: "to, channel, body and sendAt are required for scheduled messages" }, { status: 400 });
+    }
 
-  // enqueue a delayed job to the scheduleQueue so a worker will run at sendAt
-  await scheduleQueue.add('send-scheduled', { scheduledId: scheduled.id }, { delay: Math.max(0, new Date(sendAt).getTime() - Date.now()) });
+    const sendDate = new Date(sendAt);
+    if (Number.isNaN(sendDate.getTime())) return NextResponse.json({ error: "invalid sendAt" }, { status: 400 });
 
-  return NextResponse.json({ success: true, scheduled });
+    const msg = await prisma.message.create({
+      data: {
+        to,
+        from: "system",
+        channel,
+        body: messageBody,
+        contactId: contactId ?? null,
+        threadId: threadId ?? null,
+        status: "SCHEDULED",
+        sendAt: sendDate,
+        metadata: metadata ?? {},
+        direction: "OUTBOUND",
+      },
+    });
+
+    // scheduler worker (outside scope) must poll messages with status=SCHEDULED & sendAt <= now
+    return NextResponse.json({ message: msg });
+  } catch (err: any) {
+    console.error("POST /api/messages/schedule error:", err);
+    return NextResponse.json({ error: err?.message ?? "internal error" }, { status: 500 });
+  }
 }

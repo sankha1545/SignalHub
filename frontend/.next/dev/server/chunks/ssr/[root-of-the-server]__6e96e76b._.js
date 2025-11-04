@@ -851,7 +851,7 @@ function WelcomePage() {
                                                 strokeLinecap: "round"
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                lineNumber: 591,
+                                                lineNumber: 595,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -861,18 +861,18 @@ function WelcomePage() {
                                                 strokeLinecap: "round"
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                lineNumber: 592,
+                                                lineNumber: 596,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                        lineNumber: 590,
+                                        lineNumber: 594,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                    lineNumber: 589,
+                                    lineNumber: 593,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -882,7 +882,7 @@ function WelcomePage() {
                                             children: "SignalHub"
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                            lineNumber: 596,
+                                            lineNumber: 600,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -890,19 +890,19 @@ function WelcomePage() {
                                             children: "Unified Inbox • Multi-channel outreach"
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                            lineNumber: 597,
+                                            lineNumber: 601,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                    lineNumber: 595,
+                                    lineNumber: 599,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                            lineNumber: 588,
+                            lineNumber: 592,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -916,7 +916,7 @@ function WelcomePage() {
                                             children: role
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                            lineNumber: 603,
+                                            lineNumber: 607,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -924,13 +924,13 @@ function WelcomePage() {
                                             children: "access"
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                            lineNumber: 604,
+                                            lineNumber: 608,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                    lineNumber: 602,
+                                    lineNumber: 606,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -942,7 +942,7 @@ function WelcomePage() {
                                             children: "no one online"
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                            lineNumber: 611,
+                                            lineNumber: 615,
                                             columnNumber: 19
                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             className: "flex items-center gap-2",
@@ -953,7 +953,7 @@ function WelcomePage() {
                                                             className: `w-2 h-2 rounded-full ${p.idle ? "bg-yellow-400" : "bg-green-400"}`
                                                         }, void 0, false, {
                                                             fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                            lineNumber: 616,
+                                                            lineNumber: 620,
                                                             columnNumber: 25
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -961,28 +961,28 @@ function WelcomePage() {
                                                             children: p.name ?? id
                                                         }, void 0, false, {
                                                             fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                            lineNumber: 617,
+                                                            lineNumber: 621,
                                                             columnNumber: 25
                                                         }, this)
                                                     ]
                                                 }, id, true, {
                                                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                    lineNumber: 615,
+                                                    lineNumber: 619,
                                                     columnNumber: 23
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                            lineNumber: 613,
+                                            lineNumber: 617,
                                             columnNumber: 19
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                        lineNumber: 609,
+                                        lineNumber: 613,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                    lineNumber: 607,
+                                    lineNumber: 611,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$profile$2f$ProfileMenu$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -990,19 +990,19 @@ function WelcomePage() {
                                     avatarUrl: undefined
                                 }, void 0, false, {
                                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                    lineNumber: 625,
+                                    lineNumber: 629,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                            lineNumber: 601,
+                            lineNumber: 605,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                    lineNumber: 587,
+                    lineNumber: 591,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("header", {
@@ -1034,7 +1034,7 @@ function WelcomePage() {
                                                                 strokeLinecap: "round"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                                lineNumber: 637,
+                                                                lineNumber: 641,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1044,23 +1044,23 @@ function WelcomePage() {
                                                                 strokeLinecap: "round"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                                lineNumber: 638,
+                                                                lineNumber: 642,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                        lineNumber: 636,
+                                                        lineNumber: 640,
                                                         columnNumber: 21
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                    lineNumber: 635,
+                                                    lineNumber: 639,
                                                     columnNumber: 19
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                lineNumber: 634,
+                                                lineNumber: 638,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1071,7 +1071,7 @@ function WelcomePage() {
                                                         children: "SignalHub — Unified Inbox for Multi-Channel Outreach"
                                                     }, void 0, false, {
                                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                        lineNumber: 644,
+                                                        lineNumber: 648,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1079,7 +1079,7 @@ function WelcomePage() {
                                                         children: "Manage SMS, WhatsApp and Email threads in one place, collaborate with your team in real time, schedule messages, and measure impact — built with secure webhooks and role-based controls."
                                                     }, void 0, false, {
                                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                        lineNumber: 647,
+                                                        lineNumber: 651,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1095,7 +1095,7 @@ function WelcomePage() {
                                                                         className: "w-4 h-4",
                                                                         viewBox: "0 0 24 24",
                                                                         fill: "none",
-                                                                        "aria-hidden": true,
+                                                                        "aria-hidden": "true",
                                                                         children: [
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
                                                                                 d: "M5 12h14",
@@ -1104,8 +1104,8 @@ function WelcomePage() {
                                                                                 strokeLinecap: "round"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                                                lineNumber: 661,
-                                                                                columnNumber: 25
+                                                                                lineNumber: 665,
+                                                                                columnNumber: 7
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
                                                                                 d: "M12 5l7 7-7 7",
@@ -1114,19 +1114,19 @@ function WelcomePage() {
                                                                                 strokeLinecap: "round"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                                                lineNumber: 662,
-                                                                                columnNumber: 25
+                                                                                lineNumber: 666,
+                                                                                columnNumber: 7
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                                        lineNumber: 660,
-                                                                        columnNumber: 23
+                                                                        lineNumber: 664,
+                                                                        columnNumber: 5
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                                lineNumber: 654,
+                                                                lineNumber: 658,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -1135,7 +1135,7 @@ function WelcomePage() {
                                                                 children: "Configure Integrations"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                                lineNumber: 666,
+                                                                lineNumber: 670,
                                                                 columnNumber: 21
                                                             }, this),
                                                             isEditor && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1145,25 +1145,25 @@ function WelcomePage() {
                                                                 children: "Quick Compose"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                                lineNumber: 671,
+                                                                lineNumber: 675,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                        lineNumber: 653,
+                                                        lineNumber: 657,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                lineNumber: 643,
+                                                lineNumber: 647,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                        lineNumber: 633,
+                                        lineNumber: 637,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1174,7 +1174,7 @@ function WelcomePage() {
                                                 desc: "All messages normalized into threads per contact — SMS, WhatsApp, Email. Click a thread to preview."
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                lineNumber: 685,
+                                                lineNumber: 689,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(FeatureCard, {
@@ -1182,7 +1182,7 @@ function WelcomePage() {
                                                 desc: "Schedule outbound messages and run background workers for timed delivery."
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                lineNumber: 689,
+                                                lineNumber: 693,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(FeatureCard, {
@@ -1190,7 +1190,7 @@ function WelcomePage() {
                                                 desc: "Real-time presence, shared notes, and role-based permissions."
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                lineNumber: 693,
+                                                lineNumber: 697,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(FeatureCard, {
@@ -1198,13 +1198,13 @@ function WelcomePage() {
                                                 desc: "Quick insights: volume, response time and delivery KPIs. Exportable CSVs."
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                lineNumber: 697,
+                                                lineNumber: 701,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                        lineNumber: 684,
+                                        lineNumber: 688,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1223,7 +1223,7 @@ function WelcomePage() {
                                                                         children: "Twilio Sandbox"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                                        lineNumber: 708,
+                                                                        lineNumber: 712,
                                                                         columnNumber: 23
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1231,13 +1231,13 @@ function WelcomePage() {
                                                                         children: "Trial mode — numbers are simulated unless purchased"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                                        lineNumber: 709,
+                                                                        lineNumber: 713,
                                                                         columnNumber: 23
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                                lineNumber: 707,
+                                                                lineNumber: 711,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1245,13 +1245,13 @@ function WelcomePage() {
                                                                 children: "Sandbox"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                                lineNumber: 711,
+                                                                lineNumber: 715,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                        lineNumber: 706,
+                                                        lineNumber: 710,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1262,7 +1262,7 @@ function WelcomePage() {
                                                                 children: "Available numbers"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                                lineNumber: 715,
+                                                                lineNumber: 719,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1272,7 +1272,7 @@ function WelcomePage() {
                                                                     children: "No sandbox numbers found."
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                                    lineNumber: 718,
+                                                                    lineNumber: 722,
                                                                     columnNumber: 25
                                                                 }, this) : numbers.slice(0, 4).map((n)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                         className: "flex items-center justify-between bg-white rounded-lg p-2 border",
@@ -1284,7 +1284,7 @@ function WelcomePage() {
                                                                                         children: n.phone
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                                                        lineNumber: 723,
+                                                                                        lineNumber: 727,
                                                                                         columnNumber: 31
                                                                                     }, this),
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1296,13 +1296,13 @@ function WelcomePage() {
                                                                                         ]
                                                                                     }, void 0, true, {
                                                                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                                                        lineNumber: 724,
+                                                                                        lineNumber: 728,
                                                                                         columnNumber: 31
                                                                                     }, this)
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                                                lineNumber: 722,
+                                                                                lineNumber: 726,
                                                                                 columnNumber: 29
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1311,7 +1311,7 @@ function WelcomePage() {
                                                                                     children: "Purchased"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                                                    lineNumber: 730,
+                                                                                    lineNumber: 734,
                                                                                     columnNumber: 33
                                                                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                                                     type: "button",
@@ -1321,59 +1321,59 @@ function WelcomePage() {
                                                                                     children: buying === n.id ? "Buying…" : "Buy Now"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                                                    lineNumber: 732,
+                                                                                    lineNumber: 736,
                                                                                     columnNumber: 33
                                                                                 }, this)
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                                                lineNumber: 728,
+                                                                                lineNumber: 732,
                                                                                 columnNumber: 29
                                                                             }, this)
                                                                         ]
                                                                     }, n.id, true, {
                                                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                                        lineNumber: 721,
+                                                                        lineNumber: 725,
                                                                         columnNumber: 27
                                                                     }, this))
                                                             }, void 0, false, {
                                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                                lineNumber: 716,
+                                                                lineNumber: 720,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                        lineNumber: 714,
+                                                        lineNumber: 718,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                lineNumber: 705,
+                                                lineNumber: 709,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(IntegrationsPanel, {
                                                 numbers: numbers
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                lineNumber: 749,
+                                                lineNumber: 753,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                        lineNumber: 704,
+                                        lineNumber: 708,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                lineNumber: 632,
+                                lineNumber: 636,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                            lineNumber: 631,
+                            lineNumber: 635,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("aside", {
@@ -1384,7 +1384,7 @@ function WelcomePage() {
                                     loading: loading
                                 }, void 0, false, {
                                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                    lineNumber: 756,
+                                    lineNumber: 760,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1395,7 +1395,7 @@ function WelcomePage() {
                                             children: "Quick actions"
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                            lineNumber: 760,
+                                            lineNumber: 764,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1412,7 +1412,7 @@ function WelcomePage() {
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                    lineNumber: 762,
+                                                    lineNumber: 766,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1426,7 +1426,7 @@ function WelcomePage() {
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                    lineNumber: 770,
+                                                    lineNumber: 774,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -1435,7 +1435,7 @@ function WelcomePage() {
                                                     children: "View analytics"
                                                 }, void 0, false, {
                                                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                    lineNumber: 778,
+                                                    lineNumber: 782,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -1444,31 +1444,31 @@ function WelcomePage() {
                                                     children: "Integrations & webhooks"
                                                 }, void 0, false, {
                                                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                    lineNumber: 781,
+                                                    lineNumber: 785,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                            lineNumber: 761,
+                                            lineNumber: 765,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                    lineNumber: 759,
+                                    lineNumber: 763,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                            lineNumber: 755,
+                            lineNumber: 759,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                    lineNumber: 630,
+                    lineNumber: 634,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -1485,7 +1485,7 @@ function WelcomePage() {
                                             children: "Live thread preview"
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                            lineNumber: 793,
+                                            lineNumber: 797,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1493,13 +1493,13 @@ function WelcomePage() {
                                             children: "Normalized view • unified timeline"
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                            lineNumber: 794,
+                                            lineNumber: 798,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                    lineNumber: 792,
+                                    lineNumber: 796,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1517,17 +1517,17 @@ function WelcomePage() {
                                                 })
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                            lineNumber: 799,
+                                            lineNumber: 803,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                        lineNumber: 798,
+                                        lineNumber: 802,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                    lineNumber: 797,
+                                    lineNumber: 801,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1535,13 +1535,13 @@ function WelcomePage() {
                                     children: "This preview demonstrates how inbound messages from different channels are shown as one thread per contact. The composer is role-gated — viewers can only read, editors can send/schedule, admins can manage settings & team."
                                 }, void 0, false, {
                                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                    lineNumber: 807,
+                                    lineNumber: 811,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                            lineNumber: 791,
+                            lineNumber: 795,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("aside", {
@@ -1552,7 +1552,7 @@ function WelcomePage() {
                                     children: "Get started — suggested next steps"
                                 }, void 0, false, {
                                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                    lineNumber: 815,
+                                    lineNumber: 819,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("ol", {
@@ -1567,21 +1567,21 @@ function WelcomePage() {
                                                     children: "Inbox"
                                                 }, void 0, false, {
                                                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                    lineNumber: 819,
+                                                    lineNumber: 823,
                                                     columnNumber: 22
                                                 }, this),
                                                 " and review threads."
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                            lineNumber: 818,
+                                            lineNumber: 822,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
                                             children: isEditor ? "Compose and schedule a test message." : "Request editor access to send messages."
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                            lineNumber: 821,
+                                            lineNumber: 825,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
@@ -1593,14 +1593,14 @@ function WelcomePage() {
                                                     children: "Settings"
                                                 }, void 0, false, {
                                                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                    lineNumber: 822,
+                                                    lineNumber: 826,
                                                     columnNumber: 47
                                                 }, this),
                                                 "."
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                            lineNumber: 822,
+                                            lineNumber: 826,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
@@ -1612,7 +1612,7 @@ function WelcomePage() {
                                                         children: "Manage team"
                                                     }, void 0, false, {
                                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                        lineNumber: 823,
+                                                        lineNumber: 827,
                                                         columnNumber: 32
                                                     }, this),
                                                     " & set roles."
@@ -1620,7 +1620,7 @@ function WelcomePage() {
                                             }, void 0, true) : "Ask an admin to add you to a team."
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                            lineNumber: 823,
+                                            lineNumber: 827,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
@@ -1632,20 +1632,20 @@ function WelcomePage() {
                                                     children: "Analytics"
                                                 }, void 0, false, {
                                                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                    lineNumber: 824,
+                                                    lineNumber: 828,
                                                     columnNumber: 24
                                                 }, this),
                                                 " to review KPIs."
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                            lineNumber: 824,
+                                            lineNumber: 828,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                    lineNumber: 817,
+                                    lineNumber: 821,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1656,24 +1656,24 @@ function WelcomePage() {
                                         children: "Start working"
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                        lineNumber: 828,
+                                        lineNumber: 832,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                    lineNumber: 827,
+                                    lineNumber: 831,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                            lineNumber: 814,
+                            lineNumber: 818,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                    lineNumber: 790,
+                    lineNumber: 794,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("footer", {
@@ -1681,7 +1681,7 @@ function WelcomePage() {
                     children: "Built for the Attack Capital assignment — multi-channel outreach, scheduling, team collaboration and analytics."
                 }, void 0, false, {
                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                    lineNumber: 835,
+                    lineNumber: 839,
                     columnNumber: 9
                 }, this),
                 composerOpen && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ComposerModal, {
@@ -1705,7 +1705,7 @@ function WelcomePage() {
                     contacts: contacts
                 }, void 0, false, {
                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                    lineNumber: 842,
+                    lineNumber: 846,
                     columnNumber: 11
                 }, this),
                 contactModal && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ContactProfileModal, {
@@ -1714,18 +1714,18 @@ function WelcomePage() {
                     isEditor: isEditor
                 }, void 0, false, {
                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                    lineNumber: 866,
+                    lineNumber: 870,
                     columnNumber: 11
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/frontend/src/app/welcome/page.tsx",
-            lineNumber: 585,
+            lineNumber: 586,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-        lineNumber: 584,
+        lineNumber: 585,
         columnNumber: 5
     }, this);
 }
@@ -1748,17 +1748,17 @@ function WelcomePage() {
                         strokeLinecap: "round"
                     }, void 0, false, {
                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                        lineNumber: 880,
+                        lineNumber: 884,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                    lineNumber: 879,
+                    lineNumber: 883,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                lineNumber: 878,
+                lineNumber: 882,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1768,7 +1768,7 @@ function WelcomePage() {
                         children: title
                     }, void 0, false, {
                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                        lineNumber: 884,
+                        lineNumber: 888,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1776,19 +1776,19 @@ function WelcomePage() {
                         children: desc
                     }, void 0, false, {
                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                        lineNumber: 885,
+                        lineNumber: 889,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                lineNumber: 883,
+                lineNumber: 887,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-        lineNumber: 877,
+        lineNumber: 881,
         columnNumber: 5
     }, this);
 }
@@ -1799,7 +1799,7 @@ function ThreadsList({ threads, onOpenContact, onCompose }) {
             children: "No recent threads yet."
         }, void 0, false, {
             fileName: "[project]/frontend/src/app/welcome/page.tsx",
-            lineNumber: 893,
+            lineNumber: 897,
             columnNumber: 12
         }, this);
     }
@@ -1833,7 +1833,7 @@ function ThreadsList({ threads, onOpenContact, onCompose }) {
                                                 children: t?.contactName ?? "Unknown"
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                lineNumber: 917,
+                                                lineNumber: 921,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1845,13 +1845,13 @@ function ThreadsList({ threads, onOpenContact, onCompose }) {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                lineNumber: 918,
+                                                lineNumber: 922,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                        lineNumber: 916,
+                                        lineNumber: 920,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1859,13 +1859,13 @@ function ThreadsList({ threads, onOpenContact, onCompose }) {
                                         children: lastAtDisplay
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                        lineNumber: 922,
+                                        lineNumber: 926,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                lineNumber: 915,
+                                lineNumber: 919,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1873,7 +1873,7 @@ function ThreadsList({ threads, onOpenContact, onCompose }) {
                                 children: snippet
                             }, void 0, false, {
                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                lineNumber: 924,
+                                lineNumber: 928,
                                 columnNumber: 15
                             }, this),
                             t?.scheduled && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1881,13 +1881,13 @@ function ThreadsList({ threads, onOpenContact, onCompose }) {
                                 children: "Scheduled"
                             }, void 0, false, {
                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                lineNumber: 925,
+                                lineNumber: 929,
                                 columnNumber: 32
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                        lineNumber: 914,
+                        lineNumber: 918,
                         columnNumber: 13
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1900,7 +1900,7 @@ function ThreadsList({ threads, onOpenContact, onCompose }) {
                                 children: "Profile"
                             }, void 0, false, {
                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                lineNumber: 929,
+                                lineNumber: 933,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1910,25 +1910,25 @@ function ThreadsList({ threads, onOpenContact, onCompose }) {
                                 children: "Reply"
                             }, void 0, false, {
                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                lineNumber: 930,
+                                lineNumber: 934,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                        lineNumber: 928,
+                        lineNumber: 932,
                         columnNumber: 13
                     }, this)
                 ]
             }, t?.id ?? Math.random(), true, {
                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                lineNumber: 913,
+                lineNumber: 917,
                 columnNumber: 11
             }, this);
         })
     }, void 0, false, {
         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-        lineNumber: 897,
+        lineNumber: 901,
         columnNumber: 5
     }, this);
 }
@@ -1946,7 +1946,7 @@ function IntegrationsPanel({ numbers }) {
                                 children: "Integration status"
                             }, void 0, false, {
                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                lineNumber: 945,
+                                lineNumber: 949,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1954,13 +1954,13 @@ function IntegrationsPanel({ numbers }) {
                                 children: "Connected providers & webhook health"
                             }, void 0, false, {
                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                lineNumber: 946,
+                                lineNumber: 950,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                        lineNumber: 944,
+                        lineNumber: 948,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1968,13 +1968,13 @@ function IntegrationsPanel({ numbers }) {
                         children: "OK"
                     }, void 0, false, {
                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                        lineNumber: 948,
+                        lineNumber: 952,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                lineNumber: 943,
+                lineNumber: 947,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1986,7 +1986,7 @@ function IntegrationsPanel({ numbers }) {
                         children: "Resend (Email) — Not connected"
                     }, void 0, false, {
                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                        lineNumber: 953,
+                        lineNumber: 957,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1997,19 +1997,19 @@ function IntegrationsPanel({ numbers }) {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                        lineNumber: 954,
+                        lineNumber: 958,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                lineNumber: 951,
+                lineNumber: 955,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-        lineNumber: 942,
+        lineNumber: 946,
         columnNumber: 5
     }, this);
 }
@@ -2025,7 +2025,7 @@ function AnalyticsPanel({ analytics, loading }) {
                         children: "Last 7 days"
                     }, void 0, false, {
                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                        lineNumber: 964,
+                        lineNumber: 968,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2033,13 +2033,13 @@ function AnalyticsPanel({ analytics, loading }) {
                         children: loading ? "Loading…" : "Updated"
                     }, void 0, false, {
                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                        lineNumber: 965,
+                        lineNumber: 969,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                lineNumber: 963,
+                lineNumber: 967,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2055,39 +2055,12 @@ function AnalyticsPanel({ analytics, loading }) {
                                         children: analytics?.messages7d ?? "—"
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                        lineNumber: 971,
-                                        columnNumber: 13
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "text-xs text-slate-500",
-                                        children: "Messages"
-                                    }, void 0, false, {
-                                        fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                        lineNumber: 972,
-                                        columnNumber: 13
-                                    }, this)
-                                ]
-                            }, void 0, true, {
-                                fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                lineNumber: 970,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "text-2xl font-bold",
-                                        children: [
-                                            analytics?.avgResponseMins ?? "—",
-                                            "m"
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "[project]/frontend/src/app/welcome/page.tsx",
                                         lineNumber: 975,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "text-xs text-slate-500",
-                                        children: "Avg response"
+                                        children: "Messages"
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
                                         lineNumber: 976,
@@ -2104,8 +2077,8 @@ function AnalyticsPanel({ analytics, loading }) {
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "text-2xl font-bold",
                                         children: [
-                                            analytics?.openRatePct ?? "—",
-                                            "%"
+                                            analytics?.avgResponseMins ?? "—",
+                                            "m"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
@@ -2114,7 +2087,7 @@ function AnalyticsPanel({ analytics, loading }) {
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "text-xs text-slate-500",
-                                        children: "Open rate"
+                                        children: "Avg response"
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
                                         lineNumber: 980,
@@ -2125,11 +2098,38 @@ function AnalyticsPanel({ analytics, loading }) {
                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
                                 lineNumber: 978,
                                 columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "text-2xl font-bold",
+                                        children: [
+                                            analytics?.openRatePct ?? "—",
+                                            "%"
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/frontend/src/app/welcome/page.tsx",
+                                        lineNumber: 983,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "text-xs text-slate-500",
+                                        children: "Open rate"
+                                    }, void 0, false, {
+                                        fileName: "[project]/frontend/src/app/welcome/page.tsx",
+                                        lineNumber: 984,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/frontend/src/app/welcome/page.tsx",
+                                lineNumber: 982,
+                                columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                        lineNumber: 969,
+                        lineNumber: 973,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2144,12 +2144,12 @@ function AnalyticsPanel({ analytics, loading }) {
                             ]
                         }, void 0, false, {
                             fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                            lineNumber: 985,
+                            lineNumber: 989,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                        lineNumber: 984,
+                        lineNumber: 988,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2157,19 +2157,19 @@ function AnalyticsPanel({ analytics, loading }) {
                         children: "View full analytics for channel breakdown, response time histograms, and exportable reports."
                     }, void 0, false, {
                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                        lineNumber: 988,
+                        lineNumber: 992,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                lineNumber: 968,
+                lineNumber: 972,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-        lineNumber: 962,
+        lineNumber: 966,
         columnNumber: 5
     }, this);
 }
@@ -2251,7 +2251,7 @@ function AnalyticsPanel({ analytics, loading }) {
                 onClick: onClose
             }, void 0, false, {
                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                lineNumber: 1060,
+                lineNumber: 1064,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2265,7 +2265,7 @@ function AnalyticsPanel({ analytics, loading }) {
                                 children: "Contact profile"
                             }, void 0, false, {
                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                lineNumber: 1063,
+                                lineNumber: 1067,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2275,13 +2275,13 @@ function AnalyticsPanel({ analytics, loading }) {
                                 children: "Close"
                             }, void 0, false, {
                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                lineNumber: 1064,
+                                lineNumber: 1068,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                        lineNumber: 1062,
+                        lineNumber: 1066,
                         columnNumber: 9
                     }, this),
                     loading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2289,7 +2289,7 @@ function AnalyticsPanel({ analytics, loading }) {
                         children: "Loading…"
                     }, void 0, false, {
                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                        lineNumber: 1068,
+                        lineNumber: 1072,
                         columnNumber: 11
                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "mt-4 grid grid-cols-1 md:grid-cols-3 gap-4",
@@ -2302,7 +2302,7 @@ function AnalyticsPanel({ analytics, loading }) {
                                         children: contact?.name ?? contact?.phone ?? "Contact"
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                        lineNumber: 1072,
+                                        lineNumber: 1076,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2310,7 +2310,7 @@ function AnalyticsPanel({ analytics, loading }) {
                                         children: contact?.email ?? "—"
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                        lineNumber: 1073,
+                                        lineNumber: 1077,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2321,7 +2321,7 @@ function AnalyticsPanel({ analytics, loading }) {
                                                 children: "Notes (shared)"
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                lineNumber: 1076,
+                                                lineNumber: 1080,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2334,12 +2334,12 @@ function AnalyticsPanel({ analytics, loading }) {
                                                     }
                                                 }, void 0, false, {
                                                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                    lineNumber: 1078,
+                                                    lineNumber: 1082,
                                                     columnNumber: 19
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                lineNumber: 1077,
+                                                lineNumber: 1081,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2350,7 +2350,7 @@ function AnalyticsPanel({ analytics, loading }) {
                                                         children: "Saved notes"
                                                     }, void 0, false, {
                                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                        lineNumber: 1082,
+                                                        lineNumber: 1086,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2360,19 +2360,19 @@ function AnalyticsPanel({ analytics, loading }) {
                                                             children: "No notes"
                                                         }, void 0, false, {
                                                             fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                            lineNumber: 1085,
+                                                            lineNumber: 1089,
                                                             columnNumber: 23
                                                         }, this) : notes.map((n)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                 className: "p-2 bg-slate-50 rounded",
                                                                 children: n.encrypted ? "(encrypted)" : n.body
                                                             }, n.id, false, {
                                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                                lineNumber: 1088,
+                                                                lineNumber: 1092,
                                                                 columnNumber: 25
                                                             }, this))
                                                     }, void 0, false, {
                                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                        lineNumber: 1083,
+                                                        lineNumber: 1087,
                                                         columnNumber: 19
                                                     }, this),
                                                     isEditor && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2386,7 +2386,7 @@ function AnalyticsPanel({ analytics, loading }) {
                                                                 placeholder: "Add private note"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                                lineNumber: 1095,
+                                                                lineNumber: 1099,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2399,36 +2399,36 @@ function AnalyticsPanel({ analytics, loading }) {
                                                                     children: adding ? "Adding…" : "Add note"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                                    lineNumber: 1097,
+                                                                    lineNumber: 1101,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                                lineNumber: 1096,
+                                                                lineNumber: 1100,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                        lineNumber: 1094,
+                                                        lineNumber: 1098,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                lineNumber: 1081,
+                                                lineNumber: 1085,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                        lineNumber: 1075,
+                                        lineNumber: 1079,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                lineNumber: 1071,
+                                lineNumber: 1075,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2439,7 +2439,7 @@ function AnalyticsPanel({ analytics, loading }) {
                                         children: "Quick actions"
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                        lineNumber: 1106,
+                                        lineNumber: 1110,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2451,7 +2451,7 @@ function AnalyticsPanel({ analytics, loading }) {
                                                 children: "Open thread"
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                lineNumber: 1108,
+                                                lineNumber: 1112,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2460,7 +2460,7 @@ function AnalyticsPanel({ analytics, loading }) {
                                                 children: "Merge duplicates"
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                lineNumber: 1109,
+                                                lineNumber: 1113,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2469,37 +2469,37 @@ function AnalyticsPanel({ analytics, loading }) {
                                                 children: "Export contact"
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                lineNumber: 1110,
+                                                lineNumber: 1114,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                        lineNumber: 1107,
+                                        lineNumber: 1111,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                lineNumber: 1105,
+                                lineNumber: 1109,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                        lineNumber: 1070,
+                        lineNumber: 1074,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                lineNumber: 1061,
+                lineNumber: 1065,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-        lineNumber: 1059,
+        lineNumber: 1063,
         columnNumber: 5
     }, this);
 }
@@ -2696,7 +2696,7 @@ function AnalyticsPanel({ analytics, loading }) {
                 onClick: onClose
             }, void 0, false, {
                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                lineNumber: 1327,
+                lineNumber: 1331,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2710,7 +2710,7 @@ function AnalyticsPanel({ analytics, loading }) {
                                 children: "Compose message"
                             }, void 0, false, {
                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                lineNumber: 1330,
+                                lineNumber: 1334,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2720,13 +2720,13 @@ function AnalyticsPanel({ analytics, loading }) {
                                 children: "Close"
                             }, void 0, false, {
                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                lineNumber: 1331,
+                                lineNumber: 1335,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                        lineNumber: 1329,
+                        lineNumber: 1333,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2739,7 +2739,7 @@ function AnalyticsPanel({ analytics, loading }) {
                                         children: "To"
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                        lineNumber: 1336,
+                                        lineNumber: 1340,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -2755,7 +2755,7 @@ function AnalyticsPanel({ analytics, loading }) {
                                                 children: "— select recipient —"
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                lineNumber: 1344,
+                                                lineNumber: 1348,
                                                 columnNumber: 15
                                             }, this),
                                             currentOptions.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -2767,20 +2767,20 @@ function AnalyticsPanel({ analytics, loading }) {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                lineNumber: 1346,
+                                                lineNumber: 1350,
                                                 columnNumber: 17
                                             }, this) : currentOptions.map((opt, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                                     value: opt.value,
                                                     children: opt.label
                                                 }, i, false, {
                                                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                    lineNumber: 1351,
+                                                    lineNumber: 1355,
                                                     columnNumber: 19
                                                 }, this))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                        lineNumber: 1339,
+                                        lineNumber: 1343,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2792,13 +2792,13 @@ function AnalyticsPanel({ analytics, loading }) {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                        lineNumber: 1358,
+                                        lineNumber: 1362,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                lineNumber: 1335,
+                                lineNumber: 1339,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2811,7 +2811,7 @@ function AnalyticsPanel({ analytics, loading }) {
                                                 children: "Channel"
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                lineNumber: 1365,
+                                                lineNumber: 1369,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -2824,7 +2824,7 @@ function AnalyticsPanel({ analytics, loading }) {
                                                         children: "SMS"
                                                     }, void 0, false, {
                                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                        lineNumber: 1367,
+                                                        lineNumber: 1371,
                                                         columnNumber: 17
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -2832,7 +2832,7 @@ function AnalyticsPanel({ analytics, loading }) {
                                                         children: "WhatsApp"
                                                     }, void 0, false, {
                                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                        lineNumber: 1368,
+                                                        lineNumber: 1372,
                                                         columnNumber: 17
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -2840,19 +2840,19 @@ function AnalyticsPanel({ analytics, loading }) {
                                                         children: "Email"
                                                     }, void 0, false, {
                                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                        lineNumber: 1369,
+                                                        lineNumber: 1373,
                                                         columnNumber: 17
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                lineNumber: 1366,
+                                                lineNumber: 1370,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                        lineNumber: 1364,
+                                        lineNumber: 1368,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2862,7 +2862,7 @@ function AnalyticsPanel({ analytics, loading }) {
                                                 children: "Send"
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                lineNumber: 1374,
+                                                lineNumber: 1378,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -2875,7 +2875,7 @@ function AnalyticsPanel({ analytics, loading }) {
                                                         children: "Send now"
                                                     }, void 0, false, {
                                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                        lineNumber: 1376,
+                                                        lineNumber: 1380,
                                                         columnNumber: 17
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -2883,25 +2883,25 @@ function AnalyticsPanel({ analytics, loading }) {
                                                         children: "Schedule"
                                                     }, void 0, false, {
                                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                        lineNumber: 1377,
+                                                        lineNumber: 1381,
                                                         columnNumber: 17
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                                lineNumber: 1375,
+                                                lineNumber: 1379,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                        lineNumber: 1373,
+                                        lineNumber: 1377,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                lineNumber: 1363,
+                                lineNumber: 1367,
                                 columnNumber: 11
                             }, this),
                             sendMode === "schedule" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2911,7 +2911,7 @@ function AnalyticsPanel({ analytics, loading }) {
                                         children: "Send at"
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                        lineNumber: 1384,
+                                        lineNumber: 1388,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -2921,7 +2921,7 @@ function AnalyticsPanel({ analytics, loading }) {
                                         onChange: (e)=>setSendAt(e.target.value)
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                        lineNumber: 1385,
+                                        lineNumber: 1389,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2929,13 +2929,13 @@ function AnalyticsPanel({ analytics, loading }) {
                                         children: "Scheduled messages will be executed by the scheduler worker at the selected time."
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                        lineNumber: 1386,
+                                        lineNumber: 1390,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                lineNumber: 1383,
+                                lineNumber: 1387,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2945,7 +2945,7 @@ function AnalyticsPanel({ analytics, loading }) {
                                         children: "Message"
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                        lineNumber: 1391,
+                                        lineNumber: 1395,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
@@ -2955,13 +2955,13 @@ function AnalyticsPanel({ analytics, loading }) {
                                         onChange: (e)=>setBody(e.target.value)
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                        lineNumber: 1392,
+                                        lineNumber: 1396,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                lineNumber: 1390,
+                                lineNumber: 1394,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2974,7 +2974,7 @@ function AnalyticsPanel({ analytics, loading }) {
                                         children: "Cancel"
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                        lineNumber: 1396,
+                                        lineNumber: 1400,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2985,31 +2985,31 @@ function AnalyticsPanel({ analytics, loading }) {
                                         children: sending ? "Sending…" : sendMode === "now" ? "Send" : "Schedule"
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                        lineNumber: 1397,
+                                        lineNumber: 1401,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                                lineNumber: 1395,
+                                lineNumber: 1399,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                        lineNumber: 1334,
+                        lineNumber: 1338,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                lineNumber: 1328,
+                lineNumber: 1332,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-        lineNumber: 1326,
+        lineNumber: 1330,
         columnNumber: 5
     }, this);
 }
@@ -3084,7 +3084,7 @@ function AnalyticsPanel({ analytics, loading }) {
                 onChange: onChangeLocal
             }, void 0, false, {
                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                lineNumber: 1469,
+                lineNumber: 1473,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3095,18 +3095,18 @@ function AnalyticsPanel({ analytics, loading }) {
                     children: "Save snapshot"
                 }, void 0, false, {
                     fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                    lineNumber: 1471,
+                    lineNumber: 1475,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/frontend/src/app/welcome/page.tsx",
-                lineNumber: 1470,
+                lineNumber: 1474,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-        lineNumber: 1468,
+        lineNumber: 1472,
         columnNumber: 5
     }, this);
 }
@@ -3134,12 +3134,12 @@ function AnalyticsPanel({ analytics, loading }) {
             points: points
         }, void 0, false, {
             fileName: "[project]/frontend/src/app/welcome/page.tsx",
-            lineNumber: 1494,
+            lineNumber: 1498,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/frontend/src/app/welcome/page.tsx",
-        lineNumber: 1493,
+        lineNumber: 1497,
         columnNumber: 5
     }, this);
 }

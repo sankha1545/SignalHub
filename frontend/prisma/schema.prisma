@@ -1,3 +1,6 @@
+// prisma/schema.prisma
+// Refined & validated schema (complete)
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,7 +10,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-/** ----------------------------- Enums ----------------------------- */
+/**
+ * ----------------------------- Enums -----------------------------
+ */
 
 enum Role {
   VIEWER
@@ -29,16 +34,17 @@ enum ActivityType {
   OTHER
 }
 
-/** Constrain message direction to avoid freeform values */
 enum Direction {
   INBOUND
   OUTBOUND
 }
 
-/** ----------------------------- Models ----------------------------- */
+/**
+ * ----------------------------- Models -----------------------------
+ */
 
 /**
- * Activity logs for auditing user actions
+ * Activity log for user actions / auditing
  */
 model ActivityLog {
   id        String       @id @default(cuid())
@@ -53,11 +59,11 @@ model ActivityLog {
 }
 
 /**
- * Temporary phone OTPs
+ * Phone OTPs (temporary)
  */
 model PhoneOtp {
   id        String   @id @default(cuid())
-  phone     String   // E.164 phone e.g. +918597786209
+  phone     String // expected E.164 when possible
   otp       String
   used      Boolean  @default(false)
   attempts  Int      @default(0)
@@ -67,76 +73,85 @@ model PhoneOtp {
 }
 
 /**
- * Core user/auth models
- *
- * - email: unique at DB level
- * - role: default VIEWER
- * - profile: 1:1 relation via Profile.userId (Profile is owning side)
+ * Email OTPs
+ */
+model EmailOtp {
+  id        String   @id @default(cuid())
+  email     String
+  otp       String
+  verified  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([email])
+}
+
+/**
+ * ----------------------------- User/Auth -----------------------------
+ */
+
+/**
+ * Core user model.
  */
 model User {
-  id            String    @id @default(cuid())
+  id            String   @id @default(cuid())
   name          String?
-  email         String    @unique
+  email         String   @unique
   passwordHash  String?
-  provider    String   @default("email") // "email" | "google" | "github" | ...
-  providerId  String?  @unique
-  googleSub     String?   // Google's subject id (sub) if available
-  emailVerified Boolean   @default(false)
-  role          Role      @default(VIEWER)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @default(now()) @updatedAt
+  provider      String   @default("email") // "email" | "google" | "github" | ...
+  providerId    String? // general provider account id
+  googleSub     String? // Google's subject id (sub) if available
+  emailVerified Boolean  @default(false)
+  role          Role     @default(VIEWER)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now()) @updatedAt
 
-  // relation (Profile is the owner via Profile.userId)
-  profile       Profile?
+  // Non-owning side of the 1:1 relation (Profile owns the FK)
+  profile Profile?
 
-  accounts Account[]
-  sessions Session[]
-
-  // App relationships
-  threads          Thread[]           @relation("UserThreads")    // User → Thread (creator)
-  messages         Message[]          @relation("UserMessages")   // User → Message (sender)
+  // NextAuth / app relations
+  accounts         Account[]
+  sessions         Session[]
+  threads          Thread[]           @relation("UserThreads") // threads created by this user
+  messages         Message[]          @relation("UserMessages") // messages sent by this user
   teamMember       TeamMember[]
-  scheduledMessage ScheduledMessage[]  // NOTE: singular/plural naming kept for clarity
+  scheduledMessage ScheduledMessage[]
   activityLog      ActivityLog[]
 
-  /// Ensure a googleSub (when present) is unique across users to avoid multiple users sharing the same Google account.
   @@unique([googleSub])
 }
 
 /**
- * Separate Profile model — Profile is the owning side (has userId FK)
- * userId is unique so a profile cannot be shared across users.
+ * Profile model (owning side of 1:1 relation with User)
  */
 model Profile {
-  id                 String   @id @default(cuid())
-  userId             String   @unique
-  displayName        String?
-  avatarUrl          String?
-  bio                String?
-  metadata           Json?
-  phoneNumber   String?   // <-- add this
-  phoneVerified Boolean?  @default(false)
-  phoneVerifiedAt DateTime?
-  // Optional geo / locale fields (nullable so existing rows are compatible)
-  gender             String?      // e.g. "male" | "female" | "other"
-  countryGeonameId   Int?         // GeoNames numeric id (nullable)
-  countryCode        String?      // ISO country code, e.g. "US", "IN"
-  countryName        String?      // readable country name
-  stateGeonameId     Int?         // optional state/province GeoNames id
-  stateName          String?      // readable state/province name
-  timezone           String?      // timezone string shown to user, e.g. "Australia/Brisbane"
+  id               String    @id @default(cuid())
+  userId           String    @unique
+  displayName      String?
+  avatarUrl        String?
+  bio              String?
+  metadata         Json?
+  phoneNumber      String?
+  phoneVerified    Boolean   @default(false)
+  phoneVerifiedAt  DateTime?
+  gender           String?
+  countryGeonameId Int?
+  countryCode      String?
+  countryName      String?
+  stateGeonameId   Int?
+  stateName        String?
+  timezone         String?
 
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @default(now()) @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
-  // Relation to User (same as before)
-  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // Profile owns the FK to User
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 /**
- * NextAuth-compatible models (Account, Session, VerificationToken)
- * - Account has a unique composite (provider, providerAccountId) to prevent dupes.
+ * ----------------------------- NextAuth-compatible models -----------------------------
  */
+
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -177,70 +192,98 @@ model VerificationToken {
 }
 
 /**
- * Email OTP table (for email-based OTP flows)
+ * ----------------------------- Messaging / Contact models -----------------------------
  */
-model EmailOtp {
-  id        String   @id @default(cuid())
-  email     String
-  otp       String
-  verified  Boolean  @default(false)
-  createdAt DateTime @default(now())
 
+/**
+ * Contact (external person)
+ */
+model Contact {
+  id            String   @id @default(cuid())
+  name          String?
+  phone         String?  @unique
+  phoneVerified Boolean  @default(false)
+  email         String?  @unique
+  emailVerified Boolean  @default(false)
+  metadata      Json?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now()) @updatedAt
+
+  // Relations
+  threads Thread[]  @relation("contact_threads")
+  notes   Note[]
+  Message Message[]
+
+  @@index([phone])
   @@index([email])
 }
 
 /**
- * Messaging models
+ * Thread groups messages for a contact
  */
-model Contact {
-  id        String   @id @default(cuid())
-  name      String?
-  phone     String?  @unique
-  email     String?  @unique
-  metadata  Json?
-  threads   Thread[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-}
-
 model Thread {
   id        String  @id @default(cuid())
-  contact   Contact @relation(fields: [contactId], references: [id], onDelete: Cascade)
   contactId String
+  creatorId String? // user who created the thread (optional)
 
-  // opposite field for UserThreads (creator)
-  creator   User?   @relation("UserThreads", fields: [creatorId], references: [id], onDelete: SetNull)
-  creatorId String?
+  contact Contact @relation("contact_threads", fields: [contactId], references: [id], onDelete: Cascade)
+  creator User?   @relation("UserThreads", fields: [creatorId], references: [id], onDelete: SetNull)
 
   messages  Message[]
   scheduled ScheduledMessage[]
-  status    String   @default("open")
-  lastAt    DateTime @updatedAt
+  status    String             @default("open")
+  lastAt    DateTime           @updatedAt
+  createdAt DateTime           @default(now())
+
+  @@index([contactId])
+  @@index([lastAt])
+}
+
+/**
+ * Message model
+ */
+model Message {
+  id          String    @id @default(cuid())
+  threadId    String
+  contactId   String?
+  senderId    String?
+  from        String?
+  to          String?
+  channel     Channel
+  body        String
+  externalId  String? // provider's id (e.g., Twilio SID, email message-id)
+  direction   Direction
+  metadata    Json?
+  deliveredAt DateTime?
+  sendAt      DateTime?
+  sentAt      DateTime?
+  createdAt   DateTime  @default(now())
+
+  thread  Thread   @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  contact Contact? @relation(fields: [contactId], references: [id], onDelete: SetNull)
+  sender  User?    @relation("UserMessages", fields: [senderId], references: [id], onDelete: SetNull)
+
+  @@index([threadId])
+  @@index([externalId])
+  @@index([sendAt])
+}
+
+/**
+ * ----------------------------- Notes / Teams -----------------------------
+ */
+
+model Note {
+  id        String   @id @default(cuid())
+  contactId String
+  body      String
+  createdBy String?
   createdAt DateTime @default(now())
+
+  contact Contact @relation(fields: [contactId], references: [id], onDelete: Cascade)
 
   @@index([contactId])
 }
 
-model Message {
-  id         String   @id @default(cuid())
-  thread     Thread   @relation(fields: [threadId], references: [id], onDelete: Cascade)
-  threadId   String
-  sender     User?    @relation("UserMessages", fields: [senderId], references: [id], onDelete: SetNull)
-  senderId   String?
-  body       String
-  channel    Channel
-  externalId String? // provider message id
-  direction  Direction
-  metadata   Json?
-  createdAt  DateTime @default(now())
-
-  @@index([threadId])
-  @@index([externalId])
-}
-
-/**
- * Teams & team roles
- */
 model Team {
   id        String       @id @default(cuid())
   name      String
@@ -249,27 +292,30 @@ model Team {
   updatedAt DateTime     @default(now()) @updatedAt
 }
 
+/**
+ * Team membership
+ */
 model TeamMember {
   id        String   @id @default(cuid())
-  team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
   teamId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   role      Role     @default(VIEWER)
   createdAt DateTime @default(now())
 
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@unique([teamId, userId])
+  @@index([userId])
 }
 
 /**
- * Scheduled messages (for future sends)
+ * ----------------------------- Scheduled messages -----------------------------
  */
-model ScheduledMessage {
-  id       String @id @default(cuid())
-  thread   Thread @relation(fields: [threadId], references: [id], onDelete: Cascade)
-  threadId String
 
-  sender    User?    @relation(fields: [senderId], references: [id], onDelete: SetNull)
+model ScheduledMessage {
+  id        String   @id @default(cuid())
+  threadId  String
   senderId  String?
   body      String
   channel   Channel
@@ -278,5 +324,9 @@ model ScheduledMessage {
   metadata  Json?
   createdAt DateTime @default(now())
 
+  thread Thread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  sender User?  @relation(fields: [senderId], references: [id], onDelete: SetNull)
+
   @@index([sendAt])
+  @@index([status])
 }

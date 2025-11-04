@@ -245,6 +245,24 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
+// Validate ../../../src/app/api/contacts/[id]/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/contacts/[id]">> = Specific
+  const handler = {} as typeof import("../../../src/app/api/contacts/[id]/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../../src/app/api/contacts/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/contacts">> = Specific
+  const handler = {} as typeof import("../../../src/app/api/contacts/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../../src/app/api/debug/cookies/route.ts
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/api/debug/cookies">> = Specific
@@ -299,10 +317,37 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
+// Validate ../../../src/app/api/twilio/buy/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/twilio/buy">> = Specific
+  const handler = {} as typeof import("../../../src/app/api/twilio/buy/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../../src/app/api/twilio/numbers/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/twilio/numbers">> = Specific
+  const handler = {} as typeof import("../../../src/app/api/twilio/numbers/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../../src/app/api/twilio/webhook/route.ts
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/api/twilio/webhook">> = Specific
   const handler = {} as typeof import("../../../src/app/api/twilio/webhook/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../../src/app/api/webhooks/email/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/webhooks/email">> = Specific
+  const handler = {} as typeof import("../../../src/app/api/webhooks/email/route.js")
   type __Check = __IsExpected<typeof handler>
   // @ts-ignore
   type __Unused = __Check

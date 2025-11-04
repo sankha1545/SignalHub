@@ -1,308 +1,933 @@
-[00:00:01.199] Server  LOG      ✓ Ready in 895ms
-[00:00:04.259] Server  LOG      ○ Compiling /welcome ...
-[00:00:06.891] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:07.092] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:07.944] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:00:07.945] Server  DEBUG   [auth] cookie session decoded id cmhkfmrrl0002u88se8kmkh1m not found
-[00:00:07.948] Server  DEBUG   [auth] cookie probe: token => missing
-[00:00:07.949] Server  DEBUG   [auth] cookie probe: auth_token => missing
-[00:00:07.949] Server  DEBUG   [auth] cookie probe: authToken => missing
-[00:00:07.950] Server  DEBUG   [auth] cookie probe: auth => missing
-[00:00:07.978] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:00:07.979] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
-[00:00:07.984] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:00:07.989] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
-[00:00:07.996] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:00:07.997] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:00:08.215] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:00:08.216] Server  DEBUG   [auth] cookie session decoded id cmhkfmrrl0002u88se8kmkh1m not found
-[00:00:08.216] Server  DEBUG   [auth] cookie probe: token => missing
-[00:00:08.217] Server  DEBUG   [auth] cookie probe: auth_token => missing
-[00:00:08.218] Server  DEBUG   [auth] cookie probe: authToken => missing
-[00:00:08.218] Server  DEBUG   [auth] cookie probe: auth => missing
-[00:00:08.261] Browser DEBUG   [fetchContacts] /api/contacts?limit=1000 returned 404
-[00:00:08.329] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:00:08.330] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
-[00:00:08.338] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:00:08.340] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
-[00:00:08.351] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:00:08.352] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:00:08.372] Browser DEBUG   [fetchContacts] /api/users?limit=1000 returned 404
-[00:00:08.392] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:00:08.392] Server  DEBUG   [auth] cookie session decoded id cmhkfmrrl0002u88se8kmkh1m not found
-[00:00:08.393] Server  DEBUG   [auth] cookie probe: token => missing
-[00:00:08.394] Server  DEBUG   [auth] cookie probe: auth_token => missing
-[00:00:08.395] Server  DEBUG   [auth] cookie probe: authToken => missing
-[00:00:08.397] Server  DEBUG   [auth] cookie probe: auth => missing
-[00:00:08.417] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:00:08.419] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
-[00:00:08.426] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:00:08.427] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
-[00:00:08.433] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:00:08.433] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:00:08.546] Browser DEBUG   [fetchContacts] normalized contacts count: 1
-[00:00:08.640] Browser DEBUG   [fetchContacts] /api/contacts?limit=1000 returned 404
-[00:00:08.640] Browser DEBUG   [fetchContacts] /api/users?limit=1000 returned 404
-[00:00:08.640] Browser DEBUG   [fetchContacts] /api/me returned 401
-[00:00:08.640] Browser DEBUG   [fetchContacts] /api/admin/users?limit=1000 returned 404
-[00:00:08.640] Browser DEBUG   [fetchContacts] /api/me returned 401
-[00:00:08.640] Browser WARN    [fetchContacts] no contacts normalized — tried endpoints: ["/api/contacts?limit=1000","/api/users?limit=1000","/api/me","/api/admin/users?limit=1000","/api/me"]
-[00:00:08.640] Browser WARN    [fetchContacts] aggregated raw: []
-[00:00:13.878] Browser DEBUG   [sendMessage] payload: {"body":"hii","channel":"SMS","contactId":"cmhko29jc0003u89chegwe0nr","to":"+918597786209"}
-[00:00:14.236] Server  DEBUG   [/api/messages/send] "start POST"
-[00:00:14.265] Server  DEBUG   [/api/messages/send] "authOptions not found for next-auth in local import."
-[00:00:14.268] Server  DEBUG   [/api/messages/send] "JWT verify failed:" "invalid signature"
-[00:00:14.270] Server  DEBUG   [/api/messages/send] "resolved identity:" {}
-[00:00:14.273] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:00:14.275] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"email\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:00:14.276] Server  DEBUG   [/api/messages/send] "found senderUser:" "cmhkm7jzq0000u89cm1538wp4"
-[00:00:14.282] Server  LOG     prisma:query "SELECT \"public\".\"Contact\".\"id\", \"public\".\"Contact\".\"name\", \"public\".\"Contact\".\"phone\", \"public\".\"Contact\".\"email\", \"public\".\"Contact\".\"metadata\", \"public\".\"Contact\".\"createdAt\", \"public\".\"Contact\".\"updatedAt\" FROM \"public\".\"Contact\" WHERE (\"public\".\"Contact\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:00:14.282] Server  DEBUG   [/api/messages/send] "lookup contact by id:" "cmhko29jc0003u89chegwe0nr" true
-[00:00:14.288] Server  LOG     prisma:query "SELECT \"public\".\"Thread\".\"id\", \"public\".\"Thread\".\"contactId\", \"public\".\"Thread\".\"creatorId\", \"public\".\"Thread\".\"status\", \"public\".\"Thread\".\"lastAt\", \"public\".\"Thread\".\"createdAt\" FROM \"public\".\"Thread\" WHERE \"public\".\"Thread\".\"contactId\" = $1 ORDER BY \"public\".\"Thread\".\"lastAt\" DESC LIMIT $2 OFFSET $3"
-[00:00:14.288] Server  DEBUG   [/api/messages/send] "found thread:" "cmhksgs7h0003u8mg5xbkbrdw"
-[00:00:14.296] Server  LOG     prisma:query "INSERT INTO \"public\".\"Message\" (\"id\",\"threadId\",\"senderId\",\"body\",\"channel\",\"direction\",\"metadata\",\"createdAt\") VALUES ($1,$2,$3,$4,CAST($5::text AS \"public\".\"Channel\"),CAST($6::text AS \"public\".\"Direction\"),$7,$8) RETURNING \"public\".\"Message\".\"id\", \"public\".\"Message\".\"threadId\", \"public\".\"Message\".\"senderId\", \"public\".\"Message\".\"body\", \"public\".\"Message\".\"channel\"::text, \"public\".\"Message\".\"externalId\", \"public\".\"Message\".\"direction\"::text, \"public\".\"Message\".\"metadata\", \"public\".\"Message\".\"createdAt\""
-[00:00:14.296] Server  DEBUG   [/api/messages/send] "created message:" "cmhksvu010001u8ro5ovmuyq4"
-[00:00:14.300] Server  LOG     prisma:query "UPDATE \"public\".\"Thread\" SET \"lastAt\" = $1 WHERE (\"public\".\"Thread\".\"id\" = $2 AND 1=1) RETURNING \"public\".\"Thread\".\"id\", \"public\".\"Thread\".\"contactId\", \"public\".\"Thread\".\"creatorId\", \"public\".\"Thread\".\"status\", \"public\".\"Thread\".\"lastAt\", \"public\".\"Thread\".\"createdAt\""
-[00:00:14.420] Browser DEBUG   [sendMessage] /api/messages/send responded status=200 {"message":{"body":"hii","channel":"SMS","createdAt":"2025-11-04T16:45:47.809Z","direction":"OUTBOUND","externalId":null,"id":"cmhksvu010001u8ro5ovmuyq4","metadata":{"to":"+918597786209"},"senderId":"cmhkm7jzq0000u89cm1538wp4","threadId":"cmhksgs7h0003u8mg5xbkbrdw"},"ok":true,"thread":{"contactId":"cmhko29jc0003u89chegwe0nr","createdAt":"2025-11-04T16:34:05.645Z","creatorId":"cmhkm7jzq0000u89cm1538wp4","id":"cmhksgs7h0003u8mg5xbkbrdw","lastAt":"2025-11-04T16:45:15.794Z","status":"open"}}
-[00:00:14.420] Browser ERROR   uncaughtError: TypeError: Cannot read properties of undefined (reading 'join')
-[00:01:49.750] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:01:49.847] Server  LOG     prisma:query "SELECT 1"
-[00:01:49.848] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:01:49.851] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
-[00:01:49.861] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:01:49.861] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
-[00:01:49.966] Server  LOG     prisma:query "SELECT 1"
-[00:01:49.966] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:01:49.966] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:01:50.218] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:01:50.221] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
-[00:01:50.225] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:01:50.225] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
-[00:01:50.228] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:01:50.229] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:01:50.247] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:01:50.248] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
-[00:01:50.250] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:01:50.250] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
-[00:01:50.252] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:01:50.253] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:01:50.358] Browser DEBUG   [fetchContacts] /api/contacts?limit=1000 returned 404
-[00:01:50.358] Browser DEBUG   [fetchContacts] /api/users?limit=1000 returned 404
-[00:01:50.358] Browser DEBUG   [fetchContacts] normalized contacts count: 1
-[00:01:55.561] Server  DEBUG   [/api/messages/send] "start POST"
-[00:01:55.564] Server  DEBUG   [/api/messages/send] "authOptions not found for next-auth in local import."
-[00:01:55.566] Server  DEBUG   [/api/messages/send] "JWT verify failed:" "invalid signature"
-[00:01:55.567] Server  DEBUG   [/api/messages/send] "resolved identity:" {}
-[00:01:55.571] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:01:55.576] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"email\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:01:55.576] Server  DEBUG   [/api/messages/send] "found senderUser:" "cmhkm7jzq0000u89cm1538wp4"
-[00:01:55.579] Server  LOG     prisma:query "SELECT \"public\".\"Contact\".\"id\", \"public\".\"Contact\".\"name\", \"public\".\"Contact\".\"phone\", \"public\".\"Contact\".\"email\", \"public\".\"Contact\".\"metadata\", \"public\".\"Contact\".\"createdAt\", \"public\".\"Contact\".\"updatedAt\" FROM \"public\".\"Contact\" WHERE (\"public\".\"Contact\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:01:55.580] Server  DEBUG   [/api/messages/send] "lookup contact by id:" "cmhko29jc0003u89chegwe0nr" true
-[00:01:55.584] Server  LOG     prisma:query "SELECT \"public\".\"Thread\".\"id\", \"public\".\"Thread\".\"contactId\", \"public\".\"Thread\".\"creatorId\", \"public\".\"Thread\".\"status\", \"public\".\"Thread\".\"lastAt\", \"public\".\"Thread\".\"createdAt\" FROM \"public\".\"Thread\" WHERE \"public\".\"Thread\".\"contactId\" = $1 ORDER BY \"public\".\"Thread\".\"lastAt\" DESC LIMIT $2 OFFSET $3"
-[00:01:55.585] Server  DEBUG   [/api/messages/send] "found thread:" "cmhksgs7h0003u8mg5xbkbrdw"
-[00:01:55.592] Server  LOG     prisma:query "INSERT INTO \"public\".\"Message\" (\"id\",\"threadId\",\"senderId\",\"body\",\"channel\",\"direction\",\"metadata\",\"createdAt\") VALUES ($1,$2,$3,$4,CAST($5::text AS \"public\".\"Channel\"),CAST($6::text AS \"public\".\"Direction\"),$7,$8) RETURNING \"public\".\"Message\".\"id\", \"public\".\"Message\".\"threadId\", \"public\".\"Message\".\"senderId\", \"public\".\"Message\".\"body\", \"public\".\"Message\".\"channel\"::text, \"public\".\"Message\".\"externalId\", \"public\".\"Message\".\"direction\"::text, \"public\".\"Message\".\"metadata\", \"public\".\"Message\".\"createdAt\""
-[00:01:55.593] Server  DEBUG   [/api/messages/send] "created message:" "cmhksy05u0003u8roovdr4avf"
-[00:01:55.596] Server  LOG     prisma:query "UPDATE \"public\".\"Thread\" SET \"lastAt\" = $1 WHERE (\"public\".\"Thread\".\"id\" = $2 AND 1=1) RETURNING \"public\".\"Thread\".\"id\", \"public\".\"Thread\".\"contactId\", \"public\".\"Thread\".\"creatorId\", \"public\".\"Thread\".\"status\", \"public\".\"Thread\".\"lastAt\", \"public\".\"Thread\".\"createdAt\""
-[00:01:55.730] Browser DEBUG   [sendMessage] payload: {"body":"hii","channel":"SMS","contactId":"cmhko29jc0003u89chegwe0nr","to":"+918597786209"}
-[00:01:55.730] Browser DEBUG   [sendMessage] /api/messages/send responded status=200 {"message":{"body":"hii","channel":"SMS","createdAt":"2025-11-04T16:47:29.106Z","direction":"OUTBOUND","externalId":null,"id":"cmhksy05u0003u8roovdr4avf","metadata":{"to":"+918597786209"},"senderId":"cmhkm7jzq0000u89cm1538wp4","threadId":"cmhksgs7h0003u8mg5xbkbrdw"},"ok":true,"thread":{"contactId":"cmhko29jc0003u89chegwe0nr","createdAt":"2025-11-04T16:34:05.645Z","creatorId":"cmhkm7jzq0000u89cm1538wp4","id":"cmhksgs7h0003u8mg5xbkbrdw","lastAt":"2025-11-04T16:45:47.815Z","status":"open"}}
-[00:01:55.730] Browser ERROR   uncaughtError: TypeError: Cannot read properties of undefined (reading 'join')
-[00:03:12.774] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:03:12.876] Server  LOG     prisma:query "SELECT 1"
-[00:03:12.876] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:03:12.879] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
-[00:03:12.890] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:03:12.890] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
-[00:03:13.007] Server  LOG     prisma:query "SELECT 1"
-[00:03:13.007] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:03:13.007] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:03:13.234] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:03:13.235] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
-[00:03:13.239] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:03:13.240] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
-[00:03:13.245] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:03:13.245] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:03:13.284] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:03:13.284] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
-[00:03:13.286] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:03:13.287] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
-[00:03:13.288] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:03:13.289] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:03:13.393] Browser DEBUG   [fetchContacts] /api/contacts?limit=1000 returned 404
-[00:03:13.393] Browser DEBUG   [fetchContacts] /api/users?limit=1000 returned 404
-[00:03:13.393] Browser DEBUG   [fetchContacts] normalized contacts count: 1
-[00:03:19.122] Server  DEBUG   [/api/messages/send] "start POST"
-[00:03:19.124] Server  DEBUG   [/api/messages/send] "authOptions not found for next-auth in local import."
-[00:03:19.126] Server  DEBUG   [/api/messages/send] "JWT verify failed:" "invalid signature"
-[00:03:19.127] Server  DEBUG   [/api/messages/send] "resolved identity:" {}
-[00:03:19.131] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:03:19.133] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"email\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:03:19.134] Server  DEBUG   [/api/messages/send] "found senderUser:" "cmhkm7jzq0000u89cm1538wp4"
-[00:03:19.141] Server  LOG     prisma:query "SELECT \"public\".\"Contact\".\"id\", \"public\".\"Contact\".\"name\", \"public\".\"Contact\".\"phone\", \"public\".\"Contact\".\"email\", \"public\".\"Contact\".\"metadata\", \"public\".\"Contact\".\"createdAt\", \"public\".\"Contact\".\"updatedAt\" FROM \"public\".\"Contact\" WHERE (\"public\".\"Contact\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:03:19.142] Server  DEBUG   [/api/messages/send] "lookup contact by id:" "cmhko29jc0003u89chegwe0nr" true
-[00:03:19.148] Server  LOG     prisma:query "SELECT \"public\".\"Thread\".\"id\", \"public\".\"Thread\".\"contactId\", \"public\".\"Thread\".\"creatorId\", \"public\".\"Thread\".\"status\", \"public\".\"Thread\".\"lastAt\", \"public\".\"Thread\".\"createdAt\" FROM \"public\".\"Thread\" WHERE \"public\".\"Thread\".\"contactId\" = $1 ORDER BY \"public\".\"Thread\".\"lastAt\" DESC LIMIT $2 OFFSET $3"
-[00:03:19.148] Server  DEBUG   [/api/messages/send] "found thread:" "cmhksgs7h0003u8mg5xbkbrdw"
-[00:03:19.160] Server  LOG     prisma:query "INSERT INTO \"public\".\"Message\" (\"id\",\"threadId\",\"senderId\",\"body\",\"channel\",\"direction\",\"metadata\",\"createdAt\") VALUES ($1,$2,$3,$4,CAST($5::text AS \"public\".\"Channel\"),CAST($6::text AS \"public\".\"Direction\"),$7,$8) RETURNING \"public\".\"Message\".\"id\", \"public\".\"Message\".\"threadId\", \"public\".\"Message\".\"senderId\", \"public\".\"Message\".\"body\", \"public\".\"Message\".\"channel\"::text, \"public\".\"Message\".\"externalId\", \"public\".\"Message\".\"direction\"::text, \"public\".\"Message\".\"metadata\", \"public\".\"Message\".\"createdAt\""
-[00:03:19.160] Server  DEBUG   [/api/messages/send] "created message:" "cmhkszsn30005u8rotc416oew"
-[00:03:19.164] Server  LOG     prisma:query "UPDATE \"public\".\"Thread\" SET \"lastAt\" = $1 WHERE (\"public\".\"Thread\".\"id\" = $2 AND 1=1) RETURNING \"public\".\"Thread\".\"id\", \"public\".\"Thread\".\"contactId\", \"public\".\"Thread\".\"creatorId\", \"public\".\"Thread\".\"status\", \"public\".\"Thread\".\"lastAt\", \"public\".\"Thread\".\"createdAt\""
-[00:03:19.296] Browser DEBUG   [sendMessage] payload: {"body":"hii","channel":"SMS","contactId":"cmhko29jc0003u89chegwe0nr","to":"+918597786209"}
-[00:03:19.296] Browser DEBUG   [sendMessage] /api/messages/send responded status=200 {"message":{"body":"hii","channel":"SMS","createdAt":"2025-11-04T16:48:52.671Z","direction":"OUTBOUND","externalId":null,"id":"cmhkszsn30005u8rotc416oew","metadata":{"to":"+918597786209"},"senderId":"cmhkm7jzq0000u89cm1538wp4","threadId":"cmhksgs7h0003u8mg5xbkbrdw"},"ok":true,"thread":{"contactId":"cmhko29jc0003u89chegwe0nr","createdAt":"2025-11-04T16:34:05.645Z","creatorId":"cmhkm7jzq0000u89cm1538wp4","id":"cmhksgs7h0003u8mg5xbkbrdw","lastAt":"2025-11-04T16:47:29.112Z","status":"open"}}
-[00:03:19.296] Browser ERROR   uncaughtError: TypeError: Cannot read properties of undefined (reading 'join')
-[00:04:33.544] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:04:33.599] Server  LOG     prisma:query "SELECT 1"
-[00:04:33.599] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:04:33.600] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
-[00:04:33.607] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:04:33.609] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
-[00:04:33.618] Server  LOG     prisma:query "SELECT 1"
-[00:04:33.618] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:04:33.618] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:04:33.954] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:04:33.955] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
-[00:04:33.959] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:04:33.960] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
-[00:04:33.968] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:04:33.968] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:04:33.999] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:04:34.000] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
-[00:04:34.003] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:04:34.004] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
-[00:04:34.007] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:04:34.007] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:04:34.121] Browser DEBUG   [fetchContacts] /api/contacts?limit=1000 returned 404
-[00:04:34.121] Browser DEBUG   [fetchContacts] /api/users?limit=1000 returned 404
-[00:04:34.121] Browser DEBUG   [fetchContacts] normalized contacts count: 1
-[00:04:38.943] Server  DEBUG   [/api/messages/send] "start POST"
-[00:04:38.945] Server  DEBUG   [/api/messages/send] "authOptions not found for next-auth in local import."
-[00:04:38.948] Server  DEBUG   [/api/messages/send] "JWT verify failed:" "invalid signature"
-[00:04:38.950] Server  DEBUG   [/api/messages/send] "resolved identity:" {}
-[00:04:38.952] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:04:38.955] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"email\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:04:38.956] Server  DEBUG   [/api/messages/send] "found senderUser:" "cmhkm7jzq0000u89cm1538wp4"
-[00:04:38.959] Server  LOG     prisma:query "SELECT \"public\".\"Contact\".\"id\", \"public\".\"Contact\".\"name\", \"public\".\"Contact\".\"phone\", \"public\".\"Contact\".\"email\", \"public\".\"Contact\".\"metadata\", \"public\".\"Contact\".\"createdAt\", \"public\".\"Contact\".\"updatedAt\" FROM \"public\".\"Contact\" WHERE (\"public\".\"Contact\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:04:38.959] Server  DEBUG   [/api/messages/send] "lookup contact by id:" "cmhko29jc0003u89chegwe0nr" true
-[00:04:38.962] Server  LOG     prisma:query "SELECT \"public\".\"Thread\".\"id\", \"public\".\"Thread\".\"contactId\", \"public\".\"Thread\".\"creatorId\", \"public\".\"Thread\".\"status\", \"public\".\"Thread\".\"lastAt\", \"public\".\"Thread\".\"createdAt\" FROM \"public\".\"Thread\" WHERE \"public\".\"Thread\".\"contactId\" = $1 ORDER BY \"public\".\"Thread\".\"lastAt\" DESC LIMIT $2 OFFSET $3"
-[00:04:38.963] Server  DEBUG   [/api/messages/send] "found thread:" "cmhksgs7h0003u8mg5xbkbrdw"
-[00:04:38.971] Server  LOG     prisma:query "INSERT INTO \"public\".\"Message\" (\"id\",\"threadId\",\"senderId\",\"body\",\"channel\",\"direction\",\"metadata\",\"createdAt\") VALUES ($1,$2,$3,$4,CAST($5::text AS \"public\".\"Channel\"),CAST($6::text AS \"public\".\"Direction\"),$7,$8) RETURNING \"public\".\"Message\".\"id\", \"public\".\"Message\".\"threadId\", \"public\".\"Message\".\"senderId\", \"public\".\"Message\".\"body\", \"public\".\"Message\".\"channel\"::text, \"public\".\"Message\".\"externalId\", \"public\".\"Message\".\"direction\"::text, \"public\".\"Message\".\"metadata\", \"public\".\"Message\".\"createdAt\""
-[00:04:38.972] Server  DEBUG   [/api/messages/send] "created message:" "cmhkt1i840007u8roayvqzyfm"
-[00:04:38.975] Server  LOG     prisma:query "UPDATE \"public\".\"Thread\" SET \"lastAt\" = $1 WHERE (\"public\".\"Thread\".\"id\" = $2 AND 1=1) RETURNING \"public\".\"Thread\".\"id\", \"public\".\"Thread\".\"contactId\", \"public\".\"Thread\".\"creatorId\", \"public\".\"Thread\".\"status\", \"public\".\"Thread\".\"lastAt\", \"public\".\"Thread\".\"createdAt\""
-[00:04:39.103] Browser DEBUG   [sendMessage] payload: {"body":"hii","channel":"SMS","contactId":"cmhko29jc0003u89chegwe0nr","to":"+918597786209"}
-[00:04:39.103] Browser DEBUG   [sendMessage] /api/messages/send responded status=200 {"message":{"body":"hii","channel":"SMS","createdAt":"2025-11-04T16:50:12.485Z","direction":"OUTBOUND","externalId":null,"id":"cmhkt1i840007u8roayvqzyfm","metadata":{"to":"+918597786209"},"senderId":"cmhkm7jzq0000u89cm1538wp4","threadId":"cmhksgs7h0003u8mg5xbkbrdw"},"ok":true,"thread":{"contactId":"cmhko29jc0003u89chegwe0nr","createdAt":"2025-11-04T16:34:05.645Z","creatorId":"cmhkm7jzq0000u89cm1538wp4","id":"cmhksgs7h0003u8mg5xbkbrdw","lastAt":"2025-11-04T16:48:52.678Z","status":"open"}}
-[00:04:39.103] Browser ERROR   uncaughtError: TypeError: Cannot read properties of undefined (reading 'join')
-[00:07:55.933] Server  LOG      ✓ Compiled in 928ms
-[00:07:55.967] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
-[00:07:56.314] Server  ERROR   Yjs was already imported. This breaks constructor checks and will lead to issues! - https://github.com/yjs/yjs/issues/438
-[00:07:56.570] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:07:56.872] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:07:56.872] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
-[00:07:56.893] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:07:56.894] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
-[00:07:56.909] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:07:56.962] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:07:57.062] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:07:57.062] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
-[00:07:57.064] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:07:57.067] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
-[00:07:57.069] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:07:57.069] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:07:57.084] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:07:57.084] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
-[00:07:57.087] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:07:57.087] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
-[00:07:57.088] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:07:57.089] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:07:57.654] Browser DEBUG   [fetchContacts] /api/contacts?limit=1000 returned 404
-[00:07:57.654] Browser DEBUG   [fetchContacts] /api/users?limit=1000 returned 404
-[00:07:57.654] Browser DEBUG   [fetchContacts] normalized contacts count: 1
-[00:11:31.260] Server  LOG      ✓ Compiled in 984ms
-[00:11:40.017] Server  DEBUG   [/api/messages/send] "start POST"
-[00:11:40.020] Server  DEBUG   [/api/messages/send] "authOptions not found for next-auth in local import."
-[00:11:40.023] Server  DEBUG   [/api/messages/send] "JWT verify failed:" "invalid signature"
-[00:11:40.024] Server  DEBUG   [/api/messages/send] "resolved identity:" {}
-[00:11:40.028] Server  LOG     prisma:query "SELECT 1"
-[00:11:40.030] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:11:40.033] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"email\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:11:40.034] Server  DEBUG   [/api/messages/send] "found senderUser:" "cmhkm7jzq0000u89cm1538wp4"
-[00:11:40.041] Server  LOG     prisma:query "SELECT \"public\".\"Contact\".\"id\", \"public\".\"Contact\".\"name\", \"public\".\"Contact\".\"phone\", \"public\".\"Contact\".\"email\", \"public\".\"Contact\".\"metadata\", \"public\".\"Contact\".\"createdAt\", \"public\".\"Contact\".\"updatedAt\" FROM \"public\".\"Contact\" WHERE (\"public\".\"Contact\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:11:40.042] Server  DEBUG   [/api/messages/send] "lookup contact by id:" "cmhko29jc0003u89chegwe0nr" true
-[00:11:40.048] Server  LOG     prisma:query "SELECT \"public\".\"Thread\".\"id\", \"public\".\"Thread\".\"contactId\", \"public\".\"Thread\".\"creatorId\", \"public\".\"Thread\".\"status\", \"public\".\"Thread\".\"lastAt\", \"public\".\"Thread\".\"createdAt\" FROM \"public\".\"Thread\" WHERE \"public\".\"Thread\".\"contactId\" = $1 ORDER BY \"public\".\"Thread\".\"lastAt\" DESC LIMIT $2 OFFSET $3"
-[00:11:40.049] Server  DEBUG   [/api/messages/send] "found thread:" "cmhksgs7h0003u8mg5xbkbrdw"
-[00:11:40.054] Server  LOG     prisma:query "INSERT INTO \"public\".\"Message\" (\"id\",\"threadId\",\"senderId\",\"body\",\"channel\",\"direction\",\"metadata\",\"createdAt\") VALUES ($1,$2,$3,$4,CAST($5::text AS \"public\".\"Channel\"),CAST($6::text AS \"public\".\"Direction\"),$7,$8) RETURNING \"public\".\"Message\".\"id\", \"public\".\"Message\".\"threadId\", \"public\".\"Message\".\"senderId\", \"public\".\"Message\".\"body\", \"public\".\"Message\".\"channel\"::text, \"public\".\"Message\".\"externalId\", \"public\".\"Message\".\"direction\"::text, \"public\".\"Message\".\"metadata\", \"public\".\"Message\".\"createdAt\""
-[00:11:40.055] Server  DEBUG   [/api/messages/send] "created message:" "cmhktaj4x0009u8rouou6vnsn"
-[00:11:40.058] Server  LOG     prisma:query "UPDATE \"public\".\"Thread\" SET \"lastAt\" = $1 WHERE (\"public\".\"Thread\".\"id\" = $2 AND 1=1) RETURNING \"public\".\"Thread\".\"id\", \"public\".\"Thread\".\"contactId\", \"public\".\"Thread\".\"creatorId\", \"public\".\"Thread\".\"status\", \"public\".\"Thread\".\"lastAt\", \"public\".\"Thread\".\"createdAt\""
-[00:11:40.166] Browser DEBUG   [sendMessage] payload: {"body":"hii","channel":"SMS","contactId":"cmhko29jc0003u89chegwe0nr","to":"+918597786209"}
-[00:11:40.166] Browser DEBUG   [sendMessage] /api/messages/send responded status=200 {"message":{"body":"hii","channel":"SMS","createdAt":"2025-11-04T16:57:13.569Z","direction":"OUTBOUND","externalId":null,"id":"cmhktaj4x0009u8rouou6vnsn","metadata":{"to":"+918597786209"},"senderId":"cmhkm7jzq0000u89cm1538wp4","threadId":"cmhksgs7h0003u8mg5xbkbrdw"},"ok":true,"thread":{"contactId":"cmhko29jc0003u89chegwe0nr","createdAt":"2025-11-04T16:34:05.645Z","creatorId":"cmhkm7jzq0000u89cm1538wp4","id":"cmhksgs7h0003u8mg5xbkbrdw","lastAt":"2025-11-04T16:50:12.491Z","status":"open"}}
-[00:11:40.166] Browser DEBUG   ThreadsList: thread has missing/invalid channels field: {"contactId":"cmhko29jc0003u89chegwe0nr","createdAt":"2025-11-04T16:34:05.645Z","creatorId":"cmhkm7jzq0000u89cm1538wp4","id":"cmhksgs7h0003u8mg5xbkbrdw","lastAt":"2025-11-04T16:50:12.491Z","status":"open"}
-[00:11:53.016] Browser DEBUG   ThreadsList: thread has missing/invalid channels field: {"contactId":"cmhko29jc0003u89chegwe0nr","createdAt":"2025-11-04T16:34:05.645Z","creatorId":"cmhkm7jzq0000u89cm1538wp4","id":"cmhksgs7h0003u8mg5xbkbrdw","lastAt":"2025-11-04T16:50:12.491Z","status":"open"}
-[00:12:19.389] Browser DEBUG   ThreadsList: thread has missing/invalid channels field: {"contactId":"cmhko29jc0003u89chegwe0nr","createdAt":"2025-11-04T16:34:05.645Z","creatorId":"cmhkm7jzq0000u89cm1538wp4","id":"cmhksgs7h0003u8mg5xbkbrdw","lastAt":"2025-11-04T16:50:12.491Z","status":"open"}
-[00:12:22.033] Browser DEBUG   ThreadsList: thread has missing/invalid channels field: {"contactId":"cmhko29jc0003u89chegwe0nr","createdAt":"2025-11-04T16:34:05.645Z","creatorId":"cmhkm7jzq0000u89cm1538wp4","id":"cmhksgs7h0003u8mg5xbkbrdw","lastAt":"2025-11-04T16:50:12.491Z","status":"open"}
-[00:12:26.613] Server  LOG     prisma:query "SELECT 1"
-[00:12:26.613] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:12:26.615] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
-[00:12:26.619] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:12:26.619] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
-[00:12:26.625] Server  LOG     prisma:query "SELECT 1"
-[00:12:26.626] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:12:26.626] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:12:26.653] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:12:26.654] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
-[00:12:26.657] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:12:26.659] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
-[00:12:26.665] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:12:26.667] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:12:26.759] Browser ERROR   uncaughtError: TypeError: Cannot read properties of null (reading 'role')
-[00:12:43.422] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:12:44.832] Server  LOG     prisma:query "SELECT 1"
-[00:12:44.833] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"provider\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"email\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:12:50.957] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"email\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:12:52.047] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:12:52.047] Server  DEBUG   [auth] cookie session matched user id cmhkm7jzq0000u89cm1538wp4
-[00:12:52.059] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:12:52.060] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
-[00:12:52.267] Server  LOG     prisma:query "SELECT 1"
-[00:12:52.268] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:12:52.268] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:12:52.589] Browser DEBUG   [fetchContacts] /api/contacts?limit=1000 returned 404
-[00:12:52.633] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:12:52.633] Server  DEBUG   [auth] cookie session matched user id cmhkm7jzq0000u89cm1538wp4
-[00:12:52.638] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:12:52.639] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
-[00:12:52.642] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:12:52.643] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:12:52.673] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:12:52.674] Server  DEBUG   [auth] cookie session matched user id cmhkm7jzq0000u89cm1538wp4
-[00:12:52.678] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:12:52.679] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
-[00:12:52.682] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:12:52.683] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:12:52.788] Browser DEBUG   [fetchContacts] /api/users?limit=1000 returned 404
-[00:12:52.788] Browser DEBUG   [fetchContacts] normalized contacts count: 1
-[00:13:30.169] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"email\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:13:30.881] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:13:30.881] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
-[00:13:30.891] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:13:30.892] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
-[00:13:30.926] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:13:31.008] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:13:31.205] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:13:31.206] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
-[00:13:31.210] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:13:31.213] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
-[00:13:31.229] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:13:31.229] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:13:31.244] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:13:31.244] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
-[00:13:31.247] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:13:31.247] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
-[00:13:31.250] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:13:31.250] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:13:31.366] Browser DEBUG   [fetchContacts] /api/contacts?limit=1000 returned 404
-[00:13:31.366] Browser DEBUG   [fetchContacts] /api/users?limit=1000 returned 404
-[00:13:31.366] Browser DEBUG   [fetchContacts] normalized contacts count: 1
-[00:13:43.108] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:13:43.110] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
-[00:13:43.114] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:13:43.115] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
-[00:13:43.119] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:13:43.119] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:13:43.250] Browser DEBUG   [EditProfile] initialized form from user: {"id":"cmhko29jc0003u89chegwe0nr","name":"Suraj Kumar Puri","profile":{"avatarUrl":null,"bio":null,"country":"India","countryCode":"IN","countryGeonameId":1269750,"countryName":"India","createdAt":"2025-11-04T14:59:16.188Z","displayName":null,"gender":null,"id":"cmhkp2u710006u89cbveongq2","metadata":null,"phoneNumber":"+918597786209","phoneVerified":true,"phoneVerifiedAt":"2025-11-04T15:22:13.031Z","state":"West Bengal","stateGeonameId":1252881,"stateName":"West Bengal","timezone":"UTC+05:30 - India Standard Time","updatedAt":"2025-11-04T15:22:13.034Z","userId":"cmhko29jc0003u89chegwe0nr"}}
-[00:13:43.250] Browser DEBUG   [EditProfile] initialized form from user: {"id":"cmhko29jc0003u89chegwe0nr","name":"Suraj Kumar Puri","profile":{"avatarUrl":null,"bio":null,"country":"India","countryCode":"IN","countryGeonameId":1269750,"countryName":"India","createdAt":"2025-11-04T14:59:16.188Z","displayName":null,"gender":null,"id":"cmhkp2u710006u89cbveongq2","metadata":null,"phoneNumber":"+918597786209","phoneVerified":true,"phoneVerifiedAt":"2025-11-04T15:22:13.031Z","state":"West Bengal","stateGeonameId":1252881,"stateName":"West Bengal","timezone":"UTC+05:30 - India Standard Time","updatedAt":"2025-11-04T15:22:13.034Z","userId":"cmhko29jc0003u89chegwe0nr"}}
+[00:00:01.499] Server  LOG      ✓ Ready in 1115ms
+[00:00:13.128] Server  LOG      ○ Compiling /welcome ...
+[00:00:14.573] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:15.355] Server  DEBUG   [auth] cookie session decoded id cmhko29jc0003u89chegwe0nr not found
+[00:00:15.361] Server  DEBUG   [auth] cookie token decoded id cmhjjs7mx0000u8787xfog7tr not found
+[00:00:15.362] Server  DEBUG   [auth] cookie probe: auth_token => missing
+[00:00:15.362] Server  DEBUG   [auth] cookie probe: authToken => missing
+[00:00:15.363] Server  DEBUG   [auth] cookie probe: auth => missing
+[00:00:15.738] Server  ERROR   GET /api/contacts error: PrismaClientKnownRequestError: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].contact.findMany()` invocation in
+E:\Attackcapital\SignalHub\frontend\.next\dev\server\chunks\[root-of-the-server]__4df66212._.js:96:182
+
+  93 try {
+  94     const url = new URL(req.url);
+  95     const limit = Number(url.searchParams.get("limit") ?? 1000);
+→ 96     const contacts = await __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].contact.findMany(
+The column `Contact.phoneVerified` does not exist in the current database.
+[00:00:15.797] Server  DEBUG   [auth] cookie session decoded id cmhko29jc0003u89chegwe0nr not found
+[00:00:15.801] Server  DEBUG   [auth] cookie token decoded id cmhjjs7mx0000u8787xfog7tr not found
+[00:00:15.802] Server  DEBUG   [auth] cookie probe: auth_token => missing
+[00:00:15.802] Server  DEBUG   [auth] cookie probe: authToken => missing
+[00:00:15.803] Server  DEBUG   [auth] cookie probe: auth => missing
+[00:00:15.868] Server  DEBUG   [auth] cookie session decoded id cmhko29jc0003u89chegwe0nr not found
+[00:00:15.871] Server  DEBUG   [auth] cookie token decoded id cmhjjs7mx0000u8787xfog7tr not found
+[00:00:15.872] Server  DEBUG   [auth] cookie probe: auth_token => missing
+[00:00:15.872] Server  DEBUG   [auth] cookie probe: authToken => missing
+[00:00:15.873] Server  DEBUG   [auth] cookie probe: auth => missing
+[00:00:15.989] Browser DEBUG   [fetchContacts] /api/contacts?limit=1000 returned 500
+[00:00:15.989] Browser DEBUG   [fetchContacts] /api/users?limit=1000 returned 404
+[00:00:15.989] Browser DEBUG   [fetchContacts] /api/me returned 401
+[00:00:15.989] Browser DEBUG   [fetchContacts] /api/admin/users?limit=1000 returned 404
+[00:00:15.989] Browser DEBUG   [fetchContacts] /api/me returned 401
+[00:00:15.989] Browser WARN    [fetchContacts] no contacts normalized — tried endpoints: ["/api/contacts?limit=1000","/api/users?limit=1000","/api/me","/api/admin/users?limit=1000","/api/me"]
+[00:00:15.989] Browser WARN    [fetchContacts] aggregated raw: []
+[00:00:34.699] Server  DEBUG   [auth] cookie session decoded id cmhko29jc0003u89chegwe0nr not found
+[00:00:34.704] Server  DEBUG   [auth] cookie token decoded id cmhjjs7mx0000u8787xfog7tr not found
+[00:00:34.705] Server  DEBUG   [auth] cookie probe: auth_token => missing
+[00:00:34.705] Server  DEBUG   [auth] cookie probe: authToken => missing
+[00:00:34.705] Server  DEBUG   [auth] cookie probe: auth => missing
+[00:00:36.823] Server  DEBUG   [auth] cookie session decoded id cmhko29jc0003u89chegwe0nr not found
+[00:00:36.842] Server  DEBUG   [auth] cookie token decoded id cmhjjs7mx0000u8787xfog7tr not found
+[00:00:36.842] Server  DEBUG   [auth] cookie probe: auth_token => missing
+[00:00:36.843] Server  DEBUG   [auth] cookie probe: authToken => missing
+[00:00:36.843] Server  DEBUG   [auth] cookie probe: auth => missing
+[00:00:36.876] Server  DEBUG   [auth] cookie session decoded id cmhko29jc0003u89chegwe0nr not found
+[00:00:36.883] Server  DEBUG   [auth] cookie token decoded id cmhjjs7mx0000u8787xfog7tr not found
+[00:00:36.884] Server  DEBUG   [auth] cookie probe: auth_token => missing
+[00:00:36.884] Server  DEBUG   [auth] cookie probe: authToken => missing
+[00:00:36.885] Server  DEBUG   [auth] cookie probe: auth => missing
+[00:00:37.189] Server  ERROR   GET /api/contacts error: PrismaClientKnownRequestError: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].contact.findMany()` invocation in
+E:\Attackcapital\SignalHub\frontend\.next\dev\server\chunks\[root-of-the-server]__4df66212._.js:96:182
+
+  93 try {
+  94     const url = new URL(req.url);
+  95     const limit = Number(url.searchParams.get("limit") ?? 1000);
+→ 96     const contacts = await __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].contact.findMany(
+The column `Contact.phoneVerified` does not exist in the current database.
+[00:00:37.258] Server  DEBUG   [auth] cookie session decoded id cmhko29jc0003u89chegwe0nr not found
+[00:00:37.262] Server  DEBUG   [auth] cookie token decoded id cmhjjs7mx0000u8787xfog7tr not found
+[00:00:37.262] Server  DEBUG   [auth] cookie probe: auth_token => missing
+[00:00:37.263] Server  DEBUG   [auth] cookie probe: authToken => missing
+[00:00:37.264] Server  DEBUG   [auth] cookie probe: auth => missing
+[00:00:37.336] Server  DEBUG   [auth] cookie session decoded id cmhko29jc0003u89chegwe0nr not found
+[00:00:37.338] Server  DEBUG   [auth] cookie token decoded id cmhjjs7mx0000u8787xfog7tr not found
+[00:00:37.339] Server  DEBUG   [auth] cookie probe: auth_token => missing
+[00:00:37.339] Server  DEBUG   [auth] cookie probe: authToken => missing
+[00:00:37.340] Server  DEBUG   [auth] cookie probe: auth => missing
+[00:00:37.444] Browser DEBUG   [fetchContacts] /api/contacts?limit=1000 returned 500
+[00:00:37.444] Browser DEBUG   [fetchContacts] /api/users?limit=1000 returned 404
+[00:00:37.444] Browser DEBUG   [fetchContacts] /api/me returned 401
+[00:00:37.444] Browser DEBUG   [fetchContacts] /api/admin/users?limit=1000 returned 404
+[00:00:37.444] Browser DEBUG   [fetchContacts] /api/me returned 401
+[00:00:37.444] Browser WARN    [fetchContacts] no contacts normalized — tried endpoints: ["/api/contacts?limit=1000","/api/users?limit=1000","/api/me","/api/admin/users?limit=1000","/api/me"]
+[00:00:37.444] Browser WARN    [fetchContacts] aggregated raw: []
+[00:00:57.753] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:01:20.239] Server  DEBUG   [auth] cookie session matched user id cmhl53oor0000u88o7zy6bc68
+[00:01:20.266] Server  DEBUG   [auth] cookie session matched user id cmhl53oor0000u88o7zy6bc68
+[00:01:20.590] Server  ERROR   GET /api/contacts error: PrismaClientKnownRequestError: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].contact.findMany()` invocation in
+E:\Attackcapital\SignalHub\frontend\.next\dev\server\chunks\[root-of-the-server]__4df66212._.js:96:182
+
+  93 try {
+  94     const url = new URL(req.url);
+  95     const limit = Number(url.searchParams.get("limit") ?? 1000);
+→ 96     const contacts = await __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].contact.findMany(
+The column `Contact.phoneVerified` does not exist in the current database.
+[00:01:20.702] Server  DEBUG   [auth] cookie session matched user id cmhl53oor0000u88o7zy6bc68
+[00:01:20.722] Server  DEBUG   [auth] cookie session matched user id cmhl53oor0000u88o7zy6bc68
+[00:01:20.831] Browser DEBUG   [fetchContacts] /api/contacts?limit=1000 returned 500
+[00:01:20.831] Browser DEBUG   [fetchContacts] /api/users?limit=1000 returned 404
+[00:01:20.831] Browser DEBUG   [fetchContacts] normalized contacts count: 1
+[00:01:35.766] Server  DEBUG   [auth] cookie session matched user id cmhl53oor0000u88o7zy6bc68
+[00:01:35.926] Browser DEBUG   [EditProfile] initialized form from user: {"id":"cmhl53oor0000u88o7zy6bc68","name":"Sankha Subhra Das","profile":{"country":null,"countryCode":null,"phoneNumber":null,"phoneVerified":false,"phoneVerifiedAt":null,"state":null}}
+[00:01:35.926] Browser DEBUG   [EditProfile] initialized form from user: {"id":"cmhl53oor0000u88o7zy6bc68","name":"Sankha Subhra Das","profile":{"country":null,"countryCode":null,"phoneNumber":null,"phoneVerified":false,"phoneVerifiedAt":null,"state":null}}
+[00:01:44.229] Browser DEBUG   [PhoneVerifyModal] send-otp response: 200 {"debugOtp":"2437","message":"OTP sent","ok":true}
+[00:01:58.220] Browser DEBUG   [PhoneVerifyModal] verify payload: {"otp":"2437","phone":"+918597786209"}
+[00:01:58.309] Server  DEBUG   [auth] cookie session matched user id cmhl53oor0000u88o7zy6bc68
+[00:01:58.459] Browser DEBUG   [PhoneVerifyModal] verify response status: 200 body: {"message":"Phone verified successfully","ok":true,"user":{"email":"sankhasubhradas1@gmail.com","id":"cmhl53oor0000u88o7zy6bc68","name":"Sankha Subhra Das","profile":{"avatarUrl":null,"bio":null,"countryCode":null,"countryGeonameId":null,"countryName":null,"createdAt":"2025-11-04T22:28:34.415Z","displayName":null,"gender":null,"id":"cmhl54nam0005u88o95w6mjsn","metadata":null,"phoneNumber":"+918597786209","phoneVerified":true,"phoneVerifiedAt":"2025-11-04T22:28:34.413Z","stateGeonameId":null,"stateName":null,"timezone":null,"updatedAt":"2025-11-04T22:28:34.415Z","userId":"cmhl53oor0000u88o7zy6bc68"},"role":"ADMIN","updatedAt":"2025-11-04T22:27:49.563Z"}}
+[00:01:58.459] Browser DEBUG   [EditProfile] initialized form from user: {"id":"cmhl53oor0000u88o7zy6bc68","name":"Sankha Subhra Das","profile":{"avatarUrl":null,"bio":null,"country":null,"countryCode":null,"countryGeonameId":null,"countryName":null,"createdAt":"2025-11-04T22:28:34.415Z","displayName":null,"gender":null,"id":"cmhl54nam0005u88o95w6mjsn","metadata":null,"phoneNumber":"+918597786209","phoneVerified":true,"phoneVerifiedAt":"2025-11-04T22:28:34.413Z","state":null,"stateGeonameId":null,"stateName":null,"timezone":null,"updatedAt":"2025-11-04T22:28:34.415Z","userId":"cmhl53oor0000u88o7zy6bc68"}}
+[00:02:03.656] Browser DEBUG   [EditProfile] initialized form from user: {"id":"cmhl53oor0000u88o7zy6bc68","name":"Sankha Subhra Das","profile":{"avatarUrl":null,"bio":null,"country":null,"countryCode":null,"countryGeonameId":null,"countryName":null,"createdAt":"2025-11-04T22:28:34.415Z","displayName":null,"gender":null,"id":"cmhl54nam0005u88o95w6mjsn","metadata":null,"phoneNumber":"+918597786209","phoneVerified":true,"phoneVerifiedAt":"2025-11-04T22:28:34.413Z","state":null,"stateGeonameId":null,"stateName":null,"timezone":null,"updatedAt":"2025-11-04T22:28:34.415Z","userId":"cmhl53oor0000u88o7zy6bc68"}}
+[00:02:06.580] Browser DEBUG   [EditProfile] initialized form from user: {"id":"cmhl53oor0000u88o7zy6bc68","name":"Sankha Subhra Das","profile":{"avatarUrl":null,"bio":null,"country":null,"countryCode":null,"countryGeonameId":null,"countryName":null,"createdAt":"2025-11-04T22:28:34.415Z","displayName":null,"gender":null,"id":"cmhl54nam0005u88o95w6mjsn","metadata":null,"phoneNumber":"+918597786209","phoneVerified":true,"phoneVerifiedAt":"2025-11-04T22:28:34.413Z","state":null,"stateGeonameId":null,"stateName":null,"timezone":null,"updatedAt":"2025-11-04T22:28:34.415Z","userId":"cmhl53oor0000u88o7zy6bc68"}}
+[00:02:08.316] Server  DEBUG   [auth] cookie session matched user id cmhl53oor0000u88o7zy6bc68
+[00:02:08.614] Server  ERROR   GET /api/contacts error: PrismaClientKnownRequestError: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].contact.findMany()` invocation in
+E:\Attackcapital\SignalHub\frontend\.next\dev\server\chunks\[root-of-the-server]__4df66212._.js:96:182
+
+  93 try {
+  94     const url = new URL(req.url);
+  95     const limit = Number(url.searchParams.get("limit") ?? 1000);
+→ 96     const contacts = await __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].contact.findMany(
+The column `Contact.phoneVerified` does not exist in the current database.
+[00:02:08.662] Server  DEBUG   [auth] cookie session matched user id cmhl53oor0000u88o7zy6bc68
+[00:02:08.679] Server  DEBUG   [auth] cookie session matched user id cmhl53oor0000u88o7zy6bc68
+[00:02:08.791] Browser DEBUG   [fetchContacts] /api/contacts?limit=1000 returned 500
+[00:02:08.791] Browser DEBUG   [fetchContacts] /api/users?limit=1000 returned 404
+[00:02:08.791] Browser DEBUG   [fetchContacts] normalized contacts count: 1
+[00:06:39.711] Server  ERROR    ⨯ Error: The default export is not a React Component in "/admin/page"
+[00:06:39.996] Server  ERROR    ⨯ Error: The default export is not a React Component in "/admin/page"
+[00:06:41.350] Server  ERROR    ⨯ Error: The default export is not a React Component in "/admin/page"
+[00:06:41.548] Server  ERROR    ⨯ Error: The default export is not a React Component in "/admin/page"
+[00:06:41.739] Browser ERROR   uncaughtError: Error: The default export is not a React Component in "/admin/page"
+[00:06:43.997] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:06:44.356] Server  ERROR   GET /api/contacts error: PrismaClientKnownRequestError: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].contact.findMany()` invocation in
+E:\Attackcapital\SignalHub\frontend\.next\dev\server\chunks\[root-of-the-server]__4df66212._.js:96:182
+
+  93 try {
+  94     const url = new URL(req.url);
+  95     const limit = Number(url.searchParams.get("limit") ?? 1000);
+→ 96     const contacts = await __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].contact.findMany(
+The column `Contact.phoneVerified` does not exist in the current database.
+[00:06:44.434] Server  DEBUG   [auth] cookie session matched user id cmhl53oor0000u88o7zy6bc68
+[00:06:44.514] Server  DEBUG   [auth] cookie session matched user id cmhl53oor0000u88o7zy6bc68
+[00:06:44.522] Browser DEBUG   [fetchContacts] /api/contacts?limit=1000 returned 500
+[00:06:44.522] Browser DEBUG   [fetchContacts] /api/users?limit=1000 returned 404
+[00:06:44.634] Browser DEBUG   [fetchContacts] normalized contacts count: 1
+[00:11:24.557] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:11:43.977] Server  DEBUG   [auth] cookie session matched user id cmhl5h2bt0006u88ou7b96drg
+[00:11:44.313] Server  ERROR   GET /api/contacts error: PrismaClientKnownRequestError: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].contact.findMany()` invocation in
+E:\Attackcapital\SignalHub\frontend\.next\dev\server\chunks\[root-of-the-server]__4df66212._.js:96:182
+
+  93 try {
+  94     const url = new URL(req.url);
+  95     const limit = Number(url.searchParams.get("limit") ?? 1000);
+→ 96     const contacts = await __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].contact.findMany(
+The column `Contact.phoneVerified` does not exist in the current database.
+[00:11:44.390] Server  DEBUG   [auth] cookie session matched user id cmhl5h2bt0006u88ou7b96drg
+[00:11:44.466] Server  DEBUG   [auth] cookie session matched user id cmhl5h2bt0006u88ou7b96drg
+[00:11:44.476] Browser DEBUG   [fetchContacts] /api/contacts?limit=1000 returned 500
+[00:11:44.476] Browser DEBUG   [fetchContacts] /api/users?limit=1000 returned 404
+[00:11:44.576] Browser DEBUG   [fetchContacts] normalized contacts count: 1
+[00:11:47.465] Server  DEBUG   [auth] cookie session matched user id cmhl5h2bt0006u88ou7b96drg
+[00:11:47.540] Server  DEBUG   [auth] cookie session matched user id cmhl5h2bt0006u88ou7b96drg
+[00:11:47.651] Browser ERROR   uncaughtError: TypeError: Cannot read properties of null (reading 'role')
+[00:11:50.422] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:11:50.485] Server  DEBUG   [auth] cookie session matched user id cmhl5h2bt0006u88ou7b96drg
+[00:11:50.788] Server  ERROR   GET /api/contacts error: PrismaClientKnownRequestError: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].contact.findMany()` invocation in
+E:\Attackcapital\SignalHub\frontend\.next\dev\server\chunks\[root-of-the-server]__4df66212._.js:96:182
+
+  93 try {
+  94     const url = new URL(req.url);
+  95     const limit = Number(url.searchParams.get("limit") ?? 1000);
+→ 96     const contacts = await __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].contact.findMany(
+The column `Contact.phoneVerified` does not exist in the current database.
+[00:11:50.897] Server  DEBUG   [auth] cookie session matched user id cmhl5h2bt0006u88ou7b96drg
+[00:11:50.925] Server  DEBUG   [auth] cookie session matched user id cmhl5h2bt0006u88ou7b96drg
+[00:11:51.037] Browser DEBUG   [fetchContacts] /api/contacts?limit=1000 returned 500
+[00:11:51.037] Browser DEBUG   [fetchContacts] /api/users?limit=1000 returned 404
+[00:11:51.037] Browser DEBUG   [fetchContacts] normalized contacts count: 1
+[00:14:48.690] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:48.936] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:48.974] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:49.012] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:49.057] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:49.098] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:49.130] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:49.159] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:49.195] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:49.214] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:14:49.214] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:14:49.223] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:49.249] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:49.282] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:49.318] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:49.358] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:49.413] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:49.453] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:49.492] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:49.512] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:14:49.512] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:14:49.518] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:49.543] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:49.567] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:49.592] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:49.618] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:49.650] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:49.676] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:49.700] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:49.726] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:49.750] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:49.819] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:49.860] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:49.904] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:49.907] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:14:49.939] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:49.972] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:50.014] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:50.072] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:50.097] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:50.121] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:50.145] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:50.169] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:14:50.175] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:50.200] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:50.231] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:50.256] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:50.282] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:50.307] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:50.329] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:50.355] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:50.381] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:50.408] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:50.427] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:50.447] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:50.472] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:50.497] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:50.520] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:50.545] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:50.582] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:50.616] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:50.659] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:50.694] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:50.728] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:50.756] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:50.777] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:14:50.785] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:50.817] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:50.850] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:50.882] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:50.915] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:50.945] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:50.984] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:51.021] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:51.054] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:51.089] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:51.132] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:51.171] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:51.204] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:51.242] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:51.281] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:51.319] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:51.347] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:14:51.360] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:51.418] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:51.677] Browser ERROR   uncaughtError: Error: ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:14:51.842] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:14:51.842] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:14:51.842] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:14:51.842] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:14:51.842] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:14:51.842] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:14:51.842] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:14:51.842] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:15:03.361] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:15:05.595] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:18:48.440] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:19:24.604] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:19:24.604] Browser ERROR   ./frontend/src/app/welcome/page.tsx
+Error evaluating Node.js code
+SyntaxError: E:\Attackcapital\SignalHub\frontend\src\app\welcome\page.tsx: Identifier 'useRouter' has already been declared. (5:9)
+
+  3 | import React, { useEffect, useMemo, useRef, useState } from "react";
+  4 | import Link from "next/link";
+> 5 | import { useRouter } from "next/navigation";
+    |          ^
+  6 | import ProfileMenu from "@/components/profile/ProfileMenu";
+  7 | import * as Y from "yjs";
+  8 | import { WebsocketProvider } from "y-websocket";
+    [at constructor (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:137105)]
+    [at TypeScriptParserMixin.raise (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:194164)]
+    [at TypeScriptScopeHandler.declareName (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:270924)]
+    [at TypeScriptParserMixin.declareNameFromIdentifier (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:279226)]
+    [at TypeScriptParserMixin.checkIdentifier (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:279152)]
+    [at TypeScriptParserMixin.checkLVal (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:278197)]
+    [at TypeScriptParserMixin.finishImportSpecifier (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:422705)]
+    [at TypeScriptParserMixin.parseImportSpecifier (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:425882)]
+    [at TypeScriptParserMixin.parseImportSpecifier (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:338125)]
+    [at TypeScriptParserMixin.parseNamedImportSpecifiers (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:425483)]
+    [at TypeScriptParserMixin.parseImportSpecifiersAndAfter (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:422062)]
+    [at TypeScriptParserMixin.parseImport (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:421803)]
+    [at TypeScriptParserMixin.parseImport (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:322073)]
+    [at TypeScriptParserMixin.parseStatementContent (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:391781)]
+    [at TypeScriptParserMixin.parseStatementContent (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:324042)]
+    [at TypeScriptParserMixin.parseStatementLike (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:389494)]
+    [at TypeScriptParserMixin.parseModuleItem (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:389055)]
+    [at TypeScriptParserMixin.parseBlockOrModuleBlockBody (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:401400)]
+    [at TypeScriptParserMixin.parseBlockBody (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:401223)]
+    [at TypeScriptParserMixin.parseProgram (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:386857)]
+    [at TypeScriptParserMixin.parseTopLevel (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:386575)]
+    [at TypeScriptParserMixin.parse (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:426834)]
+    [at TypeScriptParserMixin.parse (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:337631)]
+    [at parse (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:427092)]
+    [at parser (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:1:142018)]
+    [at <anonymous>]
+    [at normalizeFile (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:13:13275)]
+    [at <anonymous>]
+    [at consumeIterator (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\build\babel\loader\util.js:13:38)]
+    [at transform (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\build\babel\loader\transform.js:89:44)]
+    [at async (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\build\babel\loader\index.js:36:108)]
+    at async DummySpan.traceAsyncFn (turbopack:///[turbopack-node]/transforms/webpack-loaders.ts:115:12) [E:\Attackcapital\SignalHub\frontend\.next\dev\build\chunks\[root-of-the-server]__6e020478._.js:126:16]
+    [at async nextBabelLoader (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\build\babel\loader\index.js:36:63)]
+    at async DummySpan.traceAsyncFn (turbopack:///[turbopack-node]/transforms/webpack-loaders.ts:115:12) [E:\Attackcapital\SignalHub\frontend\.next\dev\build\chunks\[root-of-the-server]__6e020478._.js:126:16]
+
+Import traces:
+  Client Component Browser:
+    ./frontend/src/app/welcome/page.tsx [Client Component Browser]
+    ./frontend/src/app/welcome/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frontend/src/app/welcome/page.tsx [Client Component SSR]
+    ./frontend/src/app/welcome/page.tsx [Server Component]
+[00:19:24.604] Browser ERROR   ./frontend/src/app/welcome/page.tsx:5:10
+Ecmascript file had an error
+  3 | import React, { useEffect, useMemo, useRef, useState } from "react";
+  4 | import Link from "next/link";
+> 5 | import { useRouter } from "next/navigation";
+    |          ^^^^^^^^^
+  6 | import ProfileMenu from "@/components/profile/ProfileMenu";
+  7 | import * as Y from "yjs";
+  8 | import { WebsocketProvider } from "y-websocket";
+
+the name `useRouter` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frontend/src/app/welcome/page.tsx [Client Component Browser]
+    ./frontend/src/app/welcome/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frontend/src/app/welcome/page.tsx [Client Component SSR]
+    ./frontend/src/app/welcome/page.tsx [Server Component]
+[00:19:28.848] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:20:08.269] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:20:08.269] Browser ERROR   ./frontend/src/app/welcome/page.tsx
+Error evaluating Node.js code
+SyntaxError: E:\Attackcapital\SignalHub\frontend\src\app\welcome\page.tsx: Identifier 'handlePrimary' has already been declared. (581:6)
+
+  579 |   }
+  580 | }
+> 581 | const handlePrimary = () => {
+      |       ^
+  582 |   if (isAdmin) {
+  583 |     // Navigate to the Admin Dashboard
+  584 |     router.push("/admin");
+    [at constructor (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:137105)]
+    [at TypeScriptParserMixin.raise (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:194164)]
+    [at TypeScriptScopeHandler.checkRedeclarationInScope (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:163166)]
+    [at TypeScriptScopeHandler.declareName (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:162529)]
+    [at TypeScriptScopeHandler.declareName (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:271160)]
+    [at TypeScriptParserMixin.declareNameFromIdentifier (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:279226)]
+    [at TypeScriptParserMixin.checkIdentifier (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:279152)]
+    [at TypeScriptParserMixin.checkLVal (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:278197)]
+    [at TypeScriptParserMixin.parseVarId (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:403644)]
+    [at TypeScriptParserMixin.parseVarId (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:329902)]
+    [at TypeScriptParserMixin.parseVar (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:402884)]
+    [at TypeScriptParserMixin.parseVarStatement (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:399366)]
+    [at TypeScriptParserMixin.parseVarStatement (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:323322)]
+    [at TypeScriptParserMixin.parseStatementContent (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:391398)]
+    [at TypeScriptParserMixin.parseStatementContent (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:324042)]
+    [at TypeScriptParserMixin.parseStatementLike (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:389494)]
+    [at TypeScriptParserMixin.parseStatementListItem (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:389120)]
+    [at TypeScriptParserMixin.parseBlockOrModuleBlockBody (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:401423)]
+    [at TypeScriptParserMixin.parseBlockBody (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:401223)]
+    [at TypeScriptParserMixin.parseBlock (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:400923)]
+    [at TypeScriptParserMixin.parseFunctionBody (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:378053)]
+    [at TypeScriptParserMixin.parseFunctionBodyAndFinish (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:377675)]
+    [at TypeScriptParserMixin.parseFunctionBodyAndFinish (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:318173)]
+    [at E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:404308]
+    [at TypeScriptParserMixin.withSmartMixTopicForbiddingContext (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:383677)]
+    [at TypeScriptParserMixin.parseFunction (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:404262)]
+    [at TypeScriptParserMixin.parseExportDefaultExpression (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:414860)]
+    [at TypeScriptParserMixin.parseExportDefaultExpression (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:323209)]
+    [at TypeScriptParserMixin.parseExport (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:413097)]
+    [at TypeScriptParserMixin.parseExport (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:322862)]
+    [at TypeScriptParserMixin.parseStatementContent (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:391808)]
+    [at TypeScriptParserMixin.parseStatementContent (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:324042)]
+    [at TypeScriptParserMixin.parseStatementLike (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:389494)]
+    [at TypeScriptParserMixin.parseModuleItem (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:389055)]
+    [at TypeScriptParserMixin.parseBlockOrModuleBlockBody (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:401400)]
+    [at TypeScriptParserMixin.parseBlockBody (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:401223)]
+    [at TypeScriptParserMixin.parseProgram (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:386857)]
+    [at TypeScriptParserMixin.parseTopLevel (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:386575)]
+    [at TypeScriptParserMixin.parse (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:426834)]
+    [at TypeScriptParserMixin.parse (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:337631)]
+    [at parse (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:427092)]
+    [at parser (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:1:142018)]
+    [at <anonymous>]
+    [at normalizeFile (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:13:13275)]
+    [at <anonymous>]
+    [at consumeIterator (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\build\babel\loader\util.js:13:38)]
+    [at transform (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\build\babel\loader\transform.js:89:44)]
+    [at async (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\build\babel\loader\index.js:36:108)]
+    at async DummySpan.traceAsyncFn (turbopack:///[turbopack-node]/transforms/webpack-loaders.ts:115:12) [E:\Attackcapital\SignalHub\frontend\.next\dev\build\chunks\[root-of-the-server]__6e020478._.js:126:16]
+    [at async nextBabelLoader (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\build\babel\loader\index.js:36:63)]
+
+Import traces:
+  Client Component Browser:
+    ./frontend/src/app/welcome/page.tsx [Client Component Browser]
+    ./frontend/src/app/welcome/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frontend/src/app/welcome/page.tsx [Client Component SSR]
+    ./frontend/src/app/welcome/page.tsx [Server Component]
+[00:20:08.269] Browser ERROR   ./frontend/src/app/welcome/page.tsx:581:7
+Ecmascript file had an error
+  579 |   }
+  580 | }
+> 581 | const handlePrimary = () => {
+      |       ^^^^^^^^^^^^^
+  582 |   if (isAdmin) {
+  583 |     // Navigate to the Admin Dashboard
+  584 |     router.push("/admin");
+
+the name `handlePrimary` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frontend/src/app/welcome/page.tsx [Client Component Browser]
+    ./frontend/src/app/welcome/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frontend/src/app/welcome/page.tsx [Client Component SSR]
+    ./frontend/src/app/welcome/page.tsx [Server Component]
+[00:20:29.409] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:20:29.409] Browser ERROR   ./frontend/src/app/welcome/page.tsx
+Error evaluating Node.js code
+SyntaxError: E:\Attackcapital\SignalHub\frontend\src\app\welcome\page.tsx: Identifier 'handlePrimary' has already been declared. (581:6)
+
+  579 |   }
+  580 | }
+> 581 | const handlePrimary = () => {
+      |       ^
+  582 |   if (isAdmin) {
+  583 |     // Navigate to the Admin Dashboard
+  584 |     router.push("/admin");
+    [at constructor (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:137105)]
+    [at TypeScriptParserMixin.raise (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:194164)]
+    [at TypeScriptScopeHandler.checkRedeclarationInScope (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:163166)]
+    [at TypeScriptScopeHandler.declareName (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:162529)]
+    [at TypeScriptScopeHandler.declareName (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:271160)]
+    [at TypeScriptParserMixin.declareNameFromIdentifier (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:279226)]
+    [at TypeScriptParserMixin.checkIdentifier (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:279152)]
+    [at TypeScriptParserMixin.checkLVal (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:278197)]
+    [at TypeScriptParserMixin.parseVarId (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:403644)]
+    [at TypeScriptParserMixin.parseVarId (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:329902)]
+    [at TypeScriptParserMixin.parseVar (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:402884)]
+    [at TypeScriptParserMixin.parseVarStatement (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:399366)]
+    [at TypeScriptParserMixin.parseVarStatement (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:323322)]
+    [at TypeScriptParserMixin.parseStatementContent (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:391398)]
+    [at TypeScriptParserMixin.parseStatementContent (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:324042)]
+    [at TypeScriptParserMixin.parseStatementLike (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:389494)]
+    [at TypeScriptParserMixin.parseStatementListItem (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:389120)]
+    [at TypeScriptParserMixin.parseBlockOrModuleBlockBody (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:401423)]
+    [at TypeScriptParserMixin.parseBlockBody (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:401223)]
+    [at TypeScriptParserMixin.parseBlock (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:400923)]
+    [at TypeScriptParserMixin.parseFunctionBody (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:378053)]
+    [at TypeScriptParserMixin.parseFunctionBodyAndFinish (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:377675)]
+    [at TypeScriptParserMixin.parseFunctionBodyAndFinish (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:318173)]
+    [at E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:404308]
+    [at TypeScriptParserMixin.withSmartMixTopicForbiddingContext (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:383677)]
+    [at TypeScriptParserMixin.parseFunction (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:404262)]
+    [at TypeScriptParserMixin.parseExportDefaultExpression (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:414860)]
+    [at TypeScriptParserMixin.parseExportDefaultExpression (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:323209)]
+    [at TypeScriptParserMixin.parseExport (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:413097)]
+    [at TypeScriptParserMixin.parseExport (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:322862)]
+    [at TypeScriptParserMixin.parseStatementContent (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:391808)]
+    [at TypeScriptParserMixin.parseStatementContent (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:324042)]
+    [at TypeScriptParserMixin.parseStatementLike (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:389494)]
+    [at TypeScriptParserMixin.parseModuleItem (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:389055)]
+    [at TypeScriptParserMixin.parseBlockOrModuleBlockBody (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:401400)]
+    [at TypeScriptParserMixin.parseBlockBody (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:401223)]
+    [at TypeScriptParserMixin.parseProgram (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:386857)]
+    [at TypeScriptParserMixin.parseTopLevel (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:386575)]
+    [at TypeScriptParserMixin.parse (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:426834)]
+    [at TypeScriptParserMixin.parse (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:337631)]
+    [at parse (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:427092)]
+    [at parser (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:1:142018)]
+    [at <anonymous>]
+    [at normalizeFile (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:13:13275)]
+    [at <anonymous>]
+    [at consumeIterator (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\build\babel\loader\util.js:13:38)]
+    [at transform (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\build\babel\loader\transform.js:89:44)]
+    [at async (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\build\babel\loader\index.js:36:108)]
+    at async DummySpan.traceAsyncFn (turbopack:///[turbopack-node]/transforms/webpack-loaders.ts:115:12) [E:\Attackcapital\SignalHub\frontend\.next\dev\build\chunks\[root-of-the-server]__6e020478._.js:126:16]
+    [at async nextBabelLoader (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\build\babel\loader\index.js:36:63)]
+
+Import traces:
+  Client Component Browser:
+    ./frontend/src/app/welcome/page.tsx [Client Component Browser]
+    ./frontend/src/app/welcome/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frontend/src/app/welcome/page.tsx [Client Component SSR]
+    ./frontend/src/app/welcome/page.tsx [Server Component]
+[00:20:29.409] Browser ERROR   ./frontend/src/app/welcome/page.tsx:581:7
+Ecmascript file had an error
+  579 |   }
+  580 | }
+> 581 | const handlePrimary = () => {
+      |       ^^^^^^^^^^^^^
+  582 |   if (isAdmin) {
+  583 |     // Navigate to the Admin Dashboard
+  584 |     router.push("/admin");
+
+the name `handlePrimary` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frontend/src/app/welcome/page.tsx [Client Component Browser]
+    ./frontend/src/app/welcome/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frontend/src/app/welcome/page.tsx [Client Component SSR]
+    ./frontend/src/app/welcome/page.tsx [Server Component]
+[00:20:46.683] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:20:46.683] Browser ERROR   ./frontend/src/app/welcome/page.tsx
+Error evaluating Node.js code
+SyntaxError: E:\Attackcapital\SignalHub\frontend\src\app\welcome\page.tsx: Identifier 'handlePrimary' has already been declared. (581:6)
+
+  579 |   }
+  580 | }
+> 581 | const handlePrimary = () => {
+      |       ^
+  582 |   if (isAdmin) {
+  583 |     // Navigate to the Admin Dashboard
+  584 |     router.push("/admin");
+    [at constructor (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:137105)]
+    [at TypeScriptParserMixin.raise (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:194164)]
+    [at TypeScriptScopeHandler.checkRedeclarationInScope (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:163166)]
+    [at TypeScriptScopeHandler.declareName (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:162529)]
+    [at TypeScriptScopeHandler.declareName (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:271160)]
+    [at TypeScriptParserMixin.declareNameFromIdentifier (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:279226)]
+    [at TypeScriptParserMixin.checkIdentifier (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:279152)]
+    [at TypeScriptParserMixin.checkLVal (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:278197)]
+    [at TypeScriptParserMixin.parseVarId (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:403644)]
+    [at TypeScriptParserMixin.parseVarId (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:329902)]
+    [at TypeScriptParserMixin.parseVar (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:402884)]
+    [at TypeScriptParserMixin.parseVarStatement (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:399366)]
+    [at TypeScriptParserMixin.parseVarStatement (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:323322)]
+    [at TypeScriptParserMixin.parseStatementContent (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:391398)]
+    [at TypeScriptParserMixin.parseStatementContent (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:324042)]
+    [at TypeScriptParserMixin.parseStatementLike (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:389494)]
+    [at TypeScriptParserMixin.parseStatementListItem (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:389120)]
+    [at TypeScriptParserMixin.parseBlockOrModuleBlockBody (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:401423)]
+    [at TypeScriptParserMixin.parseBlockBody (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:401223)]
+    [at TypeScriptParserMixin.parseBlock (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:400923)]
+    [at TypeScriptParserMixin.parseFunctionBody (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:378053)]
+    [at TypeScriptParserMixin.parseFunctionBodyAndFinish (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:377675)]
+    [at TypeScriptParserMixin.parseFunctionBodyAndFinish (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:318173)]
+    [at E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:404308]
+    [at TypeScriptParserMixin.withSmartMixTopicForbiddingContext (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:383677)]
+    [at TypeScriptParserMixin.parseFunction (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:404262)]
+    [at TypeScriptParserMixin.parseExportDefaultExpression (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:414860)]
+    [at TypeScriptParserMixin.parseExportDefaultExpression (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:323209)]
+    [at TypeScriptParserMixin.parseExport (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:413097)]
+    [at TypeScriptParserMixin.parseExport (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:322862)]
+    [at TypeScriptParserMixin.parseStatementContent (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:391808)]
+    [at TypeScriptParserMixin.parseStatementContent (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:324042)]
+    [at TypeScriptParserMixin.parseStatementLike (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:389494)]
+    [at TypeScriptParserMixin.parseModuleItem (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:389055)]
+    [at TypeScriptParserMixin.parseBlockOrModuleBlockBody (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:401400)]
+    [at TypeScriptParserMixin.parseBlockBody (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:401223)]
+    [at TypeScriptParserMixin.parseProgram (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:386857)]
+    [at TypeScriptParserMixin.parseTopLevel (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:386575)]
+    [at TypeScriptParserMixin.parse (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:426834)]
+    [at TypeScriptParserMixin.parse (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:337631)]
+    [at parse (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:191:427092)]
+    [at parser (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:1:142018)]
+    [at <anonymous>]
+    [at normalizeFile (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\compiled\babel\bundle.js:13:13275)]
+    [at <anonymous>]
+    [at consumeIterator (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\build\babel\loader\util.js:13:38)]
+    [at transform (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\build\babel\loader\transform.js:89:44)]
+    [at async (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\build\babel\loader\index.js:36:108)]
+    at async DummySpan.traceAsyncFn (turbopack:///[turbopack-node]/transforms/webpack-loaders.ts:115:12) [E:\Attackcapital\SignalHub\frontend\.next\dev\build\chunks\[root-of-the-server]__6e020478._.js:126:16]
+    [at async nextBabelLoader (E:\Attackcapital\SignalHub\frontend\node_modules\next\dist\build\babel\loader\index.js:36:63)]
+
+Import traces:
+  Client Component Browser:
+    ./frontend/src/app/welcome/page.tsx [Client Component Browser]
+    ./frontend/src/app/welcome/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frontend/src/app/welcome/page.tsx [Client Component SSR]
+    ./frontend/src/app/welcome/page.tsx [Server Component]
+[00:20:46.683] Browser ERROR   ./frontend/src/app/welcome/page.tsx:581:7
+Ecmascript file had an error
+  579 |   }
+  580 | }
+> 581 | const handlePrimary = () => {
+      |       ^^^^^^^^^^^^^
+  582 |   if (isAdmin) {
+  583 |     // Navigate to the Admin Dashboard
+  584 |     router.push("/admin");
+
+the name `handlePrimary` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frontend/src/app/welcome/page.tsx [Client Component Browser]
+    ./frontend/src/app/welcome/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frontend/src/app/welcome/page.tsx [Client Component SSR]
+    ./frontend/src/app/welcome/page.tsx [Server Component]
+[00:20:59.689] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:21:04.726] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:21:04.874] Browser ERROR   uncaughtError: Error: ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:21:05.017] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:21:05.018] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:21:05.018] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:21:05.018] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:21:05.018] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:21:05.018] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:21:05.018] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:21:05.018] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:21:06.645] Server  ERROR    ⨯ ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:21:06.775] Browser ERROR   uncaughtError: Error: ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+
+[00:21:06.925] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:21:06.925] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:21:06.925] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:21:06.925] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:21:06.925] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:21:06.925] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:21:06.925] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:21:06.925] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:21:43.113] Browser ERROR   ./frontend/src/app/admin
+You cannot have two parallel pages that resolve to the same path. Please check /(authenticated)/admin and /admin.
+[00:22:00.456] Server  ERROR   Yjs was already imported. This breaks constructor checks and will lead to issues! - https://github.com/yjs/yjs/issues/438
+[00:22:00.498] Server  LOG      ✓ Compiled in 82ms
+[00:22:00.785] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:22:01.332] Server  DEBUG   [auth] cookie session matched user id cmhl5h2bt0006u88ou7b96drg
+[00:22:01.626] Server  ERROR   GET /api/contacts error: PrismaClientKnownRequestError: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].contact.findMany()` invocation in
+E:\Attackcapital\SignalHub\frontend\.next\dev\server\chunks\[root-of-the-server]__4df66212._.js:96:182
+
+  93 try {
+  94     const url = new URL(req.url);
+  95     const limit = Number(url.searchParams.get("limit") ?? 1000);
+→ 96     const contacts = await __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].contact.findMany(
+The column `Contact.phoneVerified` does not exist in the current database.
+[00:22:01.704] Server  DEBUG   [auth] cookie session matched user id cmhl5h2bt0006u88ou7b96drg
+[00:22:01.727] Server  DEBUG   [auth] cookie session matched user id cmhl5h2bt0006u88ou7b96drg
+[00:22:01.837] Browser DEBUG   [fetchContacts] /api/contacts?limit=1000 returned 500
+[00:22:01.837] Browser DEBUG   [fetchContacts] /api/users?limit=1000 returned 404
+[00:22:01.837] Browser DEBUG   [fetchContacts] normalized contacts count: 1
+[00:22:23.039] Server  DEBUG   [auth] cookie session matched user id cmhl53oor0000u88o7zy6bc68
+[00:22:23.068] Server  DEBUG   [auth] cookie session matched user id cmhl53oor0000u88o7zy6bc68
+[00:22:23.349] Server  ERROR   GET /api/contacts error: PrismaClientKnownRequestError: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].contact.findMany()` invocation in
+E:\Attackcapital\SignalHub\frontend\.next\dev\server\chunks\[root-of-the-server]__4df66212._.js:96:182
+
+  93 try {
+  94     const url = new URL(req.url);
+  95     const limit = Number(url.searchParams.get("limit") ?? 1000);
+→ 96     const contacts = await __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].contact.findMany(
+The column `Contact.phoneVerified` does not exist in the current database.
+[00:22:23.451] Server  DEBUG   [auth] cookie session matched user id cmhl53oor0000u88o7zy6bc68
+[00:22:23.474] Server  DEBUG   [auth] cookie session matched user id cmhl53oor0000u88o7zy6bc68
+[00:22:23.584] Browser DEBUG   [fetchContacts] /api/contacts?limit=1000 returned 500
+[00:22:23.584] Browser DEBUG   [fetchContacts] /api/users?limit=1000 returned 404
+[00:22:23.584] Browser DEBUG   [fetchContacts] normalized contacts count: 1
+[00:22:24.902] Server  DEBUG   [auth] cookie session matched user id cmhl53oor0000u88o7zy6bc68
+[00:22:24.932] Server  DEBUG   [auth] cookie session matched user id cmhl53oor0000u88o7zy6bc68
+[00:22:25.032] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:22:25.032] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:22:25.032] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:22:25.032] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:22:25.200] Browser ERROR   admin analytics fetch error {}
+[00:22:25.200] Browser ERROR   admin analytics fetch error {}
+[00:22:30.158] Browser ERROR   admin analytics fetch error {}
+[00:22:35.174] Browser ERROR   admin analytics fetch error {}
+[00:22:40.164] Browser ERROR   admin analytics fetch error {}
+[00:22:45.183] Browser ERROR   admin analytics fetch error {}
+[00:22:50.176] Browser ERROR   admin analytics fetch error {}
+[00:22:55.176] Browser ERROR   admin analytics fetch error {}
+[00:23:00.182] Browser ERROR   admin analytics fetch error {}
+[00:23:05.177] Browser ERROR   admin analytics fetch error {}
+[00:23:10.158] Browser ERROR   admin analytics fetch error {}
+[00:23:15.166] Browser ERROR   admin analytics fetch error {}
+[00:23:20.161] Browser ERROR   admin analytics fetch error {}
+[00:23:25.181] Browser ERROR   admin analytics fetch error {}
+[00:23:30.168] Browser ERROR   admin analytics fetch error {}
+[00:23:35.163] Browser ERROR   admin analytics fetch error {}
+[00:23:40.199] Browser ERROR   admin analytics fetch error {}
+[00:23:45.189] Browser ERROR   admin analytics fetch error {}
+[00:23:50.168] Browser ERROR   admin analytics fetch error {}
+[00:23:50.371] Server  DEBUG   [auth] cookie session matched user id cmhl53oor0000u88o7zy6bc68
+[00:23:50.602] Server  DEBUG   [auth] cookie session matched user id cmhl53oor0000u88o7zy6bc68
+[00:23:51.102] Server  ERROR   GET /api/contacts error: PrismaClientKnownRequestError: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].contact.findMany()` invocation in
+E:\Attackcapital\SignalHub\frontend\.next\dev\server\chunks\[root-of-the-server]__4df66212._.js:96:182
+
+  93 try {
+  94     const url = new URL(req.url);
+  95     const limit = Number(url.searchParams.get("limit") ?? 1000);
+→ 96     const contacts = await __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].contact.findMany(
+The column `Contact.phoneVerified` does not exist in the current database.
+[00:23:51.282] Browser DEBUG   [fetchContacts] /api/contacts?limit=1000 returned 500
+[00:23:51.311] Server  DEBUG   [auth] cookie session matched user id cmhl53oor0000u88o7zy6bc68
+[00:23:51.337] Server  DEBUG   [auth] cookie session matched user id cmhl53oor0000u88o7zy6bc68
+[00:23:51.454] Browser DEBUG   [fetchContacts] /api/users?limit=1000 returned 404
+[00:23:51.454] Browser DEBUG   [fetchContacts] normalized contacts count: 1

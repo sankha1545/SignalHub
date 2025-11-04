@@ -51,17 +51,31 @@ module.exports = mod;
 "use strict";
 
 __turbopack_context__.s([
+    "default",
+    ()=>__TURBOPACK__default__export__,
     "prisma",
     ()=>prisma
 ]);
 var __TURBOPACK__imported__module__$5b$externals$5d2f40$prisma$2f$client__$5b$external$5d$__$2840$prisma$2f$client$2c$__cjs$29$__ = __turbopack_context__.i("[externals]/@prisma/client [external] (@prisma/client, cjs)");
 ;
-const prisma = global.prisma ?? new __TURBOPACK__imported__module__$5b$externals$5d2f40$prisma$2f$client__$5b$external$5d$__$2840$prisma$2f$client$2c$__cjs$29$__["PrismaClient"]({
+// Use the global object available in this runtime (node, edge, etc.)
+const _global = globalThis;
+// Decide whether we want query logging enabled.
+// This is intentionally opt-in via DEV_LOG_QUERIES to avoid noisy logs in normal dev.
+const enableQueryLogging = process.env.DEV_LOG_QUERIES === "true" && ("TURBOPACK compile-time value", "development") !== "production";
+const prismaOptions = enableQueryLogging ? {
     log: [
         "query"
     ]
-});
-if ("TURBOPACK compile-time truthy", 1) global.prisma = prisma;
+} : {};
+// Create or reuse the PrismaClient instance
+const client = _global.prisma ?? new __TURBOPACK__imported__module__$5b$externals$5d2f40$prisma$2f$client__$5b$external$5d$__$2840$prisma$2f$client$2c$__cjs$29$__["PrismaClient"](prismaOptions);
+// In non-production environments, attach to global to avoid new clients on HMR
+if ("TURBOPACK compile-time truthy", 1) {
+    _global.prisma = client;
+}
+const prisma = client;
+const __TURBOPACK__default__export__ = prisma;
 }),
 "[project]/frontend/src/app/api/phone/send-otp/route.ts [app-route] (ecmascript)", ((__turbopack_context__) => {
 "use strict";

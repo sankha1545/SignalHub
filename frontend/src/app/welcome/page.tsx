@@ -581,8 +581,12 @@ async function sendMessage(payload: { to: string; channel: string; body: string;
 
 
   return (
+    
     <main className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50">
       <div className="max-w-7xl mx-auto px-6 py-8">
+        {/* Back button — navigates to the welcome page */}
+
+
         {/* header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-4">
@@ -652,16 +656,16 @@ async function sendMessage(payload: { to: string; channel: string; body: string;
 
                   <div className="mt-6 flex flex-wrap gap-3 items-center">
                     <button
-                      type="button"
-                      onClick={handlePrimary}
-                      className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-lg shadow hover:scale-[1.01] transition-transform"
-                    >
-                      {isAdmin ? "Open Admin Dashboard" : "Go to Inbox"}
-                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" aria-hidden>
-                        <path d="M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                        <path d="M12 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                      </svg>
-                    </button>
+    type="button"
+    onClick={handlePrimary}
+    className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-lg shadow hover:scale-[1.01] transition-transform"
+  >
+    {isAdmin ? "Open Admin Dashboard" : "Go to Inbox"}
+    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M12 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  </button>
 
                     <Link href="/settings" className="px-4 py-2 rounded-lg border text-slate-700 hover:bg-slate-50">
                       Configure Integrations
