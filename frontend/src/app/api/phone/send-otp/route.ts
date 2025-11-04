@@ -2,7 +2,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-const OTP_TTL_MS = 5 * 60 * 1000; // 5 minutes
 const OTP_LENGTH = 4;
 
 function genOtp(len = OTP_LENGTH) {
@@ -11,15 +10,12 @@ function genOtp(len = OTP_LENGTH) {
   return s;
 }
 
-// send via Twilio if configured, otherwise console.log for dev
 async function sendSms(phone: string, text: string) {
   const sid = process.env.TWILIO_ACCOUNT_SID;
   const token = process.env.TWILIO_AUTH_TOKEN;
-  const from = process.env.TWILIO_FROM;
+  const from = process.env.TWILIO_FROM || process.env.TWILIO_PHONE_NUMBER;
   if (sid && token && from) {
-    // only import twilio when configured (avoid requiring package if you're not using)
-    // make sure 'twilio' package is installed if you plan to use it.
-    // fallback: simple fetch to Twilio REST API using Basic auth
+    // lightweight Twilio fallback (no twilio package required)
     const resp = await fetch(`https://api.twilio.com/2010-04-01/Accounts/${sid}/Messages.json`, {
       method: "POST",
       headers: {
@@ -39,7 +35,7 @@ async function sendSms(phone: string, text: string) {
     return true;
   } else {
     // dev fallback
-    console.log(`[DEV SMS] To: ${phone} — OTP: ${text}`);
+    console.log(`[DEV SMS] To: ${phone} — ${text}`);
     return true;
   }
 }
@@ -47,21 +43,16 @@ async function sendSms(phone: string, text: string) {
 export async function POST(req: Request) {
   try {
     const body = await req.json().catch(() => ({}));
-    const { phone } = body as { phone?: string };
+    const phone = (body?.phone ?? "").toString();
 
-    if (!phone || typeof phone !== "string") {
-      return NextResponse.json({ error: "phone required" }, { status: 400 });
-    }
-
-    // basic validation: E.164 starts with +
+    if (!phone) return NextResponse.json({ error: "phone required" }, { status: 400 });
     if (!phone.startsWith("+") || phone.length < 6) {
       return NextResponse.json({ error: "phone must be E.164 (e.g. +919876543210)" }, { status: 400 });
     }
 
-    // generate OTP
     const otp = genOtp();
 
-    // Create OTP record
+    // persist OTP record
     await prisma.phoneOtp.create({
       data: {
         phone,
@@ -70,18 +61,20 @@ export async function POST(req: Request) {
       },
     });
 
-    // send SMS (async)
+    // fire SMS (best-effort)
     try {
       await sendSms(phone, `Your verification code is ${otp}. It will expire in 5 minutes.`);
     } catch (err) {
       console.error("Failed to send SMS:", err);
-      // do not reveal Twilio errors to client
+      // keep record but tell client
       return NextResponse.json({ error: "Failed to send SMS" }, { status: 500 });
     }
 
-    return NextResponse.json({ ok: true, message: "OTP sent" });
+    // For development/testing we return debugOtp in non-production only.
+    const debugOtp = process.env.NODE_ENV === "production" ? undefined : otp;
+    return NextResponse.json({ ok: true, message: "OTP sent", debugOtp });
   } catch (err) {
-    console.error(err);
+    console.error("send-otp error", err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

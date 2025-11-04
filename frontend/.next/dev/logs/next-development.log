@@ -1,411 +1,308 @@
-[00:00:01.494] Server  LOG      ✓ Ready in 1086ms
-[00:00:07.980] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:10.426] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:12.665] Server  LOG     prisma:query "SELECT \"public\".\"EmailOtp\".\"id\", \"public\".\"EmailOtp\".\"email\", \"public\".\"EmailOtp\".\"otp\", \"public\".\"EmailOtp\".\"verified\", \"public\".\"EmailOtp\".\"createdAt\" FROM \"public\".\"EmailOtp\" WHERE \"public\".\"EmailOtp\".\"email\" = $1 LIMIT $2 OFFSET $3"
-[00:00:12.668] Server  LOG     prisma:query "INSERT INTO \"public\".\"EmailOtp\" (\"id\",\"email\",\"otp\",\"verified\",\"createdAt\") VALUES ($1,$2,$3,$4,$5) RETURNING \"public\".\"EmailOtp\".\"id\", \"public\".\"EmailOtp\".\"email\", \"public\".\"EmailOtp\".\"otp\", \"public\".\"EmailOtp\".\"verified\", \"public\".\"EmailOtp\".\"createdAt\""
-[00:00:12.670] Server  LOG     [mail] sendOTPEmail -> {}
-[00:00:12.703] Server  LOG     [mail] transporter verified: true
-[00:00:12.749] Server  LOG     [mail] sendMail success: {}
-[00:00:32.041] Server  LOG     prisma:query "SELECT 1"
-[00:00:32.042] Server  LOG     prisma:query "SELECT \"public\".\"EmailOtp\".\"id\", \"public\".\"EmailOtp\".\"email\", \"public\".\"EmailOtp\".\"otp\", \"public\".\"EmailOtp\".\"verified\", \"public\".\"EmailOtp\".\"createdAt\" FROM \"public\".\"EmailOtp\" WHERE \"public\".\"EmailOtp\".\"email\" = $1 ORDER BY \"public\".\"EmailOtp\".\"createdAt\" DESC LIMIT $2 OFFSET $3"
-[00:00:32.046] Server  LOG     prisma:query "UPDATE \"public\".\"EmailOtp\" SET \"verified\" = $1 WHERE (\"public\".\"EmailOtp\".\"id\" = $2 AND 1=1) RETURNING \"public\".\"EmailOtp\".\"id\", \"public\".\"EmailOtp\".\"email\", \"public\".\"EmailOtp\".\"otp\", \"public\".\"EmailOtp\".\"verified\", \"public\".\"EmailOtp\".\"createdAt\""
-[00:00:48.717] Server  LOG     prisma:query "SELECT 1"
-[00:00:48.721] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"email\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:00:53.481] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:53.720] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:00:53.720] Server  DEBUG   [auth] cookie session decoded id cmhkfmrrl0002u88se8kmkh1m not found
-[00:00:53.723] Server  DEBUG   [auth] cookie probe: token => missing
-[00:00:53.724] Server  DEBUG   [auth] cookie probe: auth_token => missing
-[00:00:53.724] Server  DEBUG   [auth] cookie probe: authToken => missing
-[00:00:53.724] Server  DEBUG   [auth] cookie probe: auth => missing
-[00:04:02.838] Server  LOG     prisma:query "SELECT 1"
-[00:04:02.839] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"email\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:04:14.537] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"email\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:04:38.695] Server  LOG     prisma:query "SELECT 1"
-[00:04:38.696] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"email\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:04:38.703] Server  LOG     prisma:query "SELECT \"public\".\"EmailOtp\".\"id\", \"public\".\"EmailOtp\".\"email\", \"public\".\"EmailOtp\".\"otp\", \"public\".\"EmailOtp\".\"verified\", \"public\".\"EmailOtp\".\"createdAt\" FROM \"public\".\"EmailOtp\" WHERE \"public\".\"EmailOtp\".\"email\" = $1 ORDER BY \"public\".\"EmailOtp\".\"createdAt\" DESC LIMIT $2 OFFSET $3"
-[00:04:38.848] Server  LOG     prisma:query "BEGIN"
-[00:04:38.867] Server  LOG     prisma:query "ROLLBACK"
-[00:04:39.401] Server  ERROR   signup error: PrismaClientValidationError: 
-Invalid `p.user.count()` invocation in
-E:\Attack Capital\SignalHub\frontend\.next\dev\server\chunks\[root-of-the-server]__a5cc968b._.js:366:40
-
-  363 async function adminExistsTx(tx) {
-  364     // use tx if passed (inside transaction) otherwise use prisma
-  365     const p = tx ?? __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"];
-→ 366     const count = await p.user.count({
-            select: {
-              _count: {
-                select: {
-                  _all: true
-                }
-              }
-            },
-            where: {
-              role: "admin"
-                    ~~~~~~~
-            }
-          })
-
-Invalid value for argument `role`. Expected Role.
-[00:04:49.509] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"email\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:04:49.512] Server  LOG     prisma:query "SELECT \"public\".\"EmailOtp\".\"id\", \"public\".\"EmailOtp\".\"email\", \"public\".\"EmailOtp\".\"otp\", \"public\".\"EmailOtp\".\"verified\", \"public\".\"EmailOtp\".\"createdAt\" FROM \"public\".\"EmailOtp\" WHERE \"public\".\"EmailOtp\".\"email\" = $1 ORDER BY \"public\".\"EmailOtp\".\"createdAt\" DESC LIMIT $2 OFFSET $3"
-[00:04:49.881] Server  ERROR   signup error: PrismaClientValidationError: 
-Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.create()` invocation in
-E:\Attack Capital\SignalHub\frontend\.next\dev\server\chunks\[root-of-the-server]__a5cc968b._.js:452:166
-
-  449     return res;
-  450 }
-  451 // Non-admin create path (viewer/editor) — regular create
-→ 452 const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.create({
-        data: {
-          email: "sankhasubhradas1@gmail.com",
-          name: "visu",
-          passwordHash: "$2b$10$vi3AFm0qfP9PS2LR8bo05OsvtH7rVuN321wVnTY1/spopzdFVPynm",
-          role: "editor",
-                ~~~~~~~~
-          emailVerified: true,
-          provider: "credentials"
-        },
-        select: {
-          id: true,
-          email: true,
-          name: true,
-          role: true,
-          provider: true
-        }
-      })
-
-Invalid value for argument `role`. Expected Role.
-[00:04:54.962] Server  LOG     prisma:query "SELECT 1"
-[00:04:54.963] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"email\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:04:54.967] Server  LOG     prisma:query "SELECT \"public\".\"EmailOtp\".\"id\", \"public\".\"EmailOtp\".\"email\", \"public\".\"EmailOtp\".\"otp\", \"public\".\"EmailOtp\".\"verified\", \"public\".\"EmailOtp\".\"createdAt\" FROM \"public\".\"EmailOtp\" WHERE \"public\".\"EmailOtp\".\"email\" = $1 ORDER BY \"public\".\"EmailOtp\".\"createdAt\" DESC LIMIT $2 OFFSET $3"
-[00:04:55.345] Server  ERROR   signup error: PrismaClientValidationError: 
-Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.create()` invocation in
-E:\Attack Capital\SignalHub\frontend\.next\dev\server\chunks\[root-of-the-server]__a5cc968b._.js:452:166
-
-  449     return res;
-  450 }
-  451 // Non-admin create path (viewer/editor) — regular create
-→ 452 const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.create({
-        data: {
-          email: "sankhasubhradas1@gmail.com",
-          name: "visu",
-          passwordHash: "$2b$10$CzQd18rYsbQRGob4DXGrYOvrQ9bblyUmD3/TPWIUGETbx/ouX.9jW",
-          role: "viewer",
-                ~~~~~~~~
-          emailVerified: true,
-          provider: "credentials"
-        },
-        select: {
-          id: true,
-          email: true,
-          name: true,
-          role: true,
-          provider: true
-        }
-      })
-
-Invalid value for argument `role`. Expected Role.
-[00:07:11.048] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"email\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:07:11.054] Server  LOG     prisma:query "SELECT \"public\".\"EmailOtp\".\"id\", \"public\".\"EmailOtp\".\"email\", \"public\".\"EmailOtp\".\"otp\", \"public\".\"EmailOtp\".\"verified\", \"public\".\"EmailOtp\".\"createdAt\" FROM \"public\".\"EmailOtp\" WHERE \"public\".\"EmailOtp\".\"email\" = $1 ORDER BY \"public\".\"EmailOtp\".\"createdAt\" DESC LIMIT $2 OFFSET $3"
-[00:07:11.126] Server  LOG     prisma:query "BEGIN"
-[00:07:11.133] Server  LOG     prisma:query "ROLLBACK"
-[00:07:11.273] Server  ERROR   signup error: PrismaClientValidationError: 
-Invalid `p.user.count()` invocation in
-E:\Attack Capital\SignalHub\frontend\.next\dev\server\chunks\[root-of-the-server]__a5cc968b._.js:366:40
-
-  363 async function adminExistsTx(tx) {
-  364     // use tx if passed (inside transaction) otherwise use prisma
-  365     const p = tx ?? __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"];
-→ 366     const count = await p.user.count({
-            select: {
-              _count: {
-                select: {
-                  _all: true
-                }
-              }
-            },
-            where: {
-              role: "admin"
-                    ~~~~~~~
-            }
-          })
-
-Invalid value for argument `role`. Expected Role.
-[00:07:11.479] Server  ERROR   [api/auth/admin-exists] error: PrismaClientValidationError: 
-Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.count()` invocation in
-E:\Attack Capital\SignalHub\frontend\.next\dev\server\chunks\[root-of-the-server]__baef9a33._.js:80:163
-
-  77 ;
-  78 async function GET() {
-  79     try {
-→ 80         const count = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.count({
-               select: {
-                 _count: {
-                   select: {
-                     _all: true
-                   }
-                 }
-               },
-               where: {
-                 role: "admin"
-                       ~~~~~~~
-               }
-             })
-
-Invalid value for argument `role`. Expected Role.
-[00:08:21.379] Server  LOG     prisma:query "SELECT 1"
-[00:08:21.380] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"email\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:08:21.383] Server  LOG     prisma:query "SELECT \"public\".\"EmailOtp\".\"id\", \"public\".\"EmailOtp\".\"email\", \"public\".\"EmailOtp\".\"otp\", \"public\".\"EmailOtp\".\"verified\", \"public\".\"EmailOtp\".\"createdAt\" FROM \"public\".\"EmailOtp\" WHERE \"public\".\"EmailOtp\".\"email\" = $1 ORDER BY \"public\".\"EmailOtp\".\"createdAt\" DESC LIMIT $2 OFFSET $3"
-[00:08:21.459] Server  LOG     prisma:query "BEGIN"
-[00:08:21.465] Server  LOG     prisma:query "ROLLBACK"
-[00:08:21.649] Server  ERROR   signup error: PrismaClientValidationError: 
-Invalid `p.user.count()` invocation in
-E:\Attack Capital\SignalHub\frontend\.next\dev\server\chunks\[root-of-the-server]__a5cc968b._.js:366:40
-
-  363 async function adminExistsTx(tx) {
-  364     // use tx if passed (inside transaction) otherwise use prisma
-  365     const p = tx ?? __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"];
-→ 366     const count = await p.user.count({
-            select: {
-              _count: {
-                select: {
-                  _all: true
-                }
-              }
-            },
-            where: {
-              role: "admin"
-                    ~~~~~~~
-            }
-          })
-
-Invalid value for argument `role`. Expected Role.
-[00:08:21.761] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"User\".\"id\" FROM \"public\".\"User\" WHERE \"public\".\"User\".\"role\" = CAST($1::text AS \"public\".\"Role\") OFFSET $2) AS \"sub\""
-[00:10:31.570] Server  LOG     prisma:query "SELECT 1"
-[00:10:31.571] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"email\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:10:31.575] Server  LOG     prisma:query "SELECT \"public\".\"EmailOtp\".\"id\", \"public\".\"EmailOtp\".\"email\", \"public\".\"EmailOtp\".\"otp\", \"public\".\"EmailOtp\".\"verified\", \"public\".\"EmailOtp\".\"createdAt\" FROM \"public\".\"EmailOtp\" WHERE \"public\".\"EmailOtp\".\"email\" = $1 ORDER BY \"public\".\"EmailOtp\".\"createdAt\" DESC LIMIT $2 OFFSET $3"
-[00:10:31.636] Server  LOG     prisma:query "BEGIN"
-[00:10:31.643] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"User\".\"id\" FROM \"public\".\"User\" WHERE \"public\".\"User\".\"role\" = CAST($1::text AS \"public\".\"Role\") OFFSET $2) AS \"sub\""
-[00:10:31.657] Server  LOG     prisma:query "SELECT COUNT(*)::int AS count FROM \"User\" WHERE LOWER(role::text) = 'admin'"
-[00:10:31.662] Server  LOG     prisma:query "ROLLBACK"
-[00:10:31.844] Server  ERROR   signup error: PrismaClientValidationError: 
-Invalid `tx.user.create()` invocation in
-E:\Attack Capital\SignalHub\frontend\.next\dev\server\chunks\[root-of-the-server]__a5cc968b._.js:435:48
-
-  432         code: "ADMIN_EXISTS"
-  433     };
-  434 }
-→ 435 const user = await tx.user.create({
-        data: {
-          email: "sankhasubhradas1@gmail.com",
-          name: "visu",
-          passwordHash: "$2b$10$l07RM3Yl0Ci.IK1.YtsQ0ud0D1YwC1FvE.Lbc65qc.6G8g9WJNv/2",
-          role: "admin",
-                ~~~~~~~
-          emailVerified: true,
-          provider: "credentials"
-        },
-        select: {
-          id: true,
-          email: true,
-          name: true,
-          role: true,
-          provider: true
-        }
-      })
-
-Invalid value for argument `role`. Expected Role.
-[00:10:31.861] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"User\".\"id\" FROM \"public\".\"User\" WHERE \"public\".\"User\".\"role\" = CAST($1::text AS \"public\".\"Role\") OFFSET $2) AS \"sub\""
-[00:10:39.675] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:10:39.723] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"User\".\"id\" FROM \"public\".\"User\" WHERE \"public\".\"User\".\"role\" = CAST($1::text AS \"public\".\"Role\") OFFSET $2) AS \"sub\""
-[00:10:39.757] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"User\".\"id\" FROM \"public\".\"User\" WHERE \"public\".\"User\".\"role\" = CAST($1::text AS \"public\".\"Role\") OFFSET $2) AS \"sub\""
-[00:10:42.117] Server  LOG     prisma:query "SELECT \"public\".\"EmailOtp\".\"id\", \"public\".\"EmailOtp\".\"email\", \"public\".\"EmailOtp\".\"otp\", \"public\".\"EmailOtp\".\"verified\", \"public\".\"EmailOtp\".\"createdAt\" FROM \"public\".\"EmailOtp\" WHERE \"public\".\"EmailOtp\".\"email\" = $1 LIMIT $2 OFFSET $3"
-[00:10:42.121] Server  LOG     prisma:query "UPDATE \"public\".\"EmailOtp\" SET \"otp\" = $1, \"verified\" = $2 WHERE (\"public\".\"EmailOtp\".\"id\" = $3 AND 1=1) RETURNING \"public\".\"EmailOtp\".\"id\", \"public\".\"EmailOtp\".\"email\", \"public\".\"EmailOtp\".\"otp\", \"public\".\"EmailOtp\".\"verified\", \"public\".\"EmailOtp\".\"createdAt\""
-[00:10:42.122] Server  LOG     [mail] sendOTPEmail -> {}
-[00:10:42.161] Server  LOG     [mail] transporter verified: true
-[00:10:42.208] Server  LOG     [mail] sendMail success: {}
-[00:10:55.427] Server  LOG     prisma:query "SELECT 1"
-[00:10:55.427] Server  LOG     prisma:query "SELECT \"public\".\"EmailOtp\".\"id\", \"public\".\"EmailOtp\".\"email\", \"public\".\"EmailOtp\".\"otp\", \"public\".\"EmailOtp\".\"verified\", \"public\".\"EmailOtp\".\"createdAt\" FROM \"public\".\"EmailOtp\" WHERE \"public\".\"EmailOtp\".\"email\" = $1 ORDER BY \"public\".\"EmailOtp\".\"createdAt\" DESC LIMIT $2 OFFSET $3"
-[00:11:16.831] Server  LOG     prisma:query "SELECT 1"
-[00:11:16.834] Server  LOG     prisma:query "SELECT \"public\".\"EmailOtp\".\"id\", \"public\".\"EmailOtp\".\"email\", \"public\".\"EmailOtp\".\"otp\", \"public\".\"EmailOtp\".\"verified\", \"public\".\"EmailOtp\".\"createdAt\" FROM \"public\".\"EmailOtp\" WHERE \"public\".\"EmailOtp\".\"email\" = $1 ORDER BY \"public\".\"EmailOtp\".\"createdAt\" DESC LIMIT $2 OFFSET $3"
-[00:11:16.838] Server  LOG     prisma:query "UPDATE \"public\".\"EmailOtp\" SET \"verified\" = $1 WHERE (\"public\".\"EmailOtp\".\"id\" = $2 AND 1=1) RETURNING \"public\".\"EmailOtp\".\"id\", \"public\".\"EmailOtp\".\"email\", \"public\".\"EmailOtp\".\"otp\", \"public\".\"EmailOtp\".\"verified\", \"public\".\"EmailOtp\".\"createdAt\""
-[00:11:16.862] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"User\".\"id\" FROM \"public\".\"User\" WHERE \"public\".\"User\".\"role\" = CAST($1::text AS \"public\".\"Role\") OFFSET $2) AS \"sub\""
-[00:11:26.637] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"email\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:11:26.638] Server  LOG     prisma:query "SELECT \"public\".\"EmailOtp\".\"id\", \"public\".\"EmailOtp\".\"email\", \"public\".\"EmailOtp\".\"otp\", \"public\".\"EmailOtp\".\"verified\", \"public\".\"EmailOtp\".\"createdAt\" FROM \"public\".\"EmailOtp\" WHERE \"public\".\"EmailOtp\".\"email\" = $1 ORDER BY \"public\".\"EmailOtp\".\"createdAt\" DESC LIMIT $2 OFFSET $3"
-[00:11:26.830] Server  ERROR   signup error: PrismaClientValidationError: 
-Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.create()` invocation in
-E:\Attack Capital\SignalHub\frontend\.next\dev\server\chunks\[root-of-the-server]__a5cc968b._.js:477:166
-
-  474     return res;
-  475 }
-  476 // Non-admin create path (viewer/editor) — regular create
-→ 477 const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.create({
-        data: {
-          email: "sankhasubhradas1@gmail.com",
-          name: "visu",
-          passwordHash: "$2b$10$U7kePlAkd5adthcKrn7seulMeiZJGOKkefa9f9e.qF44lwb7tbZuO",
-          role: "editor",
-                ~~~~~~~~
-          emailVerified: true,
-          provider: "credentials"
-        },
-        select: {
-          id: true,
-          email: true,
-          name: true,
-          role: true,
-          provider: true
-        }
-      })
-
-Invalid value for argument `role`. Expected Role.
-[00:11:26.855] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"User\".\"id\" FROM \"public\".\"User\" WHERE \"public\".\"User\".\"role\" = CAST($1::text AS \"public\".\"Role\") OFFSET $2) AS \"sub\""
-[00:18:58.788] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"email\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:18:58.793] Server  LOG     prisma:query "SELECT \"public\".\"EmailOtp\".\"id\", \"public\".\"EmailOtp\".\"email\", \"public\".\"EmailOtp\".\"otp\", \"public\".\"EmailOtp\".\"verified\", \"public\".\"EmailOtp\".\"createdAt\" FROM \"public\".\"EmailOtp\" WHERE \"public\".\"EmailOtp\".\"email\" = $1 ORDER BY \"public\".\"EmailOtp\".\"createdAt\" DESC LIMIT $2 OFFSET $3"
-[00:18:58.928] Server  ERROR   signup error: ReferenceError: requestedRole is not defined
-[00:18:59.018] Server  LOG     prisma:query "SELECT COUNT(*)::int AS count FROM \"User\" WHERE LOWER(role::text) = 'admin'"
-[00:20:19.523] Server  LOG     prisma:query "SELECT 1"
-[00:20:19.523] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"email\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:20:19.527] Server  LOG     prisma:query "SELECT \"public\".\"EmailOtp\".\"id\", \"public\".\"EmailOtp\".\"email\", \"public\".\"EmailOtp\".\"otp\", \"public\".\"EmailOtp\".\"verified\", \"public\".\"EmailOtp\".\"createdAt\" FROM \"public\".\"EmailOtp\" WHERE \"public\".\"EmailOtp\".\"email\" = $1 ORDER BY \"public\".\"EmailOtp\".\"createdAt\" DESC LIMIT $2 OFFSET $3"
-[00:20:19.589] Server  LOG     prisma:query "INSERT INTO \"public\".\"User\" (\"id\",\"name\",\"email\",\"passwordHash\",\"provider\",\"emailVerified\",\"role\",\"createdAt\",\"updatedAt\") VALUES ($1,$2,$3,$4,$5,$6,CAST($7::text AS \"public\".\"Role\"),$8,$9) RETURNING \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"provider\""
-[00:20:19.593] Server  LOG     prisma:query "DELETE FROM \"public\".\"EmailOtp\" WHERE \"public\".\"EmailOtp\".\"email\" = $1"
-[00:20:30.395] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"provider\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"email\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:20:30.490] Server  DEBUG   [auth/login] session cookie set for userId: "cmhkifo3t0009u8mszy74w1tt"
-[00:20:30.502] Server  LOG     prisma:query "INSERT INTO \"public\".\"ActivityLog\" (\"id\",\"userId\",\"type\",\"meta\",\"createdAt\") VALUES ($1,$2,CAST($3::text AS \"public\".\"ActivityType\"),$4,$5) RETURNING \"public\".\"ActivityLog\".\"id\", \"public\".\"ActivityLog\".\"userId\", \"public\".\"ActivityLog\".\"type\"::text, \"public\".\"ActivityLog\".\"meta\", \"public\".\"ActivityLog\".\"createdAt\""
-[00:20:31.319] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:20:31.319] Server  DEBUG   [auth] cookie session matched user id cmhkifo3t0009u8mszy74w1tt
-[00:20:31.338] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:20:31.339] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
-[00:20:31.567] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:20:31.568] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:28:29.051] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:28:29.052] Server  DEBUG   [auth] cookie session matched user id cmhkifo3t0009u8mszy74w1tt
-[00:28:29.059] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:28:29.064] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
-[00:28:29.086] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:28:29.150] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:28:29.293] Browser DEBUG   [EditProfile] initialized form from user: {"id":"cmhkifo3t0009u8mszy74w1tt","name":"visu","profile":{"country":null,"state":null}}
-[00:28:29.293] Browser DEBUG   [EditProfile] initialized form from user: {"id":"cmhkifo3t0009u8mszy74w1tt","name":"visu","profile":{"country":null,"state":null}}
-[00:28:33.357] Browser DEBUG   [EditProfile] initialized form from user: {"id":"cmhkifo3t0009u8mszy74w1tt","name":"visu","profile":{"country":null,"state":null}}
-[00:28:35.812] Browser DEBUG   [EditProfile] initialized form from user: {"id":"cmhkifo3t0009u8mszy74w1tt","name":"visu","profile":{"country":null,"state":null}}
-[00:28:42.462] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:28:42.512] Server  LOG     prisma:query "SELECT COUNT(*)::int AS count FROM \"User\" WHERE LOWER(role::text) = 'admin'"
-[00:28:42.529] Server  LOG     prisma:query "SELECT COUNT(*)::int AS count FROM \"User\" WHERE LOWER(role::text) = 'admin'"
-[00:28:48.173] Server  LOG     prisma:query "SELECT 1"
-[00:28:48.173] Server  LOG     prisma:query "SELECT COUNT(*)::int AS count FROM \"User\" WHERE LOWER(role::text) = 'admin'"
-[00:28:51.636] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"email\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:28:51.645] Server  LOG     prisma:query "BEGIN"
-[00:28:51.663] Server  LOG     prisma:query "ROLLBACK"
-[00:28:52.048] Server  ERROR   Google signup (admin path) error: PrismaClientValidationError: 
-Invalid `tx.user.count()` invocation in
-E:\Attack Capital\SignalHub\frontend\.next\dev\server\chunks\[root-of-the-server]__93c4e9a7._.js:373:54
-
-  370 if (requestedRole === "admin") {
-  371     try {
-  372         const created = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].$transaction(async (tx)=>{
-→ 373             const adminCount = await tx.user.count({
-                    select: {
-                      _count: {
-                        select: {
-                          _all: true
-                        }
-                      }
-                    },
-                    where: {
-                      role: "admin"
-                            ~~~~~~~
-                    }
-                  })
-
-Invalid value for argument `role`. Expected Role.
-[00:28:52.093] Server  LOG     prisma:query "SELECT COUNT(*)::int AS count FROM \"User\" WHERE LOWER(role::text) = 'admin'"
-[00:28:53.711] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"email\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:28:53.712] Server  LOG     prisma:query "BEGIN"
-[00:28:53.721] Server  LOG     prisma:query "ROLLBACK"
-[00:28:54.014] Server  ERROR   Google signup (admin path) error: PrismaClientValidationError: 
-Invalid `tx.user.count()` invocation in
-E:\Attack Capital\SignalHub\frontend\.next\dev\server\chunks\[root-of-the-server]__93c4e9a7._.js:373:54
-
-  370 if (requestedRole === "admin") {
-  371     try {
-  372         const created = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].$transaction(async (tx)=>{
-→ 373             const adminCount = await tx.user.count({
-                    select: {
-                      _count: {
-                        select: {
-                          _all: true
-                        }
-                      }
-                    },
-                    where: {
-                      role: "admin"
-                            ~~~~~~~
-                    }
-                  })
-
-Invalid value for argument `role`. Expected Role.
-[00:28:54.041] Server  LOG     prisma:query "SELECT COUNT(*)::int AS count FROM \"User\" WHERE LOWER(role::text) = 'admin'"
-[00:33:20.964] Server  LOG     prisma:query "SELECT 1"
-[00:33:20.966] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"email\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:33:20.973] Server  LOG     prisma:query "BEGIN"
-[00:33:20.977] Server  LOG     prisma:query "SELECT COUNT(*)::int AS count FROM \"User\" WHERE LOWER(role::text) = 'admin'"
-[00:33:20.981] Server  LOG     prisma:query "INSERT INTO \"public\".\"User\" (\"id\",\"name\",\"email\",\"passwordHash\",\"provider\",\"emailVerified\",\"role\",\"createdAt\",\"updatedAt\") VALUES ($1,$2,$3,$4,$5,$6,CAST($7::text AS \"public\".\"Role\"),$8,$9) RETURNING \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"provider\""
-[00:33:20.989] Server  LOG     prisma:query "ROLLBACK"
-[00:33:21.373] Server  ERROR   [google/signup] admin transaction error: PrismaClientValidationError: 
-Invalid `tx.account.create()` invocation in
-E:\Attack Capital\SignalHub\frontend\.next\dev\server\chunks\[root-of-the-server]__93c4e9a7._.js:414:38
-
-  411     }
-  412 });
-  413 // create account link
-→ 414 await tx.account.create({
-        data: {
-          provider: "google",
-          providerAccountId: "115699935758279095616",
-          userId: "cmhkiwf14000cu8msda564923",
-      +   type: String
-        }
-      })
-
-Argument `type` is missing.
-[00:33:21.443] Server  LOG     prisma:query "SELECT COUNT(*)::int AS count FROM \"User\" WHERE LOWER(role::text) = 'admin'"
-[00:35:06.894] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"email\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:35:06.899] Server  LOG     prisma:query "BEGIN"
-[00:35:06.904] Server  LOG     prisma:query "SELECT COUNT(*)::int AS count FROM \"User\" WHERE LOWER(role::text) = 'admin'"
-[00:35:06.911] Server  LOG     prisma:query "INSERT INTO \"public\".\"User\" (\"id\",\"name\",\"email\",\"passwordHash\",\"provider\",\"emailVerified\",\"role\",\"createdAt\",\"updatedAt\") VALUES ($1,$2,$3,$4,$5,$6,CAST($7::text AS \"public\".\"Role\"),$8,$9) RETURNING \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"provider\""
-[00:35:06.927] Server  LOG     prisma:query "INSERT INTO \"public\".\"Account\" (\"id\",\"userId\",\"type\",\"provider\",\"providerAccountId\") VALUES ($1,$2,$3,$4,$5) RETURNING \"public\".\"Account\".\"id\", \"public\".\"Account\".\"userId\", \"public\".\"Account\".\"type\", \"public\".\"Account\".\"provider\", \"public\".\"Account\".\"providerAccountId\", \"public\".\"Account\".\"refresh_token\", \"public\".\"Account\".\"access_token\", \"public\".\"Account\".\"expires_at\", \"public\".\"Account\".\"token_type\", \"public\".\"Account\".\"scope\", \"public\".\"Account\".\"id_token\", \"public\".\"Account\".\"session_state\""
-[00:35:06.932] Server  LOG     prisma:query "COMMIT"
-[00:35:16.943] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"email\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:35:17.773] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:35:17.774] Server  DEBUG   [auth] cookie session matched user id cmhkiyork000fu8mscbis9x77
-[00:35:17.893] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:35:17.893] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
-[00:35:17.995] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:35:17.995] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:35:35.132] Server  ERROR    ⨯ Error: The default export is not a React Component in "/admin/page"
-[00:35:35.562] Server  ERROR    ⨯ Error: The default export is not a React Component in "/admin/page"
-[00:35:38.172] Server  ERROR    ⨯ Error: The default export is not a React Component in "/admin/page"
-[00:35:38.778] Server  ERROR    ⨯ Error: The default export is not a React Component in "/admin/page"
-[00:35:39.047] Browser ERROR   uncaughtError: Error: The default export is not a React Component in "/admin/page"
-[00:35:41.953] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:35:42.044] Server  LOG     prisma:query "SELECT 1"
-[00:35:42.044] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:35:42.054] Server  DEBUG   [auth] cookie session matched user id cmhkiyork000fu8mscbis9x77
-[00:35:42.302] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:35:42.303] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
-[00:35:42.326] Server  LOG     prisma:query "SELECT 1"
-[00:35:42.328] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:35:42.329] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:37:51.636] Server  LOG     prisma:query "SELECT 1"
-[00:37:51.637] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"provider\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"email\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:37:51.788] Server  DEBUG   [auth/login] session cookie set for userId: "cmhkifo3t0009u8mszy74w1tt"
-[00:37:51.795] Server  LOG     prisma:query "INSERT INTO \"public\".\"ActivityLog\" (\"id\",\"userId\",\"type\",\"meta\",\"createdAt\") VALUES ($1,$2,CAST($3::text AS \"public\".\"ActivityType\"),$4,$5) RETURNING \"public\".\"ActivityLog\".\"id\", \"public\".\"ActivityLog\".\"userId\", \"public\".\"ActivityLog\".\"type\"::text, \"public\".\"ActivityLog\".\"meta\", \"public\".\"ActivityLog\".\"createdAt\""
-[00:37:52.609] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:37:52.610] Server  DEBUG   [auth] cookie session matched user id cmhkifo3t0009u8mszy74w1tt
-[00:37:52.691] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:37:52.692] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
-[00:37:52.747] Server  LOG     prisma:query "SELECT 1"
-[00:37:52.748] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
-[00:37:52.749] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:00:01.199] Server  LOG      ✓ Ready in 895ms
+[00:00:04.259] Server  LOG      ○ Compiling /welcome ...
+[00:00:06.891] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:07.092] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:07.944] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:00:07.945] Server  DEBUG   [auth] cookie session decoded id cmhkfmrrl0002u88se8kmkh1m not found
+[00:00:07.948] Server  DEBUG   [auth] cookie probe: token => missing
+[00:00:07.949] Server  DEBUG   [auth] cookie probe: auth_token => missing
+[00:00:07.949] Server  DEBUG   [auth] cookie probe: authToken => missing
+[00:00:07.950] Server  DEBUG   [auth] cookie probe: auth => missing
+[00:00:07.978] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:00:07.979] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
+[00:00:07.984] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:00:07.989] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
+[00:00:07.996] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:00:07.997] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:00:08.215] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:00:08.216] Server  DEBUG   [auth] cookie session decoded id cmhkfmrrl0002u88se8kmkh1m not found
+[00:00:08.216] Server  DEBUG   [auth] cookie probe: token => missing
+[00:00:08.217] Server  DEBUG   [auth] cookie probe: auth_token => missing
+[00:00:08.218] Server  DEBUG   [auth] cookie probe: authToken => missing
+[00:00:08.218] Server  DEBUG   [auth] cookie probe: auth => missing
+[00:00:08.261] Browser DEBUG   [fetchContacts] /api/contacts?limit=1000 returned 404
+[00:00:08.329] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:00:08.330] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
+[00:00:08.338] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:00:08.340] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
+[00:00:08.351] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:00:08.352] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:00:08.372] Browser DEBUG   [fetchContacts] /api/users?limit=1000 returned 404
+[00:00:08.392] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:00:08.392] Server  DEBUG   [auth] cookie session decoded id cmhkfmrrl0002u88se8kmkh1m not found
+[00:00:08.393] Server  DEBUG   [auth] cookie probe: token => missing
+[00:00:08.394] Server  DEBUG   [auth] cookie probe: auth_token => missing
+[00:00:08.395] Server  DEBUG   [auth] cookie probe: authToken => missing
+[00:00:08.397] Server  DEBUG   [auth] cookie probe: auth => missing
+[00:00:08.417] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:00:08.419] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
+[00:00:08.426] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:00:08.427] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
+[00:00:08.433] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:00:08.433] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:00:08.546] Browser DEBUG   [fetchContacts] normalized contacts count: 1
+[00:00:08.640] Browser DEBUG   [fetchContacts] /api/contacts?limit=1000 returned 404
+[00:00:08.640] Browser DEBUG   [fetchContacts] /api/users?limit=1000 returned 404
+[00:00:08.640] Browser DEBUG   [fetchContacts] /api/me returned 401
+[00:00:08.640] Browser DEBUG   [fetchContacts] /api/admin/users?limit=1000 returned 404
+[00:00:08.640] Browser DEBUG   [fetchContacts] /api/me returned 401
+[00:00:08.640] Browser WARN    [fetchContacts] no contacts normalized — tried endpoints: ["/api/contacts?limit=1000","/api/users?limit=1000","/api/me","/api/admin/users?limit=1000","/api/me"]
+[00:00:08.640] Browser WARN    [fetchContacts] aggregated raw: []
+[00:00:13.878] Browser DEBUG   [sendMessage] payload: {"body":"hii","channel":"SMS","contactId":"cmhko29jc0003u89chegwe0nr","to":"+918597786209"}
+[00:00:14.236] Server  DEBUG   [/api/messages/send] "start POST"
+[00:00:14.265] Server  DEBUG   [/api/messages/send] "authOptions not found for next-auth in local import."
+[00:00:14.268] Server  DEBUG   [/api/messages/send] "JWT verify failed:" "invalid signature"
+[00:00:14.270] Server  DEBUG   [/api/messages/send] "resolved identity:" {}
+[00:00:14.273] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:00:14.275] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"email\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:00:14.276] Server  DEBUG   [/api/messages/send] "found senderUser:" "cmhkm7jzq0000u89cm1538wp4"
+[00:00:14.282] Server  LOG     prisma:query "SELECT \"public\".\"Contact\".\"id\", \"public\".\"Contact\".\"name\", \"public\".\"Contact\".\"phone\", \"public\".\"Contact\".\"email\", \"public\".\"Contact\".\"metadata\", \"public\".\"Contact\".\"createdAt\", \"public\".\"Contact\".\"updatedAt\" FROM \"public\".\"Contact\" WHERE (\"public\".\"Contact\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:00:14.282] Server  DEBUG   [/api/messages/send] "lookup contact by id:" "cmhko29jc0003u89chegwe0nr" true
+[00:00:14.288] Server  LOG     prisma:query "SELECT \"public\".\"Thread\".\"id\", \"public\".\"Thread\".\"contactId\", \"public\".\"Thread\".\"creatorId\", \"public\".\"Thread\".\"status\", \"public\".\"Thread\".\"lastAt\", \"public\".\"Thread\".\"createdAt\" FROM \"public\".\"Thread\" WHERE \"public\".\"Thread\".\"contactId\" = $1 ORDER BY \"public\".\"Thread\".\"lastAt\" DESC LIMIT $2 OFFSET $3"
+[00:00:14.288] Server  DEBUG   [/api/messages/send] "found thread:" "cmhksgs7h0003u8mg5xbkbrdw"
+[00:00:14.296] Server  LOG     prisma:query "INSERT INTO \"public\".\"Message\" (\"id\",\"threadId\",\"senderId\",\"body\",\"channel\",\"direction\",\"metadata\",\"createdAt\") VALUES ($1,$2,$3,$4,CAST($5::text AS \"public\".\"Channel\"),CAST($6::text AS \"public\".\"Direction\"),$7,$8) RETURNING \"public\".\"Message\".\"id\", \"public\".\"Message\".\"threadId\", \"public\".\"Message\".\"senderId\", \"public\".\"Message\".\"body\", \"public\".\"Message\".\"channel\"::text, \"public\".\"Message\".\"externalId\", \"public\".\"Message\".\"direction\"::text, \"public\".\"Message\".\"metadata\", \"public\".\"Message\".\"createdAt\""
+[00:00:14.296] Server  DEBUG   [/api/messages/send] "created message:" "cmhksvu010001u8ro5ovmuyq4"
+[00:00:14.300] Server  LOG     prisma:query "UPDATE \"public\".\"Thread\" SET \"lastAt\" = $1 WHERE (\"public\".\"Thread\".\"id\" = $2 AND 1=1) RETURNING \"public\".\"Thread\".\"id\", \"public\".\"Thread\".\"contactId\", \"public\".\"Thread\".\"creatorId\", \"public\".\"Thread\".\"status\", \"public\".\"Thread\".\"lastAt\", \"public\".\"Thread\".\"createdAt\""
+[00:00:14.420] Browser DEBUG   [sendMessage] /api/messages/send responded status=200 {"message":{"body":"hii","channel":"SMS","createdAt":"2025-11-04T16:45:47.809Z","direction":"OUTBOUND","externalId":null,"id":"cmhksvu010001u8ro5ovmuyq4","metadata":{"to":"+918597786209"},"senderId":"cmhkm7jzq0000u89cm1538wp4","threadId":"cmhksgs7h0003u8mg5xbkbrdw"},"ok":true,"thread":{"contactId":"cmhko29jc0003u89chegwe0nr","createdAt":"2025-11-04T16:34:05.645Z","creatorId":"cmhkm7jzq0000u89cm1538wp4","id":"cmhksgs7h0003u8mg5xbkbrdw","lastAt":"2025-11-04T16:45:15.794Z","status":"open"}}
+[00:00:14.420] Browser ERROR   uncaughtError: TypeError: Cannot read properties of undefined (reading 'join')
+[00:01:49.750] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:01:49.847] Server  LOG     prisma:query "SELECT 1"
+[00:01:49.848] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:01:49.851] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
+[00:01:49.861] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:01:49.861] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
+[00:01:49.966] Server  LOG     prisma:query "SELECT 1"
+[00:01:49.966] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:01:49.966] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:01:50.218] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:01:50.221] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
+[00:01:50.225] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:01:50.225] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
+[00:01:50.228] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:01:50.229] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:01:50.247] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:01:50.248] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
+[00:01:50.250] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:01:50.250] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
+[00:01:50.252] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:01:50.253] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:01:50.358] Browser DEBUG   [fetchContacts] /api/contacts?limit=1000 returned 404
+[00:01:50.358] Browser DEBUG   [fetchContacts] /api/users?limit=1000 returned 404
+[00:01:50.358] Browser DEBUG   [fetchContacts] normalized contacts count: 1
+[00:01:55.561] Server  DEBUG   [/api/messages/send] "start POST"
+[00:01:55.564] Server  DEBUG   [/api/messages/send] "authOptions not found for next-auth in local import."
+[00:01:55.566] Server  DEBUG   [/api/messages/send] "JWT verify failed:" "invalid signature"
+[00:01:55.567] Server  DEBUG   [/api/messages/send] "resolved identity:" {}
+[00:01:55.571] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:01:55.576] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"email\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:01:55.576] Server  DEBUG   [/api/messages/send] "found senderUser:" "cmhkm7jzq0000u89cm1538wp4"
+[00:01:55.579] Server  LOG     prisma:query "SELECT \"public\".\"Contact\".\"id\", \"public\".\"Contact\".\"name\", \"public\".\"Contact\".\"phone\", \"public\".\"Contact\".\"email\", \"public\".\"Contact\".\"metadata\", \"public\".\"Contact\".\"createdAt\", \"public\".\"Contact\".\"updatedAt\" FROM \"public\".\"Contact\" WHERE (\"public\".\"Contact\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:01:55.580] Server  DEBUG   [/api/messages/send] "lookup contact by id:" "cmhko29jc0003u89chegwe0nr" true
+[00:01:55.584] Server  LOG     prisma:query "SELECT \"public\".\"Thread\".\"id\", \"public\".\"Thread\".\"contactId\", \"public\".\"Thread\".\"creatorId\", \"public\".\"Thread\".\"status\", \"public\".\"Thread\".\"lastAt\", \"public\".\"Thread\".\"createdAt\" FROM \"public\".\"Thread\" WHERE \"public\".\"Thread\".\"contactId\" = $1 ORDER BY \"public\".\"Thread\".\"lastAt\" DESC LIMIT $2 OFFSET $3"
+[00:01:55.585] Server  DEBUG   [/api/messages/send] "found thread:" "cmhksgs7h0003u8mg5xbkbrdw"
+[00:01:55.592] Server  LOG     prisma:query "INSERT INTO \"public\".\"Message\" (\"id\",\"threadId\",\"senderId\",\"body\",\"channel\",\"direction\",\"metadata\",\"createdAt\") VALUES ($1,$2,$3,$4,CAST($5::text AS \"public\".\"Channel\"),CAST($6::text AS \"public\".\"Direction\"),$7,$8) RETURNING \"public\".\"Message\".\"id\", \"public\".\"Message\".\"threadId\", \"public\".\"Message\".\"senderId\", \"public\".\"Message\".\"body\", \"public\".\"Message\".\"channel\"::text, \"public\".\"Message\".\"externalId\", \"public\".\"Message\".\"direction\"::text, \"public\".\"Message\".\"metadata\", \"public\".\"Message\".\"createdAt\""
+[00:01:55.593] Server  DEBUG   [/api/messages/send] "created message:" "cmhksy05u0003u8roovdr4avf"
+[00:01:55.596] Server  LOG     prisma:query "UPDATE \"public\".\"Thread\" SET \"lastAt\" = $1 WHERE (\"public\".\"Thread\".\"id\" = $2 AND 1=1) RETURNING \"public\".\"Thread\".\"id\", \"public\".\"Thread\".\"contactId\", \"public\".\"Thread\".\"creatorId\", \"public\".\"Thread\".\"status\", \"public\".\"Thread\".\"lastAt\", \"public\".\"Thread\".\"createdAt\""
+[00:01:55.730] Browser DEBUG   [sendMessage] payload: {"body":"hii","channel":"SMS","contactId":"cmhko29jc0003u89chegwe0nr","to":"+918597786209"}
+[00:01:55.730] Browser DEBUG   [sendMessage] /api/messages/send responded status=200 {"message":{"body":"hii","channel":"SMS","createdAt":"2025-11-04T16:47:29.106Z","direction":"OUTBOUND","externalId":null,"id":"cmhksy05u0003u8roovdr4avf","metadata":{"to":"+918597786209"},"senderId":"cmhkm7jzq0000u89cm1538wp4","threadId":"cmhksgs7h0003u8mg5xbkbrdw"},"ok":true,"thread":{"contactId":"cmhko29jc0003u89chegwe0nr","createdAt":"2025-11-04T16:34:05.645Z","creatorId":"cmhkm7jzq0000u89cm1538wp4","id":"cmhksgs7h0003u8mg5xbkbrdw","lastAt":"2025-11-04T16:45:47.815Z","status":"open"}}
+[00:01:55.730] Browser ERROR   uncaughtError: TypeError: Cannot read properties of undefined (reading 'join')
+[00:03:12.774] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:03:12.876] Server  LOG     prisma:query "SELECT 1"
+[00:03:12.876] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:03:12.879] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
+[00:03:12.890] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:03:12.890] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
+[00:03:13.007] Server  LOG     prisma:query "SELECT 1"
+[00:03:13.007] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:03:13.007] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:03:13.234] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:03:13.235] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
+[00:03:13.239] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:03:13.240] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
+[00:03:13.245] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:03:13.245] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:03:13.284] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:03:13.284] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
+[00:03:13.286] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:03:13.287] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
+[00:03:13.288] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:03:13.289] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:03:13.393] Browser DEBUG   [fetchContacts] /api/contacts?limit=1000 returned 404
+[00:03:13.393] Browser DEBUG   [fetchContacts] /api/users?limit=1000 returned 404
+[00:03:13.393] Browser DEBUG   [fetchContacts] normalized contacts count: 1
+[00:03:19.122] Server  DEBUG   [/api/messages/send] "start POST"
+[00:03:19.124] Server  DEBUG   [/api/messages/send] "authOptions not found for next-auth in local import."
+[00:03:19.126] Server  DEBUG   [/api/messages/send] "JWT verify failed:" "invalid signature"
+[00:03:19.127] Server  DEBUG   [/api/messages/send] "resolved identity:" {}
+[00:03:19.131] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:03:19.133] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"email\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:03:19.134] Server  DEBUG   [/api/messages/send] "found senderUser:" "cmhkm7jzq0000u89cm1538wp4"
+[00:03:19.141] Server  LOG     prisma:query "SELECT \"public\".\"Contact\".\"id\", \"public\".\"Contact\".\"name\", \"public\".\"Contact\".\"phone\", \"public\".\"Contact\".\"email\", \"public\".\"Contact\".\"metadata\", \"public\".\"Contact\".\"createdAt\", \"public\".\"Contact\".\"updatedAt\" FROM \"public\".\"Contact\" WHERE (\"public\".\"Contact\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:03:19.142] Server  DEBUG   [/api/messages/send] "lookup contact by id:" "cmhko29jc0003u89chegwe0nr" true
+[00:03:19.148] Server  LOG     prisma:query "SELECT \"public\".\"Thread\".\"id\", \"public\".\"Thread\".\"contactId\", \"public\".\"Thread\".\"creatorId\", \"public\".\"Thread\".\"status\", \"public\".\"Thread\".\"lastAt\", \"public\".\"Thread\".\"createdAt\" FROM \"public\".\"Thread\" WHERE \"public\".\"Thread\".\"contactId\" = $1 ORDER BY \"public\".\"Thread\".\"lastAt\" DESC LIMIT $2 OFFSET $3"
+[00:03:19.148] Server  DEBUG   [/api/messages/send] "found thread:" "cmhksgs7h0003u8mg5xbkbrdw"
+[00:03:19.160] Server  LOG     prisma:query "INSERT INTO \"public\".\"Message\" (\"id\",\"threadId\",\"senderId\",\"body\",\"channel\",\"direction\",\"metadata\",\"createdAt\") VALUES ($1,$2,$3,$4,CAST($5::text AS \"public\".\"Channel\"),CAST($6::text AS \"public\".\"Direction\"),$7,$8) RETURNING \"public\".\"Message\".\"id\", \"public\".\"Message\".\"threadId\", \"public\".\"Message\".\"senderId\", \"public\".\"Message\".\"body\", \"public\".\"Message\".\"channel\"::text, \"public\".\"Message\".\"externalId\", \"public\".\"Message\".\"direction\"::text, \"public\".\"Message\".\"metadata\", \"public\".\"Message\".\"createdAt\""
+[00:03:19.160] Server  DEBUG   [/api/messages/send] "created message:" "cmhkszsn30005u8rotc416oew"
+[00:03:19.164] Server  LOG     prisma:query "UPDATE \"public\".\"Thread\" SET \"lastAt\" = $1 WHERE (\"public\".\"Thread\".\"id\" = $2 AND 1=1) RETURNING \"public\".\"Thread\".\"id\", \"public\".\"Thread\".\"contactId\", \"public\".\"Thread\".\"creatorId\", \"public\".\"Thread\".\"status\", \"public\".\"Thread\".\"lastAt\", \"public\".\"Thread\".\"createdAt\""
+[00:03:19.296] Browser DEBUG   [sendMessage] payload: {"body":"hii","channel":"SMS","contactId":"cmhko29jc0003u89chegwe0nr","to":"+918597786209"}
+[00:03:19.296] Browser DEBUG   [sendMessage] /api/messages/send responded status=200 {"message":{"body":"hii","channel":"SMS","createdAt":"2025-11-04T16:48:52.671Z","direction":"OUTBOUND","externalId":null,"id":"cmhkszsn30005u8rotc416oew","metadata":{"to":"+918597786209"},"senderId":"cmhkm7jzq0000u89cm1538wp4","threadId":"cmhksgs7h0003u8mg5xbkbrdw"},"ok":true,"thread":{"contactId":"cmhko29jc0003u89chegwe0nr","createdAt":"2025-11-04T16:34:05.645Z","creatorId":"cmhkm7jzq0000u89cm1538wp4","id":"cmhksgs7h0003u8mg5xbkbrdw","lastAt":"2025-11-04T16:47:29.112Z","status":"open"}}
+[00:03:19.296] Browser ERROR   uncaughtError: TypeError: Cannot read properties of undefined (reading 'join')
+[00:04:33.544] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:04:33.599] Server  LOG     prisma:query "SELECT 1"
+[00:04:33.599] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:04:33.600] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
+[00:04:33.607] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:04:33.609] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
+[00:04:33.618] Server  LOG     prisma:query "SELECT 1"
+[00:04:33.618] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:04:33.618] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:04:33.954] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:04:33.955] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
+[00:04:33.959] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:04:33.960] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
+[00:04:33.968] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:04:33.968] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:04:33.999] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:04:34.000] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
+[00:04:34.003] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:04:34.004] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
+[00:04:34.007] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:04:34.007] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:04:34.121] Browser DEBUG   [fetchContacts] /api/contacts?limit=1000 returned 404
+[00:04:34.121] Browser DEBUG   [fetchContacts] /api/users?limit=1000 returned 404
+[00:04:34.121] Browser DEBUG   [fetchContacts] normalized contacts count: 1
+[00:04:38.943] Server  DEBUG   [/api/messages/send] "start POST"
+[00:04:38.945] Server  DEBUG   [/api/messages/send] "authOptions not found for next-auth in local import."
+[00:04:38.948] Server  DEBUG   [/api/messages/send] "JWT verify failed:" "invalid signature"
+[00:04:38.950] Server  DEBUG   [/api/messages/send] "resolved identity:" {}
+[00:04:38.952] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:04:38.955] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"email\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:04:38.956] Server  DEBUG   [/api/messages/send] "found senderUser:" "cmhkm7jzq0000u89cm1538wp4"
+[00:04:38.959] Server  LOG     prisma:query "SELECT \"public\".\"Contact\".\"id\", \"public\".\"Contact\".\"name\", \"public\".\"Contact\".\"phone\", \"public\".\"Contact\".\"email\", \"public\".\"Contact\".\"metadata\", \"public\".\"Contact\".\"createdAt\", \"public\".\"Contact\".\"updatedAt\" FROM \"public\".\"Contact\" WHERE (\"public\".\"Contact\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:04:38.959] Server  DEBUG   [/api/messages/send] "lookup contact by id:" "cmhko29jc0003u89chegwe0nr" true
+[00:04:38.962] Server  LOG     prisma:query "SELECT \"public\".\"Thread\".\"id\", \"public\".\"Thread\".\"contactId\", \"public\".\"Thread\".\"creatorId\", \"public\".\"Thread\".\"status\", \"public\".\"Thread\".\"lastAt\", \"public\".\"Thread\".\"createdAt\" FROM \"public\".\"Thread\" WHERE \"public\".\"Thread\".\"contactId\" = $1 ORDER BY \"public\".\"Thread\".\"lastAt\" DESC LIMIT $2 OFFSET $3"
+[00:04:38.963] Server  DEBUG   [/api/messages/send] "found thread:" "cmhksgs7h0003u8mg5xbkbrdw"
+[00:04:38.971] Server  LOG     prisma:query "INSERT INTO \"public\".\"Message\" (\"id\",\"threadId\",\"senderId\",\"body\",\"channel\",\"direction\",\"metadata\",\"createdAt\") VALUES ($1,$2,$3,$4,CAST($5::text AS \"public\".\"Channel\"),CAST($6::text AS \"public\".\"Direction\"),$7,$8) RETURNING \"public\".\"Message\".\"id\", \"public\".\"Message\".\"threadId\", \"public\".\"Message\".\"senderId\", \"public\".\"Message\".\"body\", \"public\".\"Message\".\"channel\"::text, \"public\".\"Message\".\"externalId\", \"public\".\"Message\".\"direction\"::text, \"public\".\"Message\".\"metadata\", \"public\".\"Message\".\"createdAt\""
+[00:04:38.972] Server  DEBUG   [/api/messages/send] "created message:" "cmhkt1i840007u8roayvqzyfm"
+[00:04:38.975] Server  LOG     prisma:query "UPDATE \"public\".\"Thread\" SET \"lastAt\" = $1 WHERE (\"public\".\"Thread\".\"id\" = $2 AND 1=1) RETURNING \"public\".\"Thread\".\"id\", \"public\".\"Thread\".\"contactId\", \"public\".\"Thread\".\"creatorId\", \"public\".\"Thread\".\"status\", \"public\".\"Thread\".\"lastAt\", \"public\".\"Thread\".\"createdAt\""
+[00:04:39.103] Browser DEBUG   [sendMessage] payload: {"body":"hii","channel":"SMS","contactId":"cmhko29jc0003u89chegwe0nr","to":"+918597786209"}
+[00:04:39.103] Browser DEBUG   [sendMessage] /api/messages/send responded status=200 {"message":{"body":"hii","channel":"SMS","createdAt":"2025-11-04T16:50:12.485Z","direction":"OUTBOUND","externalId":null,"id":"cmhkt1i840007u8roayvqzyfm","metadata":{"to":"+918597786209"},"senderId":"cmhkm7jzq0000u89cm1538wp4","threadId":"cmhksgs7h0003u8mg5xbkbrdw"},"ok":true,"thread":{"contactId":"cmhko29jc0003u89chegwe0nr","createdAt":"2025-11-04T16:34:05.645Z","creatorId":"cmhkm7jzq0000u89cm1538wp4","id":"cmhksgs7h0003u8mg5xbkbrdw","lastAt":"2025-11-04T16:48:52.678Z","status":"open"}}
+[00:04:39.103] Browser ERROR   uncaughtError: TypeError: Cannot read properties of undefined (reading 'join')
+[00:07:55.933] Server  LOG      ✓ Compiled in 928ms
+[00:07:55.967] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[00:07:56.314] Server  ERROR   Yjs was already imported. This breaks constructor checks and will lead to issues! - https://github.com/yjs/yjs/issues/438
+[00:07:56.570] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:07:56.872] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:07:56.872] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
+[00:07:56.893] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:07:56.894] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
+[00:07:56.909] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:07:56.962] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:07:57.062] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:07:57.062] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
+[00:07:57.064] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:07:57.067] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
+[00:07:57.069] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:07:57.069] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:07:57.084] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:07:57.084] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
+[00:07:57.087] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:07:57.087] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
+[00:07:57.088] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:07:57.089] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:07:57.654] Browser DEBUG   [fetchContacts] /api/contacts?limit=1000 returned 404
+[00:07:57.654] Browser DEBUG   [fetchContacts] /api/users?limit=1000 returned 404
+[00:07:57.654] Browser DEBUG   [fetchContacts] normalized contacts count: 1
+[00:11:31.260] Server  LOG      ✓ Compiled in 984ms
+[00:11:40.017] Server  DEBUG   [/api/messages/send] "start POST"
+[00:11:40.020] Server  DEBUG   [/api/messages/send] "authOptions not found for next-auth in local import."
+[00:11:40.023] Server  DEBUG   [/api/messages/send] "JWT verify failed:" "invalid signature"
+[00:11:40.024] Server  DEBUG   [/api/messages/send] "resolved identity:" {}
+[00:11:40.028] Server  LOG     prisma:query "SELECT 1"
+[00:11:40.030] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:11:40.033] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"email\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:11:40.034] Server  DEBUG   [/api/messages/send] "found senderUser:" "cmhkm7jzq0000u89cm1538wp4"
+[00:11:40.041] Server  LOG     prisma:query "SELECT \"public\".\"Contact\".\"id\", \"public\".\"Contact\".\"name\", \"public\".\"Contact\".\"phone\", \"public\".\"Contact\".\"email\", \"public\".\"Contact\".\"metadata\", \"public\".\"Contact\".\"createdAt\", \"public\".\"Contact\".\"updatedAt\" FROM \"public\".\"Contact\" WHERE (\"public\".\"Contact\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:11:40.042] Server  DEBUG   [/api/messages/send] "lookup contact by id:" "cmhko29jc0003u89chegwe0nr" true
+[00:11:40.048] Server  LOG     prisma:query "SELECT \"public\".\"Thread\".\"id\", \"public\".\"Thread\".\"contactId\", \"public\".\"Thread\".\"creatorId\", \"public\".\"Thread\".\"status\", \"public\".\"Thread\".\"lastAt\", \"public\".\"Thread\".\"createdAt\" FROM \"public\".\"Thread\" WHERE \"public\".\"Thread\".\"contactId\" = $1 ORDER BY \"public\".\"Thread\".\"lastAt\" DESC LIMIT $2 OFFSET $3"
+[00:11:40.049] Server  DEBUG   [/api/messages/send] "found thread:" "cmhksgs7h0003u8mg5xbkbrdw"
+[00:11:40.054] Server  LOG     prisma:query "INSERT INTO \"public\".\"Message\" (\"id\",\"threadId\",\"senderId\",\"body\",\"channel\",\"direction\",\"metadata\",\"createdAt\") VALUES ($1,$2,$3,$4,CAST($5::text AS \"public\".\"Channel\"),CAST($6::text AS \"public\".\"Direction\"),$7,$8) RETURNING \"public\".\"Message\".\"id\", \"public\".\"Message\".\"threadId\", \"public\".\"Message\".\"senderId\", \"public\".\"Message\".\"body\", \"public\".\"Message\".\"channel\"::text, \"public\".\"Message\".\"externalId\", \"public\".\"Message\".\"direction\"::text, \"public\".\"Message\".\"metadata\", \"public\".\"Message\".\"createdAt\""
+[00:11:40.055] Server  DEBUG   [/api/messages/send] "created message:" "cmhktaj4x0009u8rouou6vnsn"
+[00:11:40.058] Server  LOG     prisma:query "UPDATE \"public\".\"Thread\" SET \"lastAt\" = $1 WHERE (\"public\".\"Thread\".\"id\" = $2 AND 1=1) RETURNING \"public\".\"Thread\".\"id\", \"public\".\"Thread\".\"contactId\", \"public\".\"Thread\".\"creatorId\", \"public\".\"Thread\".\"status\", \"public\".\"Thread\".\"lastAt\", \"public\".\"Thread\".\"createdAt\""
+[00:11:40.166] Browser DEBUG   [sendMessage] payload: {"body":"hii","channel":"SMS","contactId":"cmhko29jc0003u89chegwe0nr","to":"+918597786209"}
+[00:11:40.166] Browser DEBUG   [sendMessage] /api/messages/send responded status=200 {"message":{"body":"hii","channel":"SMS","createdAt":"2025-11-04T16:57:13.569Z","direction":"OUTBOUND","externalId":null,"id":"cmhktaj4x0009u8rouou6vnsn","metadata":{"to":"+918597786209"},"senderId":"cmhkm7jzq0000u89cm1538wp4","threadId":"cmhksgs7h0003u8mg5xbkbrdw"},"ok":true,"thread":{"contactId":"cmhko29jc0003u89chegwe0nr","createdAt":"2025-11-04T16:34:05.645Z","creatorId":"cmhkm7jzq0000u89cm1538wp4","id":"cmhksgs7h0003u8mg5xbkbrdw","lastAt":"2025-11-04T16:50:12.491Z","status":"open"}}
+[00:11:40.166] Browser DEBUG   ThreadsList: thread has missing/invalid channels field: {"contactId":"cmhko29jc0003u89chegwe0nr","createdAt":"2025-11-04T16:34:05.645Z","creatorId":"cmhkm7jzq0000u89cm1538wp4","id":"cmhksgs7h0003u8mg5xbkbrdw","lastAt":"2025-11-04T16:50:12.491Z","status":"open"}
+[00:11:53.016] Browser DEBUG   ThreadsList: thread has missing/invalid channels field: {"contactId":"cmhko29jc0003u89chegwe0nr","createdAt":"2025-11-04T16:34:05.645Z","creatorId":"cmhkm7jzq0000u89cm1538wp4","id":"cmhksgs7h0003u8mg5xbkbrdw","lastAt":"2025-11-04T16:50:12.491Z","status":"open"}
+[00:12:19.389] Browser DEBUG   ThreadsList: thread has missing/invalid channels field: {"contactId":"cmhko29jc0003u89chegwe0nr","createdAt":"2025-11-04T16:34:05.645Z","creatorId":"cmhkm7jzq0000u89cm1538wp4","id":"cmhksgs7h0003u8mg5xbkbrdw","lastAt":"2025-11-04T16:50:12.491Z","status":"open"}
+[00:12:22.033] Browser DEBUG   ThreadsList: thread has missing/invalid channels field: {"contactId":"cmhko29jc0003u89chegwe0nr","createdAt":"2025-11-04T16:34:05.645Z","creatorId":"cmhkm7jzq0000u89cm1538wp4","id":"cmhksgs7h0003u8mg5xbkbrdw","lastAt":"2025-11-04T16:50:12.491Z","status":"open"}
+[00:12:26.613] Server  LOG     prisma:query "SELECT 1"
+[00:12:26.613] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:12:26.615] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
+[00:12:26.619] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:12:26.619] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
+[00:12:26.625] Server  LOG     prisma:query "SELECT 1"
+[00:12:26.626] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:12:26.626] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:12:26.653] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:12:26.654] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
+[00:12:26.657] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:12:26.659] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
+[00:12:26.665] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:12:26.667] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:12:26.759] Browser ERROR   uncaughtError: TypeError: Cannot read properties of null (reading 'role')
+[00:12:43.422] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:12:44.832] Server  LOG     prisma:query "SELECT 1"
+[00:12:44.833] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"provider\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"email\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:12:50.957] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"email\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:12:52.047] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:12:52.047] Server  DEBUG   [auth] cookie session matched user id cmhkm7jzq0000u89cm1538wp4
+[00:12:52.059] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:12:52.060] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
+[00:12:52.267] Server  LOG     prisma:query "SELECT 1"
+[00:12:52.268] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:12:52.268] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:12:52.589] Browser DEBUG   [fetchContacts] /api/contacts?limit=1000 returned 404
+[00:12:52.633] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:12:52.633] Server  DEBUG   [auth] cookie session matched user id cmhkm7jzq0000u89cm1538wp4
+[00:12:52.638] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:12:52.639] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
+[00:12:52.642] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:12:52.643] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:12:52.673] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:12:52.674] Server  DEBUG   [auth] cookie session matched user id cmhkm7jzq0000u89cm1538wp4
+[00:12:52.678] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:12:52.679] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
+[00:12:52.682] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:12:52.683] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:12:52.788] Browser DEBUG   [fetchContacts] /api/users?limit=1000 returned 404
+[00:12:52.788] Browser DEBUG   [fetchContacts] normalized contacts count: 1
+[00:13:30.169] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"name\", \"public\".\"User\".\"email\", \"public\".\"User\".\"passwordHash\", \"public\".\"User\".\"provider\", \"public\".\"User\".\"providerId\", \"public\".\"User\".\"googleSub\", \"public\".\"User\".\"emailVerified\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"createdAt\", \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"email\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:13:30.881] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:13:30.881] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
+[00:13:30.891] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:13:30.892] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
+[00:13:30.926] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:13:31.008] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:13:31.205] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:13:31.206] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
+[00:13:31.210] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:13:31.213] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
+[00:13:31.229] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:13:31.229] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:13:31.244] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:13:31.244] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
+[00:13:31.247] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:13:31.247] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
+[00:13:31.250] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:13:31.250] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:13:31.366] Browser DEBUG   [fetchContacts] /api/contacts?limit=1000 returned 404
+[00:13:31.366] Browser DEBUG   [fetchContacts] /api/users?limit=1000 returned 404
+[00:13:31.366] Browser DEBUG   [fetchContacts] normalized contacts count: 1
+[00:13:43.108] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:13:43.110] Server  DEBUG   [auth] cookie session matched user id cmhko29jc0003u89chegwe0nr
+[00:13:43.114] Server  LOG     prisma:query "SELECT \"public\".\"User\".\"id\", \"public\".\"User\".\"email\", \"public\".\"User\".\"name\", \"public\".\"User\".\"role\"::text, \"public\".\"User\".\"updatedAt\" FROM \"public\".\"User\" WHERE (\"public\".\"User\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:13:43.115] Server  LOG     prisma:query "SELECT \"public\".\"Profile\".\"id\", \"public\".\"Profile\".\"userId\", \"public\".\"Profile\".\"displayName\", \"public\".\"Profile\".\"avatarUrl\", \"public\".\"Profile\".\"bio\", \"public\".\"Profile\".\"metadata\", \"public\".\"Profile\".\"phoneNumber\", \"public\".\"Profile\".\"phoneVerified\", \"public\".\"Profile\".\"phoneVerifiedAt\", \"public\".\"Profile\".\"gender\", \"public\".\"Profile\".\"countryGeonameId\", \"public\".\"Profile\".\"countryCode\", \"public\".\"Profile\".\"countryName\", \"public\".\"Profile\".\"stateGeonameId\", \"public\".\"Profile\".\"stateName\", \"public\".\"Profile\".\"timezone\", \"public\".\"Profile\".\"createdAt\", \"public\".\"Profile\".\"updatedAt\" FROM \"public\".\"Profile\" WHERE \"public\".\"Profile\".\"userId\" IN ($1) OFFSET $2"
+[00:13:43.119] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:13:43.119] Server  LOG     prisma:query "SELECT COUNT(*) AS \"_count$_all\" FROM (SELECT \"public\".\"ActivityLog\".\"id\" FROM \"public\".\"ActivityLog\" WHERE (\"public\".\"ActivityLog\".\"userId\" = $1 AND \"public\".\"ActivityLog\".\"type\" = CAST($2::text AS \"public\".\"ActivityType\") AND \"public\".\"ActivityLog\".\"createdAt\" >= $3) OFFSET $4) AS \"sub\""
+[00:13:43.250] Browser DEBUG   [EditProfile] initialized form from user: {"id":"cmhko29jc0003u89chegwe0nr","name":"Suraj Kumar Puri","profile":{"avatarUrl":null,"bio":null,"country":"India","countryCode":"IN","countryGeonameId":1269750,"countryName":"India","createdAt":"2025-11-04T14:59:16.188Z","displayName":null,"gender":null,"id":"cmhkp2u710006u89cbveongq2","metadata":null,"phoneNumber":"+918597786209","phoneVerified":true,"phoneVerifiedAt":"2025-11-04T15:22:13.031Z","state":"West Bengal","stateGeonameId":1252881,"stateName":"West Bengal","timezone":"UTC+05:30 - India Standard Time","updatedAt":"2025-11-04T15:22:13.034Z","userId":"cmhko29jc0003u89chegwe0nr"}}
+[00:13:43.250] Browser DEBUG   [EditProfile] initialized form from user: {"id":"cmhko29jc0003u89chegwe0nr","name":"Suraj Kumar Puri","profile":{"avatarUrl":null,"bio":null,"country":"India","countryCode":"IN","countryGeonameId":1269750,"countryName":"India","createdAt":"2025-11-04T14:59:16.188Z","displayName":null,"gender":null,"id":"cmhkp2u710006u89cbveongq2","metadata":null,"phoneNumber":"+918597786209","phoneVerified":true,"phoneVerifiedAt":"2025-11-04T15:22:13.031Z","state":"West Bengal","stateGeonameId":1252881,"stateName":"West Bengal","timezone":"UTC+05:30 - India Standard Time","updatedAt":"2025-11-04T15:22:13.034Z","userId":"cmhko29jc0003u89chegwe0nr"}}

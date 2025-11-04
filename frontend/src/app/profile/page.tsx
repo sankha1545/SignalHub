@@ -101,14 +101,48 @@ const FALLBACK_LENGTH: Record<string, number> = {
  */
 function normalizeUser(user: any): any {
   if (!user) return user;
-  const p = user.profile ?? {};
+
+  // allow userPatch shapes (some API responses return a minimal patch)
+  const p = user.profile ?? (user.userPatch?.profile ?? {}) ?? {};
+
   const normalizedProfile = {
+    // preserve whatever profile already had
     ...p,
+
+    // normalize country / state names
     country: p.country ?? p.countryName ?? p.country_name ?? null,
     state: p.state ?? p.stateName ?? p.state_name ?? null,
+
+    // phone fields: try many common locations
+    phoneNumber:
+      p.phoneNumber ??
+      p.phone ??
+      user.profile?.phoneNumber ??
+      user.phoneNumber ??
+      user.phone ??
+      (user.userPatch?.profile?.phoneNumber ?? null) ??
+      null,
+
+    phoneVerified:
+      p.phoneVerified ??
+      user.profile?.phoneVerified ??
+      user.phoneVerified ??
+      (user.userPatch?.profile?.phoneVerified ?? false),
+
+    phoneVerifiedAt:
+      p.phoneVerifiedAt ??
+      user.profile?.phoneVerifiedAt ??
+      user.phoneVerifiedAt ??
+      (user.userPatch?.profile?.phoneVerifiedAt ?? null),
+
+    countryCode: p.countryCode ?? p.country_code ?? null,
   };
+
   return { ...user, profile: normalizedProfile };
 }
+
+
+
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -280,28 +314,50 @@ export default function ProfilePage() {
   }
 
   // When child modal returns an updated user object, accept it; otherwise re-fetch /api/me
-  async function applyUpdatedUserFromChild(updatedUser: any) {
-    if (updatedUser && updatedUser.id && updatedUser.email) {
-      setUser(normalizeUser(updatedUser));
-      if (updatedUser.activity) setActivity(updatedUser.activity);
-      return;
-    }
-    // fallback refetch
-    try {
-      const r = await fetch("/api/me", { credentials: "include", cache: "no-store" });
-      if (!r.ok) return;
-      const j = await r.json().catch(() => null);
-      if (j?.user) setUser(normalizeUser(j.user));
-      if (j?.activity) setActivity(j.activity);
-    } catch (err) {
-      console.error("refetch after child update failed", err);
-    }
+   // When child modal returns an updated user object, accept it; otherwise re-fetch /api/me
+ // When child modal returns an updated user object, accept it; otherwise re-fetch /api/me
+async function applyUpdatedUserFromChild(updatedUser: any) {
+  // Full user object -> replace
+  if (updatedUser && updatedUser.id && updatedUser.email) {
+    setUser(normalizeUser(updatedUser));
+    if (updatedUser.activity) setActivity(updatedUser.activity);
+    return;
   }
+
+  // If minimal patch contains profile or userPatch.profile, merge into existing state
+  const patchProfile = updatedUser?.profile ?? updatedUser?.userPatch?.profile ?? null;
+  if (patchProfile && user) {
+    const mergedProfile = { ...(user.profile ?? {}), ...patchProfile };
+    const newUser = { ...user, profile: mergedProfile };
+    setUser(normalizeUser(newUser));
+    if (updatedUser?.activity) setActivity(updatedUser.activity);
+    return;
+  }
+
+  // If updatedUser is null-ish or doesn't contain usable info, do canonical refetch
+  try {
+    const r = await fetch("/api/me", { credentials: "include", cache: "no-store" });
+    if (!r.ok) return;
+    const j = await r.json().catch(() => null);
+    if (j?.user) setUser(normalizeUser(j.user));
+    if (j?.activity) setActivity(j.activity);
+  } catch (err) {
+    console.error("refetch after child update failed", err);
+  }
+}
+
+
 
   if (loading) return <div className="p-6">Loading...</div>;
   if (!user) return <div className="p-6">Not logged in</div>;
 
-  const profile = (user.profile ?? {}) as Profile;
+const profile = {
+  ...(user.profile ?? {}),
+  phoneNumber: (user.profile?.phoneNumber ?? (user as any).phoneNumber ?? null),
+  phoneVerified: (user.profile?.phoneVerified ?? (user as any).phoneVerified ?? false),
+  phoneVerifiedAt: (user.profile?.phoneVerifiedAt ?? (user as any).phoneVerifiedAt ?? null),
+} as Profile;
+
   const role = (user.role ?? "viewer").toString().toUpperCase();
 
   // compute updated label live (updates via tick)
@@ -565,6 +621,14 @@ export default function ProfilePage() {
    - expects /api/phone/send-otp and /api/phone/verify-otp endpoints
 /* -------------------------------------------------------------------------- */
 
+/* -------------------------------------------------------------------------- */
+/* Inline PhoneVerifyModal
+   - client-side restcountries for dial codes (fallback to local table)
+   - responsive layout (stack on narrow, inline on wide)
+   - 4-digit OTP, paste support, focus management
+   - expects /api/phone/send-otp and /api/phone/verify-otp endpoints
+/* -------------------------------------------------------------------------- */
+
 function PhoneVerifyModal({
   initialProfile,
   onClose,
@@ -795,10 +859,9 @@ function PhoneVerifyModal({
       setOtpSent(false);
       setOtpDigits(Array(OTP_LEN).fill(""));
 
-      if (body && body.user) {
-        // call parent callback that the caller passed (onVerified)
+      if (body && (body.user || body.userPatch)) {
         try {
-          onVerified(body.user);
+          onVerified(body.user ?? body.userPatch);
         } catch (e) {
           console.warn("[PhoneVerifyModal] onVerified threw:", e);
         }
@@ -961,4 +1024,6 @@ function PhoneVerifyModal({
     </div>
   );
 }
+
+
 

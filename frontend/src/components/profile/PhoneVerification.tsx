@@ -113,45 +113,50 @@ export default function PhoneVerification({ profile, onUserUpdate }: Props) {
   }
 
   // Send OTP
-  async function sendOtp() {
-    if (!localComplete) {
-      setMessage({ text: `Enter ${digitCount} digits`, ok: false });
-      return;
-    }
-    const e164 = `${dialCode}${localNumber}`;
-    setSending(true);
-    setMessage(null);
-    try {
-      const res = await fetch("/api/phone/send-otp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone: e164 }),
-      });
-      const json = await res.json().catch(() => null);
-      if (!res.ok || json?.error) {
-        setMessage({ text: json?.error || "Failed to send OTP", ok: false });
-        setOtpSent(false);
-      } else {
-        setMessage({ text: "OTP sent — check your phone (or console in dev)", ok: true });
-        setOtpSent(true);
-        // set expiry (5 minutes)
-        setOtpExpiry(Date.now() + 5 * 60 * 1000);
-        // prefill phoneE164 for verification calls
-        setPhoneE164(e164);
-        // focus first otp input shortly
-        setTimeout(() => otpInputsRef.current[0]?.focus(), 120);
-
-        // debug log so you can confirm OTP length and runtime
-        console.debug("[PhoneVerification] OTP sent, OTP_LEN:", OTP_LEN, "phone:", e164);
-      }
-    } catch (err) {
-      console.error(err);
-      setMessage({ text: "Network error sending OTP", ok: false });
-      setOtpSent(false);
-    } finally {
-      setSending(false);
-    }
+// Replace the sendOtp() section's fetch handling with this small addition to surface debugOtp (dev only)
+async function sendOtp() {
+  if (!localComplete) {
+    setMessage({ text: `Enter ${digitCount} digits`, ok: false });
+    return;
   }
+  const e164 = `${dialCode}${localNumber}`;
+  setSending(true);
+  setMessage(null);
+  try {
+    const res = await fetch("/api/phone/send-otp", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ phone: e164 }),
+    });
+    const json = await res.json().catch(() => null);
+    if (!res.ok || json?.error) {
+      setMessage({ text: json?.error || "Failed to send OTP", ok: false });
+      setOtpSent(false);
+    } else {
+      setMessage({ text: "OTP sent — check your phone (or console in dev)", ok: true });
+      setOtpSent(true);
+      setOtpExpiry(Date.now() + 5 * 60 * 1000);
+      setPhoneE164(e164);
+      setTimeout(() => otpInputsRef.current[0]?.focus(), 120);
+
+      // DEV convenience: if server returned debugOtp, show it in console and put a friendly message
+      if (json?.debugOtp) {
+        console.debug("[PhoneVerification] DEBUG OTP (dev):", json.debugOtp);
+        setMessage({ text: `OTP sent (dev:${json.debugOtp}). Check console.`, ok: true });
+      } else {
+        console.debug("[PhoneVerification] OTP sent", e164);
+      }
+    }
+  } catch (err) {
+    console.error(err);
+    setMessage({ text: "Network error sending OTP", ok: false });
+    setOtpSent(false);
+  } finally {
+    setSending(false);
+  }
+}
+
 
   // OTP input handlers
   function onOtpChange(i: number, val: string) {
@@ -176,49 +181,118 @@ export default function PhoneVerification({ profile, onUserUpdate }: Props) {
 
   const otpValue = useMemo(() => otpDigits.join(""), [otpDigits]);
 
-  async function tryVerifyOtp() {
-    if (!phoneE164) {
-      setMessage({ text: "Send OTP first", ok: false });
-      return;
-    }
-    if (otpValue.length !== OTP_LEN) {
-      setMessage({ text: `Enter ${OTP_LEN}-digit code`, ok: false });
-      return;
-    }
-    setVerifying(true);
-    setMessage(null);
-    try {
-      const res = await fetch("/api/phone/verify-otp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone: phoneE164, otp: otpValue }),
-      });
-      const json = await res.json().catch(() => null);
-      if (!res.ok || json?.error) {
-        setMessage({ text: json?.error || "Invalid OTP", ok: false });
-        // clear otp boxes (allow retry)
-        setOtpDigits(Array(OTP_LEN).fill(""));
-        otpInputsRef.current[0]?.focus();
-      } else {
-        // success - server returns updated user
-        setMessage({ text: "Phone number verified", ok: true });
-        setOtpSent(false);
-        setOtpDigits(Array(OTP_LEN).fill(""));
-        // let parent update user object using returned user
-        if (onUserUpdate && json?.user) {
-          onUserUpdate(json.user);
-        } else {
-          // fallback: just show verified
-          setPhoneE164(phoneE164);
-        }
-      }
-    } catch (err) {
-      console.error(err);
-      setMessage({ text: "Network error verifying OTP", ok: false });
-    } finally {
-      setVerifying(false);
-    }
+ // Replace your tryVerifyOtp() with this improved version:
+async function tryVerifyOtp() {
+  if (!phoneE164) {
+    setMessage({ text: "Send OTP first", ok: false });
+    return;
   }
+  if (otpValue.length !== OTP_LEN) {
+    setMessage({ text: `Enter ${OTP_LEN}-digit code`, ok: false });
+    return;
+  }
+  setVerifying(true);
+  setMessage(null);
+
+  try {
+    const res = await fetch("/api/phone/verify-otp", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ phone: phoneE164, otp: otpValue }),
+    });
+
+    const json = await res.json().catch(() => null);
+
+    if (!res.ok || json?.error) {
+      // show server-provided error if present
+      const errMsg = json?.error || json?.message || `HTTP ${res.status}`;
+      setMessage({ text: errMsg, ok: false });
+      setOtpDigits(Array(OTP_LEN).fill(""));
+      otpInputsRef.current[0]?.focus();
+      return;
+    }
+
+    // Success path: server may return several shapes:
+    // 1) json.user -> full canonical user object (ideal)
+    // 2) json.userPatch -> minimal patch { profile: { phoneNumber, phoneVerified... } }
+    // 3) nothing -> fallback to refetch /api/me
+    setMessage({ text: "Phone number verified", ok: true });
+    setOtpSent(false);
+    setOtpDigits(Array(OTP_LEN).fill(""));
+    setPhoneE164(phoneE164); // optimistic UI update
+
+    // If server returned a full user object, deliver it to parent
+    if (json?.user && onUserUpdate) {
+      try {
+        onUserUpdate(json.user);
+        console.debug("[PhoneVerification] forwarded full user to parent", json.user);
+        return;
+      } catch (e) {
+        console.warn("[PhoneVerification] onUserUpdate threw for json.user", e);
+      }
+    }
+
+    // If server returned a userPatch (or userPatch-like), convert to expected shape and deliver
+    if (json?.userPatch && onUserUpdate) {
+      try {
+        // Normalize minimal patch into a user-shaped object the parent can consume.
+        // Parent's applyUpdatedUserFromChild expects either a full user (with id/email) OR will refetch /api/me.
+        // We provide a small object with profile so normalizeUser will pick it up.
+        const patch = json.userPatch;
+        const syntheticUser = {
+          // keep minimal but include profile
+          id: (patch?.id as any) ?? undefined,
+          email: (patch?.email as any) ?? undefined,
+          name: (patch?.name as any) ?? undefined,
+          profile: patch.profile ?? { phoneNumber: phoneE164, phoneVerified: true, phoneVerifiedAt: new Date().toISOString() },
+        };
+        onUserUpdate(syntheticUser);
+        console.debug("[PhoneVerification] forwarded userPatch to parent", syntheticUser);
+        return;
+      } catch (e) {
+        console.warn("[PhoneVerification] onUserUpdate threw for json.userPatch", e);
+      }
+    }
+
+    // If server didn't return user or userPatch, attempt to fetch canonical /api/me and pass it to parent
+    if (onUserUpdate) {
+      try {
+        const r = await fetch("/api/me", { credentials: "include", cache: "no-store" });
+        if (r.ok) {
+          const j = await r.json().catch(() => null);
+          if (j?.user) {
+            onUserUpdate(j.user);
+            console.debug("[PhoneVerification] fetched /api/me and delivered user to parent");
+            return;
+          }
+        }
+      } catch (err) {
+        console.warn("[PhoneVerification] fallback /api/me failed", err);
+      }
+
+      // As a last resort, pass a minimal patch so parent can merge and UI updates optimistically
+      try {
+        onUserUpdate({
+          profile: { phoneNumber: phoneE164, phoneVerified: true, phoneVerifiedAt: new Date().toISOString() },
+        });
+        console.debug("[PhoneVerification] delivered minimal patch to parent");
+        return;
+      } catch (err) {
+        console.warn("[PhoneVerification] onUserUpdate final fallback threw", err);
+      }
+    }
+
+    // No parent callback — we already set local phoneE164 and message so modal shows verified state
+  } catch (err) {
+    console.error("[PhoneVerification] verify network error", err);
+    setMessage({ text: "Network error verifying OTP", ok: false });
+  } finally {
+    setVerifying(false);
+  }
+}
+
+
 
   function resetOtp() {
     setOtpSent(false);

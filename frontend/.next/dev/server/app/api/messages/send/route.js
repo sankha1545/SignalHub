@@ -1,0 +1,10 @@
+var R=require("../../../../chunks/[turbopack]_runtime.js")("server/app/api/messages/send/route.js")
+R.c("server/chunks/9e883_next_0553b434._.js")
+R.c("server/chunks/9e883_next-auth_e2dfb484._.js")
+R.c("server/chunks/9e883_openid-client_99387cb4._.js")
+R.c("server/chunks/9e883_6eb42caf._.js")
+R.c("server/chunks/9e883_846e75fc._.js")
+R.c("server/chunks/[root-of-the-server]__42881701._.js")
+R.c("server/chunks/frontend__next-internal_server_app_api_messages_send_route_actions_f22d1eff.js")
+R.m("[project]/frontend/node_modules/next/dist/esm/build/templates/app-route.js { INNER_APP_ROUTE => \"[project]/frontend/src/app/api/messages/send/route.ts [app-route] (ecmascript)\" } [app-route] (ecmascript)")
+module.exports=R.m("[project]/frontend/node_modules/next/dist/esm/build/templates/app-route.js { INNER_APP_ROUTE => \"[project]/frontend/src/app/api/messages/send/route.ts [app-route] (ecmascript)\" } [app-route] (ecmascript)").exports

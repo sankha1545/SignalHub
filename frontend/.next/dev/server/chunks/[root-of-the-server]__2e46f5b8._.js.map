@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 46, "column": 0}, "map": {"version":3,"sources":["file:///E:/Attackcapital/SignalHub/frontend/src/app/api/debug/cookies/route.ts"],"sourcesContent":["// src/app/api/debug/cookies/route.ts\r\nimport { NextResponse } from \"next/server\";\r\n\r\nexport async function GET(req: Request) {\r\n  return NextResponse.json({\r\n    cookieHeader: req.headers.get(\"cookie\") || null,\r\n    env: {\r\n      NODE_ENV: process.env.NODE_ENV,\r\n      NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,\r\n    },\r\n  });\r\n}\r\n"],"names":[],"mappings":"AAAA,qCAAqC;;;;;AACrC;;AAEO,eAAe,IAAI,GAAY;IACpC,OAAO,4JAAY,CAAC,IAAI,CAAC;QACvB,cAAc,IAAI,OAAO,CAAC,GAAG,CAAC,aAAa;QAC3C,KAAK;YACH,QAAQ;YACR,sBAAsB,QAAQ,GAAG,CAAC,oBAAoB;QACxD;IACF;AACF","debugId":null}}]
+}
