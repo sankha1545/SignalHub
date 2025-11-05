@@ -93,17 +93,25 @@ async function GET(req) {
     try {
         const url = new URL(req.url);
         const limit = Number(url.searchParams.get("limit") ?? 1000);
+        // Explicit selection to avoid referencing columns that may not exist in DB
         const contacts = await __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].contact.findMany({
             take: limit,
             orderBy: {
                 createdAt: "desc"
+            },
+            select: {
+                id: true,
+                name: true,
+                phone: true,
+                email: true,
+                createdAt: true
             }
         });
         return __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(contacts);
     } catch (err) {
         console.error("GET /api/contacts error:", err);
         return __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-            error: "internal error"
+            error: err?.message ?? "failed"
         }, {
             status: 500
         });

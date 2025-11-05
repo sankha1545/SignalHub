@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 18, "column": 0}, "map": {"version":3,"sources":["file:///E:/Attackcapital/SignalHub/frontend/src/app/analytics/page.tsx"],"sourcesContent":["// src/app/analytics/page.tsx\r\nimport React from \"react\";\r\n\r\nexport default function AnalyticsPage() {\r\n  return (\r\n    <main className=\"p-6\">\r\n      <h1 className=\"text-2xl font-semibold\">Analytics</h1>\r\n      <p className=\"mt-4 text-sm text-muted-foreground\">\r\n        Loading analytics... (stub page — replace with your charts)\r\n      </p>\r\n    </main>\r\n  );\r\n}\r\n"],"names":[],"mappings":"AAAA,6BAA6B;;;;;;;AAGd,SAAS;IACtB,qBACE,0PAAC;QAAK,WAAU;;0BACd,0PAAC;gBAAG,WAAU;0BAAyB;;;;;;0BACvC,0PAAC;gBAAE,WAAU;0BAAqC;;;;;;;;;;;;AAKxD","debugId":null}}]
+}

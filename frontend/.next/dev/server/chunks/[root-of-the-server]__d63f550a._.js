@@ -539,7 +539,11 @@ function extractLikelyCookieToken(cookieHeader) {
 function normalizePhone(p) {
     if (!p) return null;
     const trimmed = p.trim();
-    return trimmed.replace(/[()\s.-]/g, "");
+    // keep leading + if present, remove other separators
+    const keepPlus = trimmed.startsWith("+");
+    let cleaned = trimmed.replace(/[()\s.-]/g, "");
+    if (!keepPlus) cleaned = cleaned.replace(/^\+/, "");
+    return cleaned || null;
 }
 async function tryGetNextAuthSessionUserId() {
     try {
@@ -597,6 +601,156 @@ async function tryGetNextAuthSessionUserId() {
         devLog("appendFailedReasonToMessage failed:", e);
     }
 }
+/**
+ * Robust ensureContact helper:
+ * - Accepts contactIdProvided, phoneNormalized, email, name
+ * - Tries to find by id -> phone -> email
+ * - Creates contact with safe payload (phone/email/name set to null when not available)
+ * - Handles unique-race (P2002) by refetching existing record
+ * - Avoids failing when id was provided but already exists
+ */ async function ensureContactSafe(options) {
+    const { contactIdProvided, phoneNormalized, email, name } = options;
+    try {
+        // 1) If explicit contact id provided, try findUnique
+        if (contactIdProvided) {
+            try {
+                const found = await __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].contact.findUnique({
+                    where: {
+                        id: contactIdProvided
+                    }
+                });
+                if (found) return found;
+            } catch (e) {
+                // If prisma complains about unknown column or schema mismatch, log and continue to other lookups
+                devLog("prisma.findUnique by id failed:", e?.message ?? e);
+            }
+        }
+        // 2) Try find by phone if available
+        if (phoneNormalized) {
+            try {
+                const byPhone = await __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].contact.findFirst({
+                    where: {
+                        phone: phoneNormalized
+                    }
+                });
+                if (byPhone) return byPhone;
+            } catch (e) {
+                devLog("prisma.findFirst by phone failed:", e?.message ?? e);
+            }
+        }
+        // 3) Try find by email if available
+        if (email) {
+            try {
+                const byEmail = await __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].contact.findFirst({
+                    where: {
+                        email
+                    }
+                });
+                if (byEmail) return byEmail;
+            } catch (e) {
+                devLog("prisma.findFirst by email failed:", e?.message ?? e);
+            }
+        }
+        // 4) Build create payload. Use null values (not undefined) for optional fields where prisma might have non-nullable constraints.
+        const createPayload = {
+            name: name ?? null,
+            phone: phoneNormalized ?? null,
+            email: email ?? null
+        };
+        // If user explicitly passed a contactIdProvided and you want to set id on create, try it, but handle P2002 race.
+        if (contactIdProvided) {
+            try {
+                const created = await __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].contact.create({
+                    data: {
+                        id: contactIdProvided,
+                        ...createPayload
+                    }
+                });
+                return created;
+            } catch (err) {
+                // Unique constraint or other error - attempt falling back to create without id or returning existing
+                devLog("create with provided id failed, will fallback:", err?.message ?? err);
+                // If P2002 unique constraint (id already exists or unique phone/email conflict),
+                // find the existing one again by id/phone/email and return it.
+                if (err?.code === "P2002") {
+                    // try to find by id first, then phone, then email
+                    try {
+                        const existById = await __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].contact.findUnique({
+                            where: {
+                                id: contactIdProvided
+                            }
+                        });
+                        if (existById) return existById;
+                    } catch (e) {
+                        devLog("refetch by id after P2002 failed:", e);
+                    }
+                    if (phoneNormalized) {
+                        const existByPhone = await __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].contact.findFirst({
+                            where: {
+                                phone: phoneNormalized
+                            }
+                        });
+                        if (existByPhone) return existByPhone;
+                    }
+                    if (email) {
+                        const existByEmail = await __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].contact.findFirst({
+                            where: {
+                                email
+                            }
+                        });
+                        if (existByEmail) return existByEmail;
+                    }
+                // Fall through to attempt create without id
+                } else {
+                    // Non-unique error: rethrow to upper caller for consistent handling
+                    throw err;
+                }
+            }
+        }
+        // 5) Create without forcing id
+        try {
+            const created = await __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].contact.create({
+                data: createPayload
+            });
+            return created;
+        } catch (err) {
+            devLog("create without id failed:", err?.message ?? err);
+            // If unique constraint (P2002), try to find the existing contact and return it
+            if (err?.code === "P2002") {
+                if (phoneNormalized) {
+                    const existByPhone = await __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].contact.findFirst({
+                        where: {
+                            phone: phoneNormalized
+                        }
+                    });
+                    if (existByPhone) return existByPhone;
+                }
+                if (email) {
+                    const existByEmail = await __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].contact.findFirst({
+                        where: {
+                            email
+                        }
+                    });
+                    if (existByEmail) return existByEmail;
+                }
+                // try id if available (edge)
+                if (contactIdProvided) {
+                    const existById = await __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].contact.findUnique({
+                        where: {
+                            id: contactIdProvided
+                        }
+                    });
+                    if (existById) return existById;
+                }
+            }
+            // If we get here, rethrow original error so caller can handle it
+            throw err;
+        }
+    } catch (finalErr) {
+        devLog("ensureContactSafe final error:", finalErr);
+        throw finalErr;
+    }
+}
 async function POST(req) {
     devLog("start POST");
     // parse JSON body
@@ -616,6 +770,9 @@ async function POST(req) {
     const messageBody = typeof body.body === "string" ? body.body.trim() : null;
     const contactIdProvided = typeof body.contactId === "string" ? body.contactId : undefined;
     const sendAtRaw = body.sendAt ? new Date(body.sendAt) : null;
+    // Also accept name/email from body (useful for contact creation)
+    const contactName = typeof body.name === "string" ? body.name.trim() : body.metadata?.name ? String(body.metadata.name) : null;
+    const contactEmail = typeof body.email === "string" ? body.email.trim() : body.metadata?.email ? String(body.metadata.email) : null;
     if (!toRaw || !channelRaw || !messageBody) {
         return __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             error: "Missing required fields (to, channel, body)"
@@ -746,39 +903,25 @@ async function POST(req) {
         });
     }
     // ---------------------------
-    // Ensure Contact exists (lookup by id or phone) and create if missing
+    // Ensure Contact exists (robust)
     // ---------------------------
     let contact = null;
     try {
-        if (contactIdProvided) {
-            contact = await __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].contact.findUnique({
-                where: {
-                    id: contactIdProvided
-                }
+        // Must have at least one identifier to ensure contact
+        if (!contactIdProvided && !phoneNormalized && !contactEmail) {
+            return __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                error: "Missing contact identifier (contactId, to/phone, or email)"
+            }, {
+                status: 400
             });
-            devLog("lookup contact by id:", contactIdProvided, !!contact);
         }
-        if (!contact && phoneNormalized) {
-            contact = await __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].contact.findFirst({
-                where: {
-                    phone: phoneNormalized
-                }
-            });
-            devLog("lookup contact by phone:", phoneNormalized, !!contact);
-        }
-        if (!contact) {
-            const createPayload = {
-                ...contactIdProvided ? {
-                    id: contactIdProvided
-                } : {},
-                phone: phoneNormalized ?? undefined
-            };
-            Object.keys(createPayload).forEach((k)=>createPayload[k] === undefined && delete createPayload[k]);
-            contact = await __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].contact.create({
-                data: createPayload
-            });
-            devLog("created contact:", contact?.id ?? "(no id)");
-        }
+        contact = await ensureContactSafe({
+            contactIdProvided,
+            phoneNormalized,
+            email: contactEmail,
+            name: contactName
+        });
+        devLog("ensured contact:", !!contact, contact?.id ?? "(no id)");
     } catch (err) {
         console.error("[/api/messages/send] contact ensure failed:", err);
         if ("TURBOPACK compile-time truthy", 1) {
@@ -848,6 +991,7 @@ async function POST(req) {
                     sendAt: sendAtRaw,
                     metadata: {
                         to: phoneNormalized,
+                        email: contactEmail,
                         ...body.metadata ?? {}
                     }
                 }
@@ -883,6 +1027,7 @@ async function POST(req) {
             direction: "OUTBOUND",
             metadata: {
                 to: phoneNormalized,
+                email: contactEmail,
                 ...body.metadata ?? {}
             }
         };

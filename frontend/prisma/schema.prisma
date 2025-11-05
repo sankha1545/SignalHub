@@ -131,7 +131,7 @@ model Profile {
   bio              String?
   metadata         Json?
   phoneNumber      String?
-  phoneVerified    Boolean   @default(false)
+
   phoneVerifiedAt  DateTime?
   gender           String?
   countryGeonameId Int?

@@ -4,8 +4,6 @@ import prisma from "@/lib/prisma";
 import { sendSms, sendWhatsApp } from "@/lib/providers/twilio";
 import { sendEmail } from "@/lib/providers/email";
 
-
-
 const ALLOWED_CHANNELS = ["SMS", "WHATSAPP", "EMAIL", "TWITTER", "MESSENGER"] as const;
 type Channel = typeof ALLOWED_CHANNELS[number];
 
@@ -61,7 +59,11 @@ function extractLikelyCookieToken(cookieHeader: string | null) {
 function normalizePhone(p?: string | null) {
   if (!p) return null;
   const trimmed = p.trim();
-  return trimmed.replace(/[()\s.-]/g, "");
+  // keep leading + if present, remove other separators
+  const keepPlus = trimmed.startsWith("+");
+  let cleaned = trimmed.replace(/[()\s.-]/g, "");
+  if (!keepPlus) cleaned = cleaned.replace(/^\+/, "");
+  return cleaned || null;
 }
 
 async function tryGetNextAuthSessionUserId() {
@@ -102,6 +104,128 @@ async function appendFailedReasonToMessage(messageId: string, provider: string, 
   }
 }
 
+/**
+ * Robust ensureContact helper:
+ * - Accepts contactIdProvided, phoneNormalized, email, name
+ * - Tries to find by id -> phone -> email
+ * - Creates contact with safe payload (phone/email/name set to null when not available)
+ * - Handles unique-race (P2002) by refetching existing record
+ * - Avoids failing when id was provided but already exists
+ */
+async function ensureContactSafe(options: {
+  contactIdProvided?: string | undefined;
+  phoneNormalized?: string | null;
+  email?: string | null;
+  name?: string | null;
+}) {
+  const { contactIdProvided, phoneNormalized, email, name } = options;
+
+  try {
+    // 1) If explicit contact id provided, try findUnique
+    if (contactIdProvided) {
+      try {
+        const found = await prisma.contact.findUnique({ where: { id: contactIdProvided } });
+        if (found) return found;
+      } catch (e) {
+        // If prisma complains about unknown column or schema mismatch, log and continue to other lookups
+        devLog("prisma.findUnique by id failed:", (e as any)?.message ?? e);
+      }
+    }
+
+    // 2) Try find by phone if available
+    if (phoneNormalized) {
+      try {
+        const byPhone = await prisma.contact.findFirst({ where: { phone: phoneNormalized } });
+        if (byPhone) return byPhone;
+      } catch (e) {
+        devLog("prisma.findFirst by phone failed:", (e as any)?.message ?? e);
+      }
+    }
+
+    // 3) Try find by email if available
+    if (email) {
+      try {
+        const byEmail = await prisma.contact.findFirst({ where: { email } });
+        if (byEmail) return byEmail;
+      } catch (e) {
+        devLog("prisma.findFirst by email failed:", (e as any)?.message ?? e);
+      }
+    }
+
+    // 4) Build create payload. Use null values (not undefined) for optional fields where prisma might have non-nullable constraints.
+    const createPayload: any = {
+      name: name ?? null,
+      phone: phoneNormalized ?? null,
+      email: email ?? null,
+    };
+
+    // If user explicitly passed a contactIdProvided and you want to set id on create, try it, but handle P2002 race.
+    if (contactIdProvided) {
+      try {
+        const created = await prisma.contact.create({
+          data: { id: contactIdProvided, ...createPayload },
+        });
+        return created;
+      } catch (err: any) {
+        // Unique constraint or other error - attempt falling back to create without id or returning existing
+        devLog("create with provided id failed, will fallback:", err?.message ?? err);
+        // If P2002 unique constraint (id already exists or unique phone/email conflict),
+        // find the existing one again by id/phone/email and return it.
+        if ((err as any)?.code === "P2002") {
+          // try to find by id first, then phone, then email
+          try {
+            const existById = await prisma.contact.findUnique({ where: { id: contactIdProvided } });
+            if (existById) return existById;
+          } catch (e) {
+            devLog("refetch by id after P2002 failed:", e);
+          }
+          if (phoneNormalized) {
+            const existByPhone = await prisma.contact.findFirst({ where: { phone: phoneNormalized } });
+            if (existByPhone) return existByPhone;
+          }
+          if (email) {
+            const existByEmail = await prisma.contact.findFirst({ where: { email } });
+            if (existByEmail) return existByEmail;
+          }
+          // Fall through to attempt create without id
+        } else {
+          // Non-unique error: rethrow to upper caller for consistent handling
+          throw err;
+        }
+      }
+    }
+
+    // 5) Create without forcing id
+    try {
+      const created = await prisma.contact.create({ data: createPayload });
+      return created;
+    } catch (err: any) {
+      devLog("create without id failed:", err?.message ?? err);
+      // If unique constraint (P2002), try to find the existing contact and return it
+      if (err?.code === "P2002") {
+        if (phoneNormalized) {
+          const existByPhone = await prisma.contact.findFirst({ where: { phone: phoneNormalized } });
+          if (existByPhone) return existByPhone;
+        }
+        if (email) {
+          const existByEmail = await prisma.contact.findFirst({ where: { email } });
+          if (existByEmail) return existByEmail;
+        }
+        // try id if available (edge)
+        if (contactIdProvided) {
+          const existById = await prisma.contact.findUnique({ where: { id: contactIdProvided } });
+          if (existById) return existById;
+        }
+      }
+      // If we get here, rethrow original error so caller can handle it
+      throw err;
+    }
+  } catch (finalErr) {
+    devLog("ensureContactSafe final error:", finalErr);
+    throw finalErr;
+  }
+}
+
 export async function POST(req: Request) {
   devLog("start POST");
 
@@ -119,6 +243,10 @@ export async function POST(req: Request) {
   const messageBody = typeof body.body === "string" ? body.body.trim() : null;
   const contactIdProvided = typeof body.contactId === "string" ? body.contactId : undefined;
   const sendAtRaw = body.sendAt ? new Date(body.sendAt) : null;
+
+  // Also accept name/email from body (useful for contact creation)
+  const contactName = typeof body.name === "string" ? body.name.trim() : (body.metadata?.name ? String(body.metadata.name) : null);
+  const contactEmail = typeof body.email === "string" ? body.email.trim() : (body.metadata?.email ? String(body.metadata.email) : null);
 
   if (!toRaw || !channelRaw || !messageBody) {
     return NextResponse.json({ error: "Missing required fields (to, channel, body)" }, { status: 400 });
@@ -226,30 +354,23 @@ export async function POST(req: Request) {
   }
 
   // ---------------------------
-  // Ensure Contact exists (lookup by id or phone) and create if missing
+  // Ensure Contact exists (robust)
   // ---------------------------
   let contact: any = null;
   try {
-    if (contactIdProvided) {
-      contact = await prisma.contact.findUnique({ where: { id: contactIdProvided } });
-      devLog("lookup contact by id:", contactIdProvided, !!contact);
+    // Must have at least one identifier to ensure contact
+    if (!contactIdProvided && !phoneNormalized && !contactEmail) {
+      return NextResponse.json({ error: "Missing contact identifier (contactId, to/phone, or email)" }, { status: 400 });
     }
 
-    if (!contact && phoneNormalized) {
-      contact = await prisma.contact.findFirst({ where: { phone: phoneNormalized } });
-      devLog("lookup contact by phone:", phoneNormalized, !!contact);
-    }
+    contact = await ensureContactSafe({
+      contactIdProvided,
+      phoneNormalized,
+      email: contactEmail,
+      name: contactName,
+    });
 
-    if (!contact) {
-      const createPayload: any = {
-        ...(contactIdProvided ? { id: contactIdProvided } : {}),
-        phone: phoneNormalized ?? undefined,
-      };
-      Object.keys(createPayload).forEach((k) => createPayload[k] === undefined && delete createPayload[k]);
-
-      contact = await prisma.contact.create({ data: createPayload });
-      devLog("created contact:", contact?.id ?? "(no id)");
-    }
+    devLog("ensured contact:", !!contact, contact?.id ?? "(no id)");
   } catch (err) {
     console.error("[/api/messages/send] contact ensure failed:", err);
     if (process.env.NODE_ENV !== "production") {
@@ -310,7 +431,7 @@ export async function POST(req: Request) {
           body: messageBody,
           channel,
           sendAt: sendAtRaw,
-          metadata: { to: phoneNormalized, ...(body.metadata ?? {}) },
+          metadata: { to: phoneNormalized, email: contactEmail, ...(body.metadata ?? {}) },
         },
       });
       devLog("created scheduledMessage:", scheduled.id);
@@ -336,8 +457,8 @@ export async function POST(req: Request) {
       body: messageBody,
       channel,
       direction: "OUTBOUND",
-      metadata: { to: phoneNormalized, ...(body.metadata ?? {}) },
-      // Note: Message model doesn't have `status` in your schema. Use externalId / sentAt / deliveredAt.
+      metadata: { to: phoneNormalized, email: contactEmail, ...(body.metadata ?? {}) },
+      // Note: Keep externalId/sentAt set by provider update after send.
     };
 
     createdMessage = await prisma.message.create({ data: messageData });
